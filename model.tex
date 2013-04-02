@@ -1,7 +1,7 @@
 \clearpage
 \newpage
 
-\section{Parking Lot Model}
+\section{Parking Lot Availability Estimation}
 \label{sec-model}
 
 In order for parking events to be useful, they must be incorporated into a
@@ -14,7 +14,7 @@ produced by our parking event detector both to estimate the rates at which
 drivers are searching and departing from the lot and to adjust the
 availability probability directly.
 
-\subsection{Estimator Overview}
+\subsection{Overview}
 
 For each lot $l$, PocketParker maintains a time-varying probability that the
 lot has $n$ free spots $P_l(t, X = n)$. While we are mainly interested in the
@@ -25,11 +25,11 @@ described below. We bound the count above and below, and briefly describe in
 Section~\ref{subsec-capacity} how to estimate lot capacity.
 
 PocketParker's estimator receives two types of events: arrivals and
-departures. As described in Section~\ref{FIXME}, a portion of the
-arrivals are also annotated with searches. However, for the unannotated
+departures. As described in Section~\ref{FIXME}, a portion of the arrivals
+are also annotated with explicit searches. However, for the unannotated
 arrivals, searches may have taken place. Section~\ref{subsec-synthetic}
-describeshow PocketParker uses the annotated arrivals to estimate search
-behavior for unannotated arrivals. Section~\ref{subsec-online} further
+describeshow PocketParker uses the annotated arrivals to estimate implicit
+search behavior for unannotated arrivals. Section~\ref{subsec-online} further
 describes how we incorporate each kind of information into our availability
 model.
 
