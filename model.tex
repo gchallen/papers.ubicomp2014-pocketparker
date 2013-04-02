@@ -1,3 +1,6 @@
+\clearpage
+\newpage
+
 \section{Parking Lot Model}
 \label{sec-model}
 
@@ -22,7 +25,7 @@ described below. We bound the count above and below, and briefly describe in
 Section~\ref{subsec-capacity} how to estimate lot capacity.
 
 PocketParker's estimator receives two types of events: arrivals and
-departures. As described in Section~\ref{sec-detector}, a portion of the
+departures. As described in Section~\ref{FIXME}, a portion of the
 arrivals are also annotated with searches. However, for the unannotated
 arrivals, searches may have taken place. Section~\ref{subsec-synthetic}
 describeshow PocketParker uses the annotated arrivals to estimate search
@@ -41,8 +44,27 @@ estimate of the hidden driver ratio, we can scale the search and departure
 rates according, described in Section~\ref{subsec-rates}.
 
 \subsection{Estimating Lot Capacity}
+\label{subsec-capacity}
 
-\subsection{Implicity Searches}
+PocketParker requires an estimate of lot capacity $C$ in several places.
+First, we use this estimate to bound $P_l(t)$ such that $P_l(t, X > C) =
+0\;\forall\;t$. Second, we use the capacity to determine the number of hidden
+drivers, explained in more detail in Section~\ref{subsec-hidden}.
+
+Recall from Section~\ref{FIXME} that our false-positive filter uses knowledge
+of the location of lots obtained from the OpenStreetMap database. We estimate
+the capacity of each lot by converting the location of the lot into a size
+and dividing by the size of an average parking spot. Errors in the capacity
+can result if the size of parking spots in the lot differ from our estimate,
+or if the parking lot is not efficiently packet with spots. Given the
+incentive of parking lot designers to maximize capacity, we believe that the
+second case will be unlikely. Parking spot sizes, however, may vary
+significantly from lot to lot or based on the lot's location. To improve our
+estimate, we may need to incorporate location-specific parking spot size
+estimates. Alternatively, mapping databases may be directly annotated with
+the number of spots per lot.
+
+\subsection{Implicit Searches}
 \label{subsec-synthetic}
 
 \subsection{Online Updates}
