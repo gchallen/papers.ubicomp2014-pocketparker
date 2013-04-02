@@ -18,7 +18,8 @@ lot has $n$ free spots $P_l(t, X = n)$. While we are mainly interested in the
 probability that the lot has a space available $P_l(t, X > 0)$, we maintain
 separate probabilities for each number of free spots so that we can
 manipulate individual probabilities in response to events and queries as
-described below.
+described below. We bound the count above and below, and briefly describe in
+Section~\ref{subsec-capacity} how to estimate lot capacity.
 
 PocketParker's estimator receives two types of events: arrivals and
 departures. As described in Section~\ref{sec-detector}, a portion of the
@@ -39,9 +40,13 @@ we describe an approach to doing so in Section~\ref{subsec-hidden}. With an
 estimate of the hidden driver ratio, we can scale the search and departure
 rates according, described in Section~\ref{subsec-rates}.
 
-\subsection{Synthetic Searches}
+\subsection{Estimating Lot Capacity}
+
+\subsection{Implicity Searches}
+\label{subsec-synthetic}
 
 \subsection{Online Updates}
+\label{subsec-online}
 
 Each arrival and departure received represent strong positive information:
 moments when PocketParker knows either that a spot just existed (arrival) or
@@ -50,10 +55,12 @@ negative information, either because they may not have actually been observed
 by PocketParker (unannotated) or so may not have actually taken place, or
 because they may not have been thorough (annotated).
 
-\subsection{Handling Hidden Drivers}
+\subsection{Hidden Driver Estimation}
+\label{subsec-hidden}
 
 Maintaining an accurate count requires estimating the
 percentage of drivers using the lot that are monitored by PocketParker, which
 we discuss next.
 
 \subsection{Rate Estimation}
+\label{subsec-rates}
