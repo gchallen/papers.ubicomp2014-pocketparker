@@ -383,14 +383,22 @@ state.
 \subsubsection{Rateless spreading}
 
 Intuitively, if the departure rate exceeds the arrival rate, the probability
-mass of $\Delta$ will lie primarily to the positive side of the axis and it
-will shift $P_l$ in the positive direction, producing higher probabilities
-that more spots are available in the lot and lowering the probability that
-the lot is full. The opposite is true when the search rate exceeds the
-arrival rate.
+mass of $\Delta$ will lie primarily to the positive side and it will shift
+$P_l$ in the positive direction, producing higher probabilities that more
+spots are available in the lot and lowering the probability that the lot is
+full. The opposite is true when the search rate exceeds the arrival rate.
 
 An important case is intervals during which PocketParker has observed neither
-arrivals nor departures in a given lot.
+arrivals nor departures in a given lot. In this case, $\Delta$ will be
+centered around $0$ but have a spread determined by the monitored fraction.
+Its effect on $P_l$ will be to redistribute the probability mass more evenly
+across the entire interval from $0$ to $C$. Taken over many intervals, the
+probability of the lot having any number of spots available will equalize,
+which is what we would expect: after a long period without any information,
+we cannot make an accurate prediction of the state of the lot. Note also that
+the speed at which the probabilities are redistributed through rateless
+spreading is determined again by the monitored fraction. The fewer drivers we
+monitor, the more quickly we lose all memory of the state of the lot.
 
 \subsection{Online Updates}
 \label{subsec-online}
