@@ -44,9 +44,7 @@ lots may have been searched unsuccessfully, information critical to the
 accuracy of our availability model. Section~\ref{subsec-lots} describes how
 PocketParker determines relationships between parking lots, and
 Section~\ref{subsec-implicit} describes how we combine that information with
-arrivals to estimate implicit search behavior. Section~\ref{subsec-online}
-further describes how we incorporate each kind of information into our
-availability model.
+arrivals to estimate implicit search behavior.
 
 Between events we want to maintain our availability model by estimating the
 rate at which departures and searches are taking place. PocketParker must use
@@ -56,7 +54,10 @@ PocketParker, which we call \textit{hidden drivers}. Accomplishing this
 requires that we estimate the ratio between monitored and hidden drivers, and
 we describe an approach to doing so in Section~\ref{subsec-hidden}. With an
 estimate of the hidden driver ratio, we can scale the search and departure
-rates according, described in Section~\ref{subsec-rates}.
+rates according, described in Section~\ref{subsec-rates}. Finally,
+Section~\ref{subsec-online} describes how we integrate all of this
+information to update our availability estimate as arrival and departure
+events are received.
 
 \subsection{Estimating Lot Capacity}
 \label{subsec-capacity}
@@ -177,6 +178,49 @@ this behavior can cause users to miss available spots, these speculative
 searches are useful inputs into our PocketParker model since it represents
 what lots users think are full.
 
+\subsection{Hidden Driver Estimation}
+\label{subsec-hidden}
+
+Monitored PocketParker users compete for parking spaces with unmonitored
+users, which we call \textit{hidden drivers}. While we assume that
+PocketParker users are generally representative of the entire driving
+population, we do not assume that all or even a large fraction of drivers
+will download and install PocketParker and we want our system to still
+provide accurate predictions with the limited information caused by hidden
+drivers. To accomplish this, PocketParker needs to estimate percentage of
+drivers that are monitored, which we call the \textit{monitored fraction}. A
+low monitored fraction indicates that few users are using PocketParker,
+whereas a high monitored fraction means that we are receiving inputs from
+most drivers. Put another way, the amount of uncertainty PocketParker must
+face when predicting lot availability is inversely-proportional to the
+monitored fraction.
+
+\subsubsection{Importance of monitored fraction estimation}
+
+Two examples will illustrate why we need this information and how it is used.
+First, when a monitored driver leaves a parking lot, the monitored fraction
+determines how long PocketParker will predict that a spot in that lot is
+available. As the monitored fraction increases, the probability of
+PocketParker seeing the arrival into the lot that occupies that spot
+increases, and we can increase the amount of time that we estimate a spot is
+available. On the other hand, as the monitored fraction decreases we see
+fewer arrivals and are faced with more uncertainty. Hence, PocketParker
+reduces the amount of time it predicts the spot is available. In
+Section~\ref{subsec-online} we describe how hidden drivers influence the
+changes to the availability model made when arrivals and departures are
+detected.
+
+Second, PocketParker uses the arrival and departure rates of monitored
+drivers to estimate changes to parking lot availability over time. Here we
+must scale the observed number of events to the actual number of events.
+Section~\ref{subsec-rates} describes how the monitored rate is used as an
+input into rate estimation and scaling.
+
+\subsubsection{Estimating the monitored fraction}
+
+\subsection{Rate Estimation}
+\label{subsec-rates}
+
 \subsection{Online Updates}
 \label{subsec-online}
 
@@ -186,13 +230,3 @@ now exists (departure). Unsuccessful searches, in contrast, represent weaker
 negative information, either because they may not have actually been observed
 by PocketParker (unannotated) or so may not have actually taken place, or
 because they may not have been thorough (annotated).
-
-\subsection{Hidden Driver Estimation}
-\label{subsec-hidden}
-
-Maintaining an accurate count requires estimating the
-percentage of drivers using the lot that are monitored by PocketParker, which
-we discuss next.
-
-\subsection{Rate Estimation}
-\label{subsec-rates}
