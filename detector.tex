@@ -73,12 +73,29 @@ walking---that is, to the parking spot.
 Occasionally, a user upon parking will walk for too brief a period before
 entering a building for the program to obtain a location from GPS.  In our
 target market of the SUNY Buffalo campus, this is an uncommon occurrence in
-practice, as there are few parking spots so close to buildings to permit
+practice, as there are few parking spots close enough to buildings to permit
 this situation to transpire.  A reliable watermark for this rarity is a
 steady driving state coupled with a most recent individual walking state and
 a null GPS reading.  In this situation, we employ alternative Android
 location providers such as WiFi to determine user locale.
 
+While walking, users may change their bearing.  If this occurs before the
+first GPS fix, [ONLY??] the app may not be able to calculate the original
+location of the parking spot.  An apparent remedy to this would be to use
+compass data to detect changes in bearing.  This would work if the relative 
+orientation of the phone viz-a-viz the user were also detectable.  In
+practice, when not in use mobile phones are typically oriented randomly by
+users, particularly when placed in pockets and backpacks.  Sticking solely
+with GPS data has thus proven better.
+
+A final potential issue with detecting a parking event is that of a driving
+period too short to for the program to detect that a user is driving in
+the first place.  This situation would occur when a user simply moved his
+car to a new parking spot in an adjacent row.  This is not a worrisome
+problem, as it does not stem from rational user behavior.
+
+
+...report parking event to server...
 
 
 We avoided implementing more complex algorithms that would have impacted
