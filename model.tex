@@ -229,6 +229,7 @@ Section~\ref{subsec-rates} describes how the monitored rate is used as an
 input into rate estimation and scaling.
 
 \subsubsection{Estimating the monitored fraction}
+\label{subsubsec-monitored}
 
 \begin{figure}
 \centering
@@ -299,6 +300,38 @@ fraction on rate certainty.}
 
 \subsection{Rate Estimation}
 \label{subsec-rates}
+
+When PocketParker receives arrival and departure event information, it knows
+something concrete the state of the lot. However, to predict availability at
+other times we need to adjust our estimation based on recently-observed
+events, which we call rate estimation. To estimate the rate of events in the
+entire population including hidden drivers, PocketParker must scale its rate
+of parking events my monitored drivers appropriately. Next, we use these
+scaled estimates to adjust the probability that a given lot has a certain
+number of spots and has spots available.
+
+During a time interval $t$, PocketParker will observe some number of arrivals
+or departures $c_{obs}$ in any given lot. However, depending on the
+monitored fraction $f_m$ the true count $c_{true}$ is likely to be much
+larger. Rather than simply scaling the count by $\frac{1}{f_m}$, we want to
+determine the probability distribution over all possible true counts given
+the rate we observed and the estimated monitored fraction as derived in
+Section~\ref{subsubsec-monitored}. One reason we do not simply scale by
+$\frac{1}{f_m}$ is that intuitively our uncertainty about the true count
+should be affected by $f_m$. If all drivers use PocketParker, we know the
+true count exactly; if few do, we should be uncertain about the true count.
+
+To compute the probability distribution we treat $c_{obs}$ as the output
+of a binomial distribution with probability $f_m$ and vary the number of
+trials. Specifically:
+%
+\begin{equation}
+P(c_{true}; c_{obs}) = C \cdot {c_{obs} \choose c_{true}} f_m^{c_{obs}}
+\cdot (1 - f_m)^{(c_{true} - c_{obs})}
+\end{equation}
+%
+where $C$ is a renormalization constant equal to $\sum_{c_{true}} P$.
+
 
 \subsection{Online Updates}
 \label{subsec-online}
