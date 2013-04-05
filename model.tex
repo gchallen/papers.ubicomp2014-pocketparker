@@ -21,8 +21,8 @@ that run on the backend server.
 \centering
 \includegraphics[width=\columnwidth]{./figures/CartoonLot.pdf}
 
-\caption{Example parking lot setup with two lots 1~and~2 and three
-destinations A, B and C.}
+\caption{\textbf{Example parking lot setup.} Two lots and three
+destinations are shown.}
 
 \label{fig-lots}
 \end{figure}
@@ -235,8 +235,8 @@ input into rate estimation and scaling.
 \centering
 \includegraphics[width=\columnwidth]{./simulator/figures/capacity.pdf}
 
-\caption{Example of capacity estimation for two parking lots using a running
-count.}
+\caption{\textbf{Example of capacity estimation.} Running counts for two lots
+are shown.}
 
 \label{fig-capacityexample}
 \end{figure}
@@ -292,8 +292,8 @@ monitored fraction caused by increasing use of our app.
 \centering
 \includegraphics[width=\columnwidth]{./figures/rates.pdf}
 
-\caption{Example of rate estimation showing the effect of the monitored
-fraction on rate certainty.}
+\caption{\textbf{Example of rate estimation.} Spread of each distribution
+shows the effect of the monitored fraction on rate certainty.}
 
 \label{fig-rateexample}
 \end{figure}
@@ -399,6 +399,32 @@ we cannot make an accurate prediction of the state of the lot. Note also that
 the speed at which the probabilities are redistributed through rateless
 spreading is determined again by the monitored fraction. The fewer drivers we
 monitor, the more quickly we lose all memory of the state of the lot.
+
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/arrival.pdf}
+    \caption{Effect of arrival.}
+    \label{fig-examples-arrival}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/departure.pdf}
+    \caption{Effect of departure.}
+    \label{fig-examples-departure}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/search.pdf}
+    \caption{Effect of search.}
+    \label{fig-examples-search}
+  \end{subfigure}
+  \caption{\textbf{Effect of different types of events on the lot availability
+  distribution.} Arrivals, departures, and implicit searches each have a
+  different instantaneous effect on PocketParker's availability distribution.}
+  \label{fig-examples}
+\end{figure*}
 
 \subsection{Online Updates}
 \label{subsec-online}
