@@ -36,14 +36,14 @@ periods, proved an optimal. Five seconds was the minimum time necessary to
 detect sensing activity accurately. We also wanted to obtain two sensing
 periods within a short period of time for confirmation.
 
-The initial test for user state is based on the standard deviation of high
-amplitude waves, corresponding approximately to user gait, within a sensing
-period. A standard deviation of less than .15 m/s^2 implies a user state of
-idle, a measurement above .50 m/s^2 to that of walking, and values in between
-to driving. The application stores a history of user states for future
-reference. From this history, we define the user steady state to be whatever
-state, if any, constitutes a majority of the individual states observed
-within the last nine periods.
+%The initial test for user state is based on the standard deviation of high
+%amplitude waves, corresponding approximately to user gait, within a sensing
+%period. A standard deviation of less than .15 m/s^2 implies a user state of
+%idle, a measurement above .50 m/s^2 to that of walking, and values in between
+%to driving. The application stores a history of user states for future
+%reference. From this history, we define the user steady state to be whatever
+%state, if any, constitutes a majority of the individual states observed
+%within the last nine periods.
 
 We use user state, in turn, to determine parking arrival and departure
 events. The program determines that a parking event has transpired when
@@ -60,6 +60,6 @@ to idle to walking within a three-minute period.
 When the program concludes that a user has parked, it turns on GPS detection
 long enough to determine the walking velocity and bearing of the user. It
 then calculates backwards to estimate the location where the user started
-walking – that is, to the parking spot.
+walking---that is, to the parking spot.
 
 Steady State – majority of the nine most recent states...

@@ -44,9 +44,7 @@ lots may have been searched unsuccessfully, information critical to the
 accuracy of our availability model. Section~\ref{subsec-lots} describes how
 PocketParker determines relationships between parking lots, and
 Section~\ref{subsec-implicit} describes how we combine that information with
-arrivals to estimate implicit search behavior. Section~\ref{subsec-online}
-further describes how we incorporate each kind of information into our
-availability model.
+arrivals to estimate implicit search behavior.
 
 Between events we want to maintain our availability model by estimating the
 rate at which departures and searches are taking place. PocketParker must use
@@ -56,7 +54,10 @@ PocketParker, which we call \textit{hidden drivers}. Accomplishing this
 requires that we estimate the ratio between monitored and hidden drivers, and
 we describe an approach to doing so in Section~\ref{subsec-hidden}. With an
 estimate of the hidden driver ratio, we can scale the search and departure
-rates according, described in Section~\ref{subsec-rates}.
+rates according, described in Section~\ref{subsec-rates}. Finally,
+Section~\ref{subsec-online} describes how we integrate all of this
+information to update our availability estimate as arrival and departure
+events are received.
 
 \subsection{Estimating Lot Capacity}
 \label{subsec-capacity}
@@ -116,7 +117,7 @@ directions to a particular place. The desirability index may also be
 determined by navigation tools observing what lots are searched by users on
 their way to a particular destination. Lacking these traces, simple proximity
 to the destination may determine the desirability index directly. As example
-of this automatic annotation, in Figure~\ref{lots} if both lot~1~and~2 are
+of this automatic annotation, in Figure~\ref{fig-lots} if both lot~1~and~2 are
 associated with destination~A, we can consider lot~2 less desirable than
 lot~1 because lot~1 lies between it and the destination.
 
@@ -177,6 +178,97 @@ this behavior can cause users to miss available spots, these speculative
 searches are useful inputs into our PocketParker model since it represents
 what lots users think are full.
 
+A final corner case that PocketParker does not handle is if all of the lots
+for a given destination are full, and many undetected unsuccessful searches
+are taking place. On one hand, if all lots are full then the availability of
+spots is determined by departures, not arrivals, and so search data is
+useless anyway. On the other hand, we would still like to identify this
+situation for users that would prefer to avoid destinations where it is
+difficult to park. While discussing future work in Section~\ref{sec-future},
+we point out how integrating PocketParker into existing navigation
+applications could address this problem by making searches explicit, rather
+than implicit.
+
+\subsection{Hidden Driver Estimation}
+\label{subsec-hidden}
+
+Monitored PocketParker users compete for parking spaces with unmonitored
+users, which we call \textit{hidden drivers}. While we assume that
+PocketParker users are generally representative of the entire driving
+population, we do not assume that all or even a large fraction of drivers
+will download and install PocketParker and we want our system to still
+provide accurate predictions with the limited information caused by hidden
+drivers. To accomplish this, PocketParker needs to estimate percentage of
+drivers that are monitored, which we call the \textit{monitored fraction}. A
+low monitored fraction indicates that few users are using PocketParker,
+whereas a high monitored fraction means that we are receiving inputs from
+most drivers. Put another way, the amount of uncertainty PocketParker must
+face when predicting lot availability is inversely-proportional to the
+monitored fraction.
+
+\subsubsection{Importance of monitored fraction estimation}
+
+Two examples will illustrate why we need this information and how it is used.
+First, when a monitored driver leaves a parking lot, the monitored fraction
+determines how long PocketParker will predict that a spot in that lot is
+available. As the monitored fraction increases, the probability of
+PocketParker seeing the arrival into the lot that occupies that spot
+increases, and we can increase the amount of time that we estimate a spot is
+available. On the other hand, as the monitored fraction decreases we see
+fewer arrivals and are faced with more uncertainty. Hence, PocketParker
+reduces the amount of time it predicts the spot is available. In
+Section~\ref{subsec-online} we describe how hidden drivers influence the
+changes to the availability model made when arrivals and departures are
+detected.
+
+Second, PocketParker uses the arrival and departure rates of monitored
+drivers to estimate changes to parking lot availability over time. Here we
+must scale the observed number of events to the actual number of events.
+Section~\ref{subsec-rates} describes how the monitored rate is used as an
+input into rate estimation and scaling.
+
+\subsubsection{Estimating the monitored fraction}
+
+PocketParker estimates the monitored fraction by first determining the
+monitored capacity---the capacity of the lot measured by monitored
+drivers---and then using our estimate of the lot capacity discussed in
+Section~\ref{subsec-capacity}. Specifically, given a lot with capacity $C$,
+the monitored fraction can be estimated as $f_m = \frac{C_m}{C}$. Our task
+then becomes estimating the monitored capacity $C_m$.
+
+To estimate the monitored capacity we maintain a running count $a_l$ for each
+lot. When a monitored driver arrives in the lot, we decrement $a_l$; when a
+monitored driver leaves the lot, we increment $a_l$. We can consider $a_l$ as
+a estimate of the number of spots available in the lot scaled by
+$\frac{1}{f_m}$, although we do not bound $a_l$ to be below the lot capacity
+or greater than zero.
+
+Figure~\ref{fig-capacityexample} shows an example of the running count for
+two related lots over seven days using data generated by our lot simulator
+described in Section~\ref{FIXME}. Both lots have capacity 200 and the actual
+monitored fraction is 0.1. As the data shows, the running count experiences
+long-period (greater than one day) fluctuations due to events missed by our
+event detector and the randomness associated with the small percentage of
+drivers being monitored. However, the data also contains short-period (less
+than one day) fluctuations caused by the dynamics of the lot being monitored,
+and these fluctuations are roughly the size of the monitored capacity $C_m$,
+which in this case is 20 spots.
+
+This observation motivates the design of our monitored capacity estimator.
+First, we remove the long-period fluctuations from $a_l$ by applying a moving
+average filter with a window length of 24~hours.
+Figure~\ref{fig-capacityexample} shows the filtered data. Next, we identify
+the largest availability swing over each 24~hour window. Finally, we average
+multiple swings together for a period of days to determine the final
+estimate. We expect this approach to work well on lots that fill on a regular
+basis. For lots that do not fill, or do not fill regularly, we may need to
+produce a weighted sum where larger swings are weighted more heavily given
+our assumption that they more accurately measure the true monitored capacity
+of the lot.
+
+\subsection{Rate Estimation}
+\label{subsec-rates}
+
 \subsection{Online Updates}
 \label{subsec-online}
 
@@ -186,13 +278,3 @@ now exists (departure). Unsuccessful searches, in contrast, represent weaker
 negative information, either because they may not have actually been observed
 by PocketParker (unannotated) or so may not have actually taken place, or
 because they may not have been thorough (annotated).
-
-\subsection{Hidden Driver Estimation}
-\label{subsec-hidden}
-
-Maintaining an accurate count requires estimating the
-percentage of drivers using the lot that are monitored by PocketParker, which
-we discuss next.
-
-\subsection{Rate Estimation}
-\label{subsec-rates}
