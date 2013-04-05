@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+
+  <capacity sizeerror="0.1" />
+
+  <lot name="L1" capacity="200" count="200" weight="0.9" />
+  <lot name="L2" capacity="200" count="200" weight="0.1" />
+
+  <rate length="24H" arrival="0H" departure="200H" />
+
+</root>
