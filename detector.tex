@@ -38,22 +38,24 @@ periods within a short period of time for confirmation.
 
 The initial test for user state relies on the standard deviation of sampled
 accelerometer data within a sensing period.  Our application first feeds
-readings through a Kallman smoothing filter to suppress ambient sensor noise
+readings through a smoothing filter to suppress ambient sensor noise
 and other low amplitude signals.  A standard deviation of the processed
-signal of less than .15 m/s [FIX] implies a user state of idle, a measurement
-above .50 m/s [FIX] to that of walking, and values in between to driving. The
+signal of less than .15 m/s2 [FIX] implies a user state of idle, a measurement
+above .50 m/s2 [FIX] to that of walking, and values in between to driving. The
 application stores a history of user states for future reference. From this
 history, we define the user steady state to be whatever state, if any,
 constitutes a majority of the individual states observed within the last
 nine periods.
 
 We use user state, in turn, to determine parking arrival events. The program
-determines that a parking event has transpired when three conditions are
-satisfied. The user steady state must be driving and the last individual
-state observed must be walking. Further, the frequency of high amplitude
-peaks in the last sample must correspond to that of mean human gait.  [BE
-SPECIFIC HERE -- freq / amp]  This test catches the large majority of
-parking events, where people park their cars and immediately begin walking.
+determines that a parking event has transpired upon fulfillment of several
+conditions.  The user steady state must be driving and the last two
+individual states observed must be walking.  Alternatively, if only the last
+one state observed is walking, an additional test is imposed:  the number of
+waveform peaks 2 m/s2 [FIX] above the mean observed accelerometer value must
+exceed a minimum threshhold corresponding to that produced by a slow human
+gait.  This test catches the large majority of parking events, where people
+park their cars and immediately begin walking.
 
 However, drivers occasionally sit in their cars for a period before leaving.
 To catch this type of parking event, the program employs a second test.
@@ -69,7 +71,7 @@ When the program concludes that a user has parked, it turns on GPS detection
 long enough to determine the walking velocity and bearing of the user.  It
 then calculates backwards to estimate the location where the user started
 walking---i.e., the parking spot.  Finally, the application reports the
-occurrence and location of the event to the server.  [HOW?  SSL / SQL etc.]
+occurrence and location of the event to the server via HTTP.
 
 Occasionally, a user upon parking will walk for too brief a period before
 entering a building for the program to obtain a location from GPS.  In our
@@ -81,13 +83,15 @@ a null GPS reading.  In this situation, we employ alternative Android
 location providers such as WiFi to determine user locale.
 
 While walking, users may change their bearing.  If this occurs before the
-first GPS fix, [ONLY??] the app may not be able to calculate the original
-location of the parking spot.  An apparent remedy to this would be to use
-compass data to detect changes in bearing.  This would work if the relative 
+first GPS fix, the app may not be able to calculate the original location
+of the parking spot.  An apparent remedy to this would be to use compass
+data to detect changes in bearing.  This would work if the relative
 orientation of the phone viz-a-viz the user were also detectable.  In
 practice, when not in use mobile phones are typically oriented randomly by
 users, particularly when placed in pockets and backpacks.  Sticking solely
-with GPS data has thus proven better.
+with GPS data has thus proven better.  Going forward, maintaining a history
+of user pedestrian history should further minimization of bearing
+inaccuracies.
 
 A final potential issue with detecting a parking event is that of a driving
 period too short to for the program to detect that a user is driving in
@@ -102,20 +106,13 @@ two most recent individual states are driving.  The constraint of two
 consecutive driving states rather than one proved necessary to minimize
 spurious detection of driving due to the relatively variable nature of
 driving sense data.  As with reporting parking arrival events, the
-application reports parking departure back to the server.  [DETAILS?]
+application reports parking departure back to the HTTP server.
 
 At this stage, it is in theory unnecessary to switch on GPS sensing, as
 we have already previously determined the parking spot location when the
 user originally arrived.  We have still found it beneficial to do so,
-however, to weed out remaining falsely detected driving states.
-
-[WHY NOT JUST WAIT UNTIL S-S = D?? -- more accurate than ind. state]
-
-
-...report parking event to server...
-
-
-We avoided implementing more complex algorithms that would have impacted
-battery life...
+however, to weed out remaining falsely detected driving states.  A null
+GPS reading implies that a user is still indoors, and that our initial
+inference of a driving state was misplaced.
 
 
