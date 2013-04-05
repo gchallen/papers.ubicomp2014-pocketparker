@@ -101,7 +101,15 @@ reports a departure event when the user steady state is walking but the
 two most recent individual states are driving.  The constraint of two
 consecutive driving states rather than one proved necessary to minimize
 spurious detection of driving due to the relatively variable nature of
-driving sense data.
+driving sense data.  As with reporting parking arrival events, the
+application reports parking departure back to the server.  [DETAILS?]
+
+At this stage, it is in theory unnecessary to switch on GPS sensing, as
+we have already previously determined the parking spot location when the
+user originally arrived.  We have still found it beneficial to do so,
+however, to weed out remaining falsely detected driving states.
+
+[WHY NOT JUST WAIT UNTIL S_S = D?? -- more accurate than ind. state]
 
 
 ...report parking event to server...
