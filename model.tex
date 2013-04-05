@@ -16,14 +16,16 @@ availability probability directly.
 
 \subsection{Overview}
 
-For each lot $l$, PocketParker maintains a time-varying probability that the
-lot has $n$ free spots $P_l(t, X = n)$. While we are mainly interested in the
-probability that the lot has a space available $P_l(t, X > 0)$, we maintain
-separate probabilities for each number of free spots so that we can
-manipulate individual probabilities in response to events and queries as
-described below. We bound the count probability distribution to lie between 0
-and the capacity of the parking lot. Section~\ref{subsec-capacity} briefly
-describes how PocketParker estimates lot capacity.
+Figure~\ref{fig-lots} shows an example setup with two parking lots and two
+points of interest used throughout this section. For each lot $l$,
+PocketParker maintains a time-varying probability that the lot has $n$ free
+spots $P_l(t, X = n)$. While we are mainly interested in the probability that
+the lot has a space available $P_l(t, X > 0)$, we maintain separate
+probabilities for each number of free spots so that we can manipulate
+individual probabilities in response to events and queries as described
+below. We bound the count probability distribution to lie between 0 and the
+capacity of the parking lot. Section~\ref{subsec-capacity} briefly describes
+how PocketParker estimates lot capacity.
 
 PocketParker's estimator receives two types of events: arrivals and
 departures. However, for each arrival in a given lot, a number of additional
@@ -70,6 +72,15 @@ spots per lot.
 
 \subsection{Implicit Searches}
 \label{subsec-synthetic}
+
+PocketParker's detector identifies only arrivals and departures. However,
+understanding and incorporating search behavior is critical to our model. For
+example, if we observe the arrival rate fall at a given lot, it may be
+because the lot is full, or it may be simply because fewer drivers are
+arriving and the lot still has many spaces available.
+
+In order to estimate search behavior, we need to understand the relationships
+between parking lots, a small amount of additional information. 
 
 \subsection{Online Updates}
 \label{subsec-online}
