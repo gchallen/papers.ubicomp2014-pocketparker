@@ -16,25 +16,36 @@ availability probability directly.
 
 \subsection{Overview}
 
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth]{./figures/CartoonLot.pdf}
+
+\caption{Example parking lot setup with two lots 1~and~2 and three
+destinations A, B and C.}
+
+\label{fig-lots}
+\end{figure}
+
 Figure~\ref{fig-lots} shows an example setup with two parking lots and two
-points of interest used throughout this section. For each lot $l$,
-PocketParker maintains a time-varying probability that the lot has $n$ free
-spots $P_l(t, X = n)$. While we are mainly interested in the probability that
-the lot has a space available $P_l(t, X > 0)$, we maintain separate
-probabilities for each number of free spots so that we can manipulate
-individual probabilities in response to events and queries as described
-below. We bound the count probability distribution to lie between 0 and the
-capacity of the parking lot. Section~\ref{subsec-capacity} briefly describes
-how PocketParker estimates lot capacity.
+destinations used throughout this section. For each lot $l$, PocketParker
+maintains a time-varying probability that the lot has $n$ free spots $P_l(t,
+X = n)$. While we are mainly interested in the probability that the lot has a
+space available $P_l(t, X > 0)$, we maintain separate probabilities for each
+number of free spots so that we can manipulate individual probabilities in
+response to events and queries as described below. We bound the count
+probability distribution to lie between 0 and the capacity of the parking
+lot. Section~\ref{subsec-capacity} briefly describes how PocketParker
+estimates lot capacity.
 
 PocketParker's estimator receives two types of events: arrivals and
 departures. However, for each arrival in a given lot, a number of additional
 lots may have been searched unsuccessfully, information critical to the
-accuracy of our availability model. Section~\ref{subsec-synthetic}
-describeshow PocketParker uses the arrivals and a desirability model for each
-lot to estimate implicit search behavior each arrival.
-Section~\ref{subsec-online} further describes how we incorporate each kind of
-information into our availability model.
+accuracy of our availability model. Section~\ref{subsec-lots} describes how
+PocketParker determines relationships between parking lots, and
+Section~\ref{subsec-implicit} describes how we combine that information with
+arrivals to estimate implicit search behavior. Section~\ref{subsec-online}
+further describes how we incorporate each kind of information into our
+availability model.
 
 Between events we want to maintain our availability model by estimating the
 rate at which departures and searches are taking place. PocketParker must use
@@ -70,8 +81,8 @@ need to incorporate location-specific parking spot size estimates.
 Alternatively, mapping databases may be directly annotated with the number of
 spots per lot.
 
-\subsection{Implicit Searches}
-\label{subsec-synthetic}
+\subsection{Lot Relationships}
+\label{subsec-lots}
 
 PocketParker's detector identifies only arrivals and departures. However,
 understanding and incorporating search behavior is critical to our model. For
@@ -80,7 +91,45 @@ because the lot is full, or it may be simply because fewer drivers are
 arriving and the lot still has many spaces available.
 
 In order to estimate search behavior, we need to understand the relationships
-between parking lots, a small amount of additional information. 
+between parking lots. This requires two additional pieces of data about each
+lot: one or multiple destinations, and a desirability index. The destination
+represents the place the user is going when they park in a given lot, and
+note that some lots may be associated with multiple destinations. In
+Figure~\ref{fig-lots}, lot~1 may be associated with destinations A, B and C;
+while lot~2 is only linked to B.
+
+The desirability index produces an ordering of lots associated with a given
+point-of-interest based on how preferable they are compared with other lots.
+We assume that most users will park in desirable lots if they are available,
+and may have searched in more desirable lots before parking in a lot
+desirable lot. In Figure~\ref{fig-lots}, if Lot~2 is associated with
+destination~A it will probably receive a lower desirability score than Lot~1
+because it is further away.
+
+While this information is not currently part of open mapping databases, we
+believe that it is straightforward to collect. Parking lot operators and
+business owners can annotate the mapping database with destinations for each
+lot. In addition, data from navigation tools may be able to automatically
+link destinations with lots by noting where users park after requesting
+directions to a particular place. The desirability index may also be
+determined by navigation tools observing what lots are searched by users on
+their way to a particular destination. Lacking these traces, simple proximity
+to the destination may determine the desirability index directly. As example
+of this automatic annotation, in Figure~\ref{lots} if both lot~1~and~2 are
+associated with destination~A, we can consider lot~2 less desirable than
+lot~1 because lot~1 lies between it and the destination.
+
+\subsection{Implicit Searches}
+\label{subsec-implicit}
+
+With an understanding of lot relationships we can use observed arrivals to
+model implicit---or unobserved---searches. When a user parks in a given lot,
+we use the desirability index of the lot to add unsuccessful searches in more
+desirable lots associated with the some destination. If a lot is associated
+with multiple destinations, we cannot uniquely determine the destination of
+the user. However, this only becomes important if the two destinations would
+produce different desirability rankings or involve different lots. For
+example, in Figure~\ref{fig-lots}, if lots 1~and~2
 
 \subsection{Online Updates}
 \label{subsec-online}
