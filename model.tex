@@ -266,16 +266,26 @@ and these fluctuations are roughly the size of the monitored capacity $C_m$,
 which in this case is 20 spots.
 
 This observation motivates the design of our monitored capacity estimator.
-First, we remove the long-period fluctuations from $a_l$ by applying a moving
-average filter with a window length of 24~hours.
-Figure~\ref{fig-capacityexample} shows the filtered data. Next, we identify
-the largest availability swing over each 24~hour window. Finally, we average
-multiple swings together for a period of days to determine the final
-estimate. We expect this approach to work well on lots that fill on a regular
-basis. For lots that do not fill, or do not fill regularly, we may need to
-produce a weighted sum where larger swings are weighted more heavily given
-our assumption that they more accurately measure the true monitored capacity
-of the lot.
+First, we bin the data into 24~hour intervals. Next, we identify the largest
+availability swing over each window. Finally, we average multiple swings
+together for a period of days to determine the final estimate. This simple
+approach works well on lots that fill on a regular basis. For the example in
+Figure~\ref{fig-capacityexample}, our estimator estimates the monitored
+capacity of lots~1~and~2 as 21.01 and 21.08, respectively, within 10\% of the
+true value in both cases.We perform a further evaluation of our capacity
+estimator using multiple lot simulations in Section~\ref{sec-evaluation}.
+
+For lots that do not fill, or do not fill regularly, we may need to produce a
+weighted sum where larger swings are weighted more heavily given our
+assumption that they more accurately measure the true monitored capacity of
+the lot. Another approach is to use the monitored fraction estimated at
+desirable lots for a given destination, which are more likely to fill
+completely and often, to estimate the monitored fraction for other
+less-desirable lots. Here we are making the reasonable assumption that lots
+connected to the same destination share similar fractions of PocketParker
+users. Finally, PocketParker's monitored fraction estimator runs periodically
+over up to a week's worth of data for each lot, to incorporate changes in the
+monitored fraction caused by increasing use of our app.
 
 \subsection{Rate Estimation}
 \label{subsec-rates}
