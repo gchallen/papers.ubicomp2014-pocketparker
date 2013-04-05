@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+
+  <capacity sizeerror="0.1" />
+
+  <lot name="L1" capacity="200" count="0" weight="0.9" />
+  <lot name="L2" capacity="200" count="0" weight="0.1" />
+
+  <rate length="8H" arrival="10H" departure="10H" />
+  <rate length="1H" arrival="500H" departure="10H" />
+  <rate length="1H" arrival="10H" departure="500H" />
+  <rate length="1H" arrival="500H" departure="10H" />
+  <rate length="1H" arrival="10H" departure="500H" />
+  <rate length="1H" arrival="500H" departure="10H" />
+  <rate length="1H" arrival="10H" departure="500H" />
+  <rate length="1H" arrival="500H" departure="10H" />
+  <rate length="1H" arrival="10H" departure="500H" />
+  <rate length="8H" arrival="10H" departure="10H" />
+
+</root>
