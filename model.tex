@@ -179,11 +179,15 @@ searches are useful inputs into our PocketParker model since it represents
 what lots users think are full.
 
 A final corner case that PocketParker does not handle is if all of the lots
-for a given destination are full, and drivers are searching unsuccessfully in
-all lots. On one hand, if all lots are full then no good ordering of lots
-exists and PocketParker's capacity estimates are useless anyway. On the other
-hand, we would still like to identify this situation in case users are making
-decisions on where to go using parking lot data.
+for a given destination are full, and many undetected unsuccessful searches
+are taking place. On one hand, if all lots are full then the availability of
+spots is determined by departures, not arrivals, and so search data is
+useless anyway. On the other hand, we would still like to identify this
+situation for users that would prefer to avoid destinations where it is
+difficult to park. While discussing future work in Section~\ref{sec-future},
+we point out how integrating PocketParker into existing navigation
+applications could address this problem by making searches explicit, rather
+than implicit.
 
 \subsection{Hidden Driver Estimation}
 \label{subsec-hidden}
@@ -256,7 +260,11 @@ average filter with a window length of 24~hours.
 Figure~\ref{fig-capacityexample} shows the filtered data. Next, we identify
 the largest availability swing over each 24~hour window. Finally, we average
 multiple swings together for a period of days to determine the final
-estimate.
+estimate. We expect this approach to work well on lots that fill on a regular
+basis. For lots that do not fill, or do not fill regularly, we may need to
+produce a weighted sum where larger swings are weighted more heavily given
+our assumption that they more accurately measure the true monitored capacity
+of the lot.
 
 \subsection{Rate Estimation}
 \label{subsec-rates}

@@ -2,6 +2,8 @@ START = xxxnote
 END = missing
 CLASS = $(PYTEX)/cls/sensys.cls
 
+TEXINPUTS:=.:$(PYTEX)/cls:
+
 all: paper ABSTRACT
 
 ABSTRACT: abstract.tex
