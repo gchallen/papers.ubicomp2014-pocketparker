@@ -1,6 +1,20 @@
 \section{Parking Event Detector}
 \label{sec-detector}
 
+Discussion -- state Detector Algorithm
+
+...determine parking and leaving events from user state...
+
+The application needs to determine the state of the user -- whether walking, driving or idling – and needs to be simple, quick and reasonably effective for our goals.  We rely solely on accelerometer data for an initial determination of state, as continuously cycled GPS sensing would consume too much power.  An accelerometer :15 duty cycle, with :05 sensing and :10 idle periods, proved an optimal.  Five seconds was  the minimum time necessary to detect sensing activity accurately.  
+...We also wanted to obtain two sensing periods within two sensing periods...
+
+The initial test for user state is based on the standard deviation of high amplitude waves, corresponding approximately to user gait, within a sensing period.  A standard deviation of less than .15 m/s^2 corresponds to user idle state, a measurement above .50 m/s^2 to walking, and values in between to driving.
+
+
+We avoided implementing more complex algorithms that would have impacted battery life.
+
+
+
 This is a test  
 
 
