@@ -5,16 +5,21 @@ Discussion -- state Detector Algorithm
 
 ...determine parking and leaving events from user state...
 
-The application needs to determine the state of the user -- whether walking, driving or idling – and needs to be simple, quick and reasonably effective for our goals.  We rely solely on accelerometer data for an initial determination of state, as continuously cycled GPS sensing would consume too much power.  An accelerometer :15 duty cycle, with :05 sensing and :10 idle periods, proved an optimal.  Five seconds was  the minimum time necessary to detect sensing activity accurately.  
-...We also wanted to obtain two sensing periods within two sensing periods...
+The application needs to determine the state of the user -- whether walking, driving or idling – and needs to be simple, quick and reasonably effective for our goals.  We rely solely on accelerometer data for an initial determination of state, as continuously cycled GPS sensing would consume too much power.  An accelerometer :15 duty cycle, with :05 sensing and :10 idle periods, proved an optimal.  Five seconds was  the minimum time necessary to detect sensing activity accurately.  We also wanted to obtain two sensing periods within a short period of time for confirmation.
 
-The initial test for user state is based on the standard deviation of high amplitude waves, corresponding approximately to user gait, within a sensing period.  A standard deviation of less than .15 m/s^2 corresponds to user idle state, a measurement above .50 m/s^2 to walking, and values in between to driving.
+The initial test for user state is based on the standard deviation of high amplitude waves, corresponding approximately to user gait, within a sensing period.  A standard deviation of less than .15 m/s^2 implies a user state of idle, a measurement above .50 m/s^2 to that of walking, and values in between to driving.  The application stores a history of detected states for future reference.
+
+We use this user state, in turn, to determine parking arrival and departure events.  The program determines that a parking event has transpired when three conditions are satisfied.  Driving must constitute a majority of the nine most recent user states.  The last state observed must be walking.  Further, the frequency of high amplitude peaks in the last sample must correspond to that of mean human gait.
+
+When the program concludes that a user has parked, it turns on GPS detection long enough to determine the walking velocity and bearing of the user.  It then calculates backwards to estimate the location where the user started walking – that is, to the parking spot.
+
 
 
 We avoided implementing more complex algorithms that would have impacted battery life.
 
 
 
-This is a test  
+
+*This is a test  
 
 
