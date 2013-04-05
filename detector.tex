@@ -28,38 +28,60 @@ Instead, we rely on duty-cycled accelerometer data to classify the user into
 one of three states: walking, driving, or idle.
 
 The application needs to determine the state of the user---whether walking,
-driving or idle---and needs to be simple, quick and reasonably effective
+driving or idle---with a test that is simple, quick and reasonably effective
 for our goals. We rely solely on accelerometer data for an initial
 determination of state, as continuously cycled GPS sensing would consume too
 much power. An accelerometer :15 duty cycle, with :05 sensing and :10 idle
-periods, proved an optimal. Five seconds was the minimum time necessary to
+periods, proved optimal. Five seconds was the minimum time necessary to
 detect sensing activity accurately. We also wanted to obtain two sensing
 periods within a short period of time for confirmation.
 
-%The initial test for user state is based on the standard deviation of high
-%amplitude waves, corresponding approximately to user gait, within a sensing
-%period. A standard deviation of less than .15 m/s^2 implies a user state of
-%idle, a measurement above .50 m/s^2 to that of walking, and values in between
-%to driving. The application stores a history of user states for future
-%reference. From this history, we define the user steady state to be whatever
-%state, if any, constitutes a majority of the individual states observed
-%within the last nine periods.
+The initial test for user state relies on the standard deviation of sampled
+accelerometer data within a sensing period.  Our application first feeds
+readings through a Kallman smoothing filter to suppress ambient sensor noise
+and other low amplitude signals.  A standard deviation of the processed
+signal of less than .15 m/s [FIX] implies a user state of idle, a measurement
+above .50 m/s [FIX] to that of walking, and values in between to driving. The
+application stores a history of user states for future reference. From this
+history, we define the user steady state to be whatever state, if any,
+constitutes a majority of the individual states observed within the last
+nine periods.
 
-We use user state, in turn, to determine parking arrival and departure
-events. The program determines that a parking event has transpired when
-three conditions are satisfied. The user steady state must be driving, and
-the last individual state observed must be walking. Further, the frequency
-of high amplitude peaks in the last sample must correspond to that of mean
-human gait. This test catches the large majority of parking events, where
-people park their cars and immediately begin walking. However, drivers
-occasionally sit in their cars for a period before leaving. To catch this
-type of parking event, the program employs a second test. It also concludes
-that a driver has parked when the user steady state transcends from driving
-to idle to walking within a three-minute period.
+We use user state, in turn, to determine parking arrival events. The program
+determines that a parking event has transpired when three conditions are
+satisfied. The user steady state must be driving and the last individual
+state observed must be walking. Further, the frequency of high amplitude
+peaks in the last sample must correspond to that of the mean human gait.
+This test catches the large majority of parking events, where people park
+their cars and immediately begin walking.
+
+However, drivers occasionally sit in their cars for a period before leaving.
+To catch this type of parking event, the program employs a second test.
+Unfortunately, simply observing a state transition from driving to idle is
+not, by itself, reliably determinative.  While the walking and idle states
+exhibit consistent well defined patterns, the driving state presents with
+more fluctuation.  The steady state of driving often contains individual
+idle state periods.  Rather, the program concludes that a driver has parked
+only when the user steady state transcends from driving to idle to walking
+within a three-minute period.
 
 When the program concludes that a user has parked, it turns on GPS detection
 long enough to determine the walking velocity and bearing of the user. It
 then calculates backwards to estimate the location where the user started
 walking---that is, to the parking spot.
 
-Steady State – majority of the nine most recent states...
+Occasionally, a user upon parking will walk for too brief a period before
+entering a building for the program to obtain a location from GPS.  In our
+target market of the SUNY Buffalo campus, this is an uncommon occurrence in
+practice, as there are few parking spots so close to buildings to permit
+this situation to transpire.  A reliable watermark for this rarity is a
+steady driving state coupled with a most recent individual walking state and
+a null GPS reading.  In this situation, we employ alternative Android
+location providers such as WiFi to determine user locale.
+
+
+
+We avoided implementing more complex algorithms that would have impacted
+battery life...
+
+
