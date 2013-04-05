@@ -51,9 +51,9 @@ We use user state, in turn, to determine parking arrival events. The program
 determines that a parking event has transpired when three conditions are
 satisfied. The user steady state must be driving and the last individual
 state observed must be walking. Further, the frequency of high amplitude
-peaks in the last sample must correspond to that of the mean human gait.
-This test catches the large majority of parking events, where people park
-their cars and immediately begin walking.
+peaks in the last sample must correspond to that of mean human gait.  [BE
+SPECIFIC HERE -- freq / amp]  This test catches the large majority of
+parking events, where people park their cars and immediately begin walking.
 
 However, drivers occasionally sit in their cars for a period before leaving.
 To catch this type of parking event, the program employs a second test.
@@ -66,9 +66,10 @@ only when the user steady state transcends from driving to idle to walking
 within a three-minute period.
 
 When the program concludes that a user has parked, it turns on GPS detection
-long enough to determine the walking velocity and bearing of the user. It
+long enough to determine the walking velocity and bearing of the user.  It
 then calculates backwards to estimate the location where the user started
-walking---that is, to the parking spot.
+walking---i.e., the parking spot.  Finally, the application reports the
+occurrence and location of the event to the server.  [HOW?  SSL / SQL etc.]
 
 Occasionally, a user upon parking will walk for too brief a period before
 entering a building for the program to obtain a location from GPS.  In our
@@ -93,6 +94,14 @@ period too short to for the program to detect that a user is driving in
 the first place.  This situation would occur when a user simply moved his
 car to a new parking spot in an adjacent row.  This is not a worrisome
 problem, as it does not stem from rational user behavior.
+
+We employ user state transitions to detect parking departure events in a 
+manner similar to that used to detect parking arrivals.  Our program
+reports a departure event when the user steady state is walking but the
+two most recent individual states are driving.  The constraint of two
+consecutive driving states rather than one proved necessary to minimize
+spurious detection of driving due to the relatively variable nature of
+driving sense data.
 
 
 ...report parking event to server...
