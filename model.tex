@@ -25,15 +25,15 @@ destinations are shown.}
 \end{figure}
 
 Figure~\ref{fig-lots} shows an example setup with two parking lots and two
-destinations used throughout this section. For each lot $l$, PocketParker
-maintains a time-varying probability that the lot has $n$ free spots $P_l(t,
+destinations used throughout this section. For each lot PocketParker
+maintains a time-varying probability that the lot has $n$ free spots $P(t,
 n)$. While we are mainly interested in the probability that the lot has a
-space available $P_l(t, X > 0)$, we maintain separate probabilities for each
-number of free spots so that we can manipulate individual probabilities in
-response to events and queries as described below. We bound the count
-probability distribution to lie between 0 and the capacity of the parking
-lot. Section~\ref{subsec-capacity} briefly describes how PocketParker
-estimates lot capacity.
+space available $P_{free} = \sum_{n > 0} P(t, n)$, we maintain separate
+probabilities for each number of free spots so that we can manipulate
+individual probabilities in response to events and queries as described
+below. We bound the count probability distribution to lie between 0 and the
+capacity of the parking lot. Section~\ref{subsec-capacity} briefly describes
+how PocketParker estimates lot capacity.
 
 PocketParker's estimator receives two types of events: arrivals and
 departures. However, for each arrival in a given lot, a number of additional
@@ -60,28 +60,27 @@ events are received.
 \label{subsec-capacity}
 
 PocketParker requires an estimate of lot capacity $C$ in several places.
-First, we use this estimate to bound $P_l(t)$ such that $P_l(t, X > C) =
+First, we use this estimate to bound $P(t)$ such that $P(t, n > C) =
 0\;\forall\;t$. Second, we use the capacity to determine the number of hidden
 drivers, explained in more detail in Section~\ref{subsec-hidden}.
 
-Recall from Section~\ref{FIXME} that our false-positive filter uses knowledge
-of the location of lots obtained from the OpenStreetMap database. We estimate
-the capacity of each lot by converting the location of the lot into a size
-and dividing by the size of an average parking spot. We use the parking lot design
-standards provided in \cite{parkingdesign} to estimate the number of spots after estimating the 
-area of the parking lot from which we detect an park event. \ref{} Shows our estimation accuracy 
-for five lots in our campus.XXXnote \XXXnote{Anand and
-Taeyeon, add capacity estimation stuff here. What is the size of the spot
-that we determined? Reference for that. Estimates for each of the lots we
-used and comparison with the true counts.} Errors in the capacity can result
-if the size of parking spots in the lot differ from our estimate, or if the
-parking lot is not efficiently packet with spots. Given the incentive of
-parking lot designers to maximize capacity, we believe that the second case
-will be unlikely. Parking spot sizes, however, may vary significantly from
-lot to lot or based on the lot's location. To improve our estimate, we may
-need to incorporate location-specific parking spot size estimates.
-Alternatively, mapping databases may be directly annotated with the number of
-spots per lot.
+Recall from Section~\ref{subsec-false} that our false-positive filter uses knowledge
+of the location of lots obtained from the OpenStreetMap
+database~\cite{FIXME}. We estimate the capacity of each lot by converting the
+location of the lot into a size and dividing by the size of an average
+parking spot, using a parking spot size typical to standard parking lot
+designs~\cite{parkingdesign}. Comparing this estimate with manually-counted
+capacities for the five lots monitored by our deployment, capacity estimates
+were within 6\% of the true capacity in all cases.
+
+Errors in the capacity can result if the size of parking spots in the lot
+differ from our estimate, or if the parking lot is not efficiently packet
+with spots. Given the incentive of parking lot designers to maximize
+capacity, we believe that the second case will be unlikely. Parking spot
+sizes, however, may vary significantly from lot to lot or based on the lot's
+location. To improve our estimate, we may need to incorporate
+location-specific parking spot size estimates. Alternatively, mapping
+databases may be directly annotated with the number of spots per lot.
 
 \subsection{Lot Relationships}
 \label{subsec-lots}
@@ -248,23 +247,23 @@ Section~\ref{subsec-capacity}. Specifically, given a lot with capacity $C$,
 the monitored fraction can be estimated as $f_m = \frac{C_m}{C}$. Our task
 then becomes estimating the monitored capacity $C_m$.
 
-To estimate the monitored capacity we maintain a running count $a_l$ for each
-lot. When a monitored driver arrives in the lot, we decrement $a_l$; when a
-monitored driver leaves the lot, we increment $a_l$. We can consider $a_l$ as
+To estimate the monitored capacity we maintain a running count $a$ for each
+lot. When a monitored driver arrives in the lot, we decrement $a$; when a
+monitored driver leaves the lot, we increment $a$. We can consider $a$ as
 a estimate of the number of spots available in the lot scaled by $f_m$,
-although we do not bound $a_l$ to be below the lot capacity or greater than
+although we do not bound $a$ to be below the lot capacity or greater than
 zero.
 
 Figure~\ref{fig-capacityexample} shows an example of the running count for
 two related lots over seven days using data generated by our lot simulator
-described in Section~\ref{FIXME}. Both lots have capacity 200 and the actual
-monitored fraction is 0.1. As the data shows, the running count experiences
-long-period (greater than one day) fluctuations due to events missed by our
-event detector and the randomness associated with the small percentage of
-drivers being monitored. However, the data also contains short-period (less
-than one day) fluctuations caused by the dynamics of the lot being monitored,
-and these fluctuations are roughly the size of the monitored capacity $C_m$,
-which in this case is 20 spots.
+described in Section~\ref{subsec-simulator}. Both lots have capacity 200 and
+the actual monitored fraction is 0.1. As the data shows, the running count
+experiences long-period (greater than one day) fluctuations due to events
+missed by our event detector and the randomness associated with the small
+percentage of drivers being monitored. However, the data also contains
+short-period (less than one day) fluctuations caused by the dynamics of the
+lot being monitored, and these fluctuations are roughly the size of the
+monitored capacity $C_m$, which in this case is 20 spots.
 
 This observation motivates the design of our monitored capacity estimator.
 First, we bin the data into 24~hour intervals. Next, we identify the largest
@@ -321,16 +320,16 @@ $s_{true}(t_0, t_1)$ is likely to be much larger. Rather than simply scaling
 the count by $\frac{1}{f_m}$, we want to determine the probability
 distribution over all possible true counts given the rate we observed and the
 estimated monitored fraction as derived in Section~\ref{subsubsec-monitored}.
-One reason we do not simply scale by $\frac{1}{f_m}$ is that intuitively our
-uncertainty about the true count should be affected by $f_m$. If all drivers
-use PocketParker, we know the true count exactly; if few do, we should be
+One reason we do not simply scale by $\frac{1}{f_m}$ is that our uncertainty
+about the true count should be affected by $f_m$. If all drivers use
+PocketParker, we know the true count exactly; if few do, we should be
 uncertain about the true count.
 
 To compute the probability distribution we treat $s_{obs}$ as the output of a
 binomial distribution with probability $f_m$ and vary the number of trials.
 Specifically:
 %
-\begin{equation} P(s_{true}; s_{obs}) = C \cdot {s_{obs} \choose s_{true}}
+\begin{equation} P(s_{true}| s_{obs}) = C \cdot {s_{obs} \choose s_{true}}
 f_m^{(s_{obs})} \cdot (1 - f_m)^{(s_{true} - s_{obs})} \end{equation}
 %
 where $C$ is a renormalization constant equal to $\sum_{s_{true}} P$.
@@ -341,9 +340,9 @@ distribution increases with decreasing $f_m$.
 
 \subsubsection{Updating the count probabilities}
 
-Given the probability that a lot has $n$ free spots at time $t_0$, $P_l(t_0,
-n)$, we want to estimate the probabilities $P_l(t_1, n)$ at a later time
-$t_1$. PocketParker uses recently-observed arrivals, implicit searches and
+Given the probability that a lot has $n$ free spots at time $t_0$, $P(t_0,
+n)$, we want to estimate the probabilities $P(t_1, n)$ at a later time $t_1$.
+PocketParker uses recently-observed arrivals, implicit searches and
 departures to estimate the search $s_{est}$ and departure $d_{est}$ rates the
 lot experienced between $t_0$ and $t_1$. Currently, we use arrival and
 departuress over a fixed-size window of time $I$ before $t_0$, $s_{obs}(t_0 -
@@ -352,10 +351,10 @@ I, t_0)$ scaled to the length of the interval $t_0$ to $t_1$:
 \[s_{est}(t_0, t_1) = s_{obs}(t_0 - I, t_0) \cdot \frac{(t_1 - t_0)}{I} \]
 %
 The value of $s_{est}(t_0, t_1)$ is then scaled as described above to
-determine the distribution of $s_{true}$. Intuitively, PocketParker currently
-assumes the rates experienced over the last $I$ time interval will continue.
-It may be possible to perform better rate estimation by using historical
-information, but this is left as future work.
+determine the distribution of $s_{true}$. PocketParker currently assumes the
+rates experienced over the last $I$ time interval will continue. It may be
+possible to perform better rate estimation by using historical information,
+but this is left as future work.
 
 The distribution of search rates $s_{true}(t_0, t_1)$ represents the
 probabilities that the number of available spots in the lot will decline,
@@ -363,35 +362,35 @@ whereas the departure rate $d_{true}(t_0, t_1)$ represents the probability
 the number of spots will increase due to departures. The convolution of $-1
 \cdot s_{true}$ and $d_{true}$, $\Delta(t_0, t_1)$, represents the change in
 the number of spots produced by the specific combination of arrival and
-departure rates. A further convolution of $\Delta(t_0, t_1)$ with $P_l(t_0,
-n)$ produces $P_l(t_1, n)$, the desired probability at $t_1$:
+departure rates. A further convolution of $\Delta(t_0, t_1)$ with $P(t_0,
+n)$ produces $P(t_1, n)$, the desired probability at $t_1$:
 %
-\[ P_l(t_1, n) = P_l(t_0, n) * (-1 \cdot s_{true}(t_0, t_1) * d_{true}(t_0,
+\[ P(t_1, n) = P(t_0, n) * (-1 \cdot s_{true}(t_0, t_1) * d_{true}(t_0,
 t_1)) \]
 %
 where $*$ represents the discrete convolution.
 
-Note that the convolution of $P_l$ with $\Delta$ can cause non-zero
-probabilities in $P_l$ that violate our boundary conditions, namely that
-$P_l(n < 0) = 0$ and $P_l(n > C) = 0$ where $C$ is the estimated capacity of
-the lot. To correct this, we simply set $P_l(n = 0) = \sum_{n < 0} P_l(n)$
-and $P_l(n = C) = \sum_{n > C} P_l(n)$, assigning all the probability that
+Note that the convolution of $P$ with $\Delta$ can cause non-zero
+probabilities in $P$ that violate our boundary conditions, namely that
+$P(n < 0) = 0$ and $P(n > C) = 0$ where $C$ is the estimated capacity of
+the lot. To correct this, we simply set $P(n = 0) = \sum_{n < 0} P(n)$
+and $P(n = C) = \sum_{n > C} P(n)$, assigning all the probability that
 the lot has less that zero free spots to the zero state and all probability
 that it has more than the capacity of the lot of free spots to the empty
 state.
 
 \subsubsection{Rateless spreading}
 
-Intuitively, if the departure rate exceeds the arrival rate, the probability
-mass of $\Delta$ will lie primarily to the positive side and it will shift
-$P_l$ in the positive direction, producing higher probabilities that more
-spots are available in the lot and lowering the probability that the lot is
-full. The opposite is true when the search rate exceeds the arrival rate.
+If the departure rate exceeds the arrival rate, the probability mass of
+$\Delta$ will lie primarily to the positive side and it will shift $P$ in the
+positive direction, producing higher probabilities that more spots are
+available in the lot and lowering the probability that the lot is full. The
+opposite is true when the search rate exceeds the arrival rate.
 
 An important case is intervals during which PocketParker has observed neither
 arrivals nor departures in a given lot. In this case, $\Delta$ will be
 centered around $0$ but have a spread determined by the monitored fraction.
-Its effect on $P_l$ will be to redistribute the probability mass more evenly
+Its effect on $P$ will be to redistribute the probability mass more evenly
 across the entire interval from $0$ to $C$. Taken over many intervals, the
 probability of the lot having any number of spots available will equalize,
 which is what we would expect: after a long period without any information,
@@ -402,20 +401,19 @@ fraction. The fewer drivers we monitor, the more quickly we lose all memory
 of the state of the lot.
 
 \begin{figure*}
-  \centering
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.33\textwidth}
     \centering
     \includegraphics[width=\textwidth]{./figures/arrival.pdf}
     \caption{Effect of arrival.}
     \label{fig-examples-arrival}
   \end{subfigure}
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.33\textwidth}
     \centering
     \includegraphics[width=\textwidth]{./figures/departure.pdf}
     \caption{Effect of departure.}
     \label{fig-examples-departure}
   \end{subfigure}
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.33\textwidth}
     \centering
     \includegraphics[width=\textwidth]{./figures/search.pdf}
     \caption{Effect of search.}
@@ -432,32 +430,59 @@ of the state of the lot.
 
 Finally, we conclude by describing how PocketParker uses arrival to adjust
 its availability model instantaneously at runtime. Each arrival and departure
-received represent strong positive information---moments when PocketParker
-knows either that a spot just existed (arrival) or now exists (departure).
+received at time $t$ represent strong positive information---moments when
+PocketParker knows either that a spot just existed (arrival) or now exists
+(departure). PocketParker uses these events to adjust the probability
+distribution and incorporate this new information. Figure~\ref{fig-examples}
+displays an example of the before and after effects of departures, arrivals,
+and searches as discussed below.
+
+Arrivals provide two somewhat conflicting pieces of information. First,
+PocketParker knows that at the time of the arrival there was a spot free, so
+in this way arrivals indicate that the lot is not full. However, PocketParker
+also knows that immediately after an arrival the lot has one fewer available
+spots. So we incorporate arrivals in two steps. First, we set $P(t, 0) = 0$
+indicating the availability of a spot and renormalize the distribution.
+Second, we shift the entire distribution downward by one spot, $P(t, n) =
+P(t, n - 1)$, reflecting the loss of a parking space due to the arrival.
+Figure~\ref{fig-examples-arrival} shows an example of the effect of an
+arrival, including an increase in the probability that the lot has no spots.
+
+Departures produce a straightforward change to the probability distribution.
+When a user departs, we know at that moment that there is a free spot in the
+lot, so we can set $P(t, 0) = 0$ and renormalize the distribution. Note that,
+since the probability that the lot is free is $P_{free} = \sum_{n > 0} P(t,
+n)$, at the exact time of each departure the probability that a spot is free
+is equal to 1. Figure~\ref{fig-examples-departure} shows the hole in the
+distribution at zero created by a departure event.
+
 Unsuccessful implicit searches, in contrast, represent weaker negative
 information, both because they were not have actually been observed by
 PocketParker and so may not have actually taken place, or because they may
-not have been thorough.
+not have been thorough. What we want is to increase the probability that the
+lot is full while reflecting our current estimate of the lot. We do this by
+shifting the availability distribution towards full by some amount $s$, which
+we refer to as the \textit{search shift parameter}. So, after an implicit
+unsuccessful search, we set $P(t, n) = P(t, n - s)$, with $P(t, 0) = \sum_0^s
+P(t, n)$. Figure~\ref{fig-examples-search} shows how the distribution shifts
+towards zero and probability accumulates in the full state after an
+unsuccessful search.
 
-Departures produce an intuitive change to the probability distribution. When
-a user departs, we know at that moment that there is a free spot in the lot,
-so we can set $P_l(t, 0) = 0$ and renormalize the distribution. Arrivals
-provide two somewhat conflict pieces of information. First, PocketParker
-knows that at the time of the arrival there was a spot free, so in this way
-arrivals indicate that the lot is not full. However, PocketParker also knows
-that immediately after an arrival the lot has one fewer available spots. So
-we incorporate arrivals in two steps. First, we set $P_l(t, 0) = 0$
-indicating the availability of a spot and renormalize the distribution.
-Second, we shift the entire distribution downward by one spot, $P_l(t, n) =
-P_l(t, n - 1)$, reflecting the loss of a spot.
+The search shift parameter determines how aggressively PocketParker will use
+information provided by implicit searches. We believe that this parameter
+should be scaled with $\frac{1}{f_m}$, inversely with the monitored fraction.
+In Section~\ref{sec-evaluation} we evaluate different values of $s$ and show
+how they affect PocketParker's estimates. \XXXnote{GWA: Need to actually do
+this.}
 
 \subsubsection{Weighted arrivals and departures}
 
-This is the most conservative approach representing what we definitely know.
-However, if we assume that our monitored drivers are representative of some
-larger number of hidden drivers, we may set $P_l(t, n < X) = 0$ for some $X$
-larger than 1 and scaling with $\frac{1}{f_m}$. For our experiments we choose
-the conservative approach and set $X = 1$. We discuss in
-Section~\ref{sec-future} how users may customize the behavior of PocketParker
-to be more or less aggressive in locating parking spots, trading off time for
-a potentially more desirable spot.
+Shifting the distribution one space on arrivals and departures is the most
+conservative approach representing what we definitely know: that one spot is
+available. However, if we assume that our monitored drivers are
+representative of some larger number of hidden drivers, we may set $P_l(t, n
+< X) = 0$ for some $X$ larger than 1 and scaling with $\frac{1}{f_m}$. For
+our experiments we choose the conservative approach and set $X = 1$. We
+discuss in Section~\ref{sec-future} how users may customize the behavior of
+PocketParker to be more or less aggressive in locating parking spots, trading
+off time for a potentially more desirable spot.

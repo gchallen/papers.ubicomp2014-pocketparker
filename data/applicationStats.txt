@@ -1,0 +1,9 @@
+# of updates sent to server - 445
+
+# of park events 202
+
+# of leave events 170
+
+# of events near UB Campus including false positives- 127
+
+# of events of UB campus parking lots - 56
