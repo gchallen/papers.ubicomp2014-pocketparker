@@ -90,6 +90,6 @@ for i, lot in enumerate(args.lots):
   if i == 0:
     ax2.legend(loc='upper right', fontsize=8)
 
-fig.set_size_inches(9.,4.)
+fig.set_size_inches(9.,3.)
 fig.tight_layout()
 plt.savefig(args.output,bbox_inches='tight')
