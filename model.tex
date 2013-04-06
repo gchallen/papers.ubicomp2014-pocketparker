@@ -82,6 +82,32 @@ location. To improve our estimate, we may need to incorporate
 location-specific parking spot size estimates. Alternatively, mapping
 databases may be directly annotated with the number of spots per lot.
 
+\begin{figure*}
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/arrival.pdf}
+    \caption{Effect of arrival.}
+    \label{fig-examples-arrival}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/departure.pdf}
+    \caption{Effect of departure.}
+    \label{fig-examples-departure}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/search.pdf}
+    \caption{Effect of search.}
+    \label{fig-examples-search}
+  \end{subfigure}
+  \caption{\textbf{Effect of different types of events on the lot availability
+  distribution.} Arrivals, departures, and implicit searches each have a
+  different instantaneous effect on PocketParker's availability distribution.}
+  \label{fig-examples}
+\end{figure*}
+
+
 \subsection{Lot Relationships}
 \label{subsec-lots}
 
@@ -400,31 +426,6 @@ redistributed through rateless spreading is determined again by the monitored
 fraction. The fewer drivers we monitor, the more quickly we lose all memory
 of the state of the lot.
 
-\begin{figure*}
-  \begin{subfigure}[b]{0.33\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{./figures/arrival.pdf}
-    \caption{Effect of arrival.}
-    \label{fig-examples-arrival}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.33\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{./figures/departure.pdf}
-    \caption{Effect of departure.}
-    \label{fig-examples-departure}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.33\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{./figures/search.pdf}
-    \caption{Effect of search.}
-    \label{fig-examples-search}
-  \end{subfigure}
-  \caption{\textbf{Effect of different types of events on the lot availability
-  distribution.} Arrivals, departures, and implicit searches each have a
-  different instantaneous effect on PocketParker's availability distribution.}
-  \label{fig-examples}
-\end{figure*}
-
 \subsection{Online Updates}
 \label{subsec-online}
 
@@ -466,14 +467,10 @@ we refer to as the \textit{search shift parameter}. So, after an implicit
 unsuccessful search, we set $P(t, n) = P(t, n - s)$, with $P(t, 0) = \sum_0^s
 P(t, n)$. Figure~\ref{fig-examples-search} shows how the distribution shifts
 towards zero and probability accumulates in the full state after an
-unsuccessful search.
-
-The search shift parameter determines how aggressively PocketParker will use
-information provided by implicit searches. We believe that this parameter
-should be scaled with $\frac{1}{f_m}$, inversely with the monitored fraction.
-In Section~\ref{sec-evaluation} we evaluate different values of $s$ and show
-how they affect PocketParker's estimates. \XXXnote{GWA: Need to actually do
-this.}
+unsuccessful search. The search shift parameter determines how aggressively
+PocketParker will use information provided by implicit searches. We believe
+that this parameter should be scaled with $\frac{1}{f_m}$, inversely with the
+monitored fraction.
 
 \subsubsection{Weighted arrivals and departures}
 
