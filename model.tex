@@ -65,23 +65,22 @@ First, we use this estimate to bound $P(t)$ such that $P(t, n > C) =
 drivers, explained in more detail in Section~\ref{subsec-hidden}.
 
 Recall from Section~\ref{FIXME} that our false-positive filter uses knowledge
-of the location of lots obtained from the OpenStreetMap database. We estimate
-the capacity of each lot by converting the location of the lot into a size
-and dividing by the size of an average parking spot. We use the parking lot design
-standards provided in \cite{parkingdesign} to estimate the number of spots after estimating the 
-area of the parking lot from which we detect an park event. \ref{} Shows our estimation accuracy 
-for five lots in our campus.XXXnote \XXXnote{Anand and
-Taeyeon, add capacity estimation stuff here. What is the size of the spot
-that we determined? Reference for that. Estimates for each of the lots we
-used and comparison with the true counts.} Errors in the capacity can result
-if the size of parking spots in the lot differ from our estimate, or if the
-parking lot is not efficiently packet with spots. Given the incentive of
-parking lot designers to maximize capacity, we believe that the second case
-will be unlikely. Parking spot sizes, however, may vary significantly from
-lot to lot or based on the lot's location. To improve our estimate, we may
-need to incorporate location-specific parking spot size estimates.
-Alternatively, mapping databases may be directly annotated with the number of
-spots per lot.
+of the location of lots obtained from the OpenStreetMap
+database~\cite{FIXME}. We estimate the capacity of each lot by converting the
+location of the lot into a size and dividing by the size of an average
+parking spot, using a parking spot size typical to standard parking lot
+designs~\cite{parkingdesign}. Comparing this estimate with manually-counted
+capacities for the five lots monitored by our deployment, capacity estimates
+were within 6\% of the true capacity in all cases.
+
+Errors in the capacity can result if the size of parking spots in the lot
+differ from our estimate, or if the parking lot is not efficiently packet
+with spots. Given the incentive of parking lot designers to maximize
+capacity, we believe that the second case will be unlikely. Parking spot
+sizes, however, may vary significantly from lot to lot or based on the lot's
+location. To improve our estimate, we may need to incorporate
+location-specific parking spot size estimates. Alternatively, mapping
+databases may be directly annotated with the number of spots per lot.
 
 \subsection{Lot Relationships}
 \label{subsec-lots}
@@ -330,7 +329,7 @@ To compute the probability distribution we treat $s_{obs}$ as the output of a
 binomial distribution with probability $f_m$ and vary the number of trials.
 Specifically:
 %
-\begin{equation} P(s_{true}; s_{obs}) = C \cdot {s_{obs} \choose s_{true}}
+\begin{equation} P(s_{true}| s_{obs}) = C \cdot {s_{obs} \choose s_{true}}
 f_m^{(s_{obs})} \cdot (1 - f_m)^{(s_{true} - s_{obs})} \end{equation}
 %
 where $C$ is a renormalization constant equal to $\sum_{s_{true}} P$.
@@ -403,19 +402,19 @@ of the state of the lot.
 
 \begin{figure*}
   \centering
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.33\textwidth}
     \centering
     \includegraphics[width=\textwidth]{./figures/arrival.pdf}
     \caption{Effect of arrival.}
     \label{fig-examples-arrival}
   \end{subfigure}
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.33\textwidth}
     \centering
     \includegraphics[width=\textwidth]{./figures/departure.pdf}
     \caption{Effect of departure.}
     \label{fig-examples-departure}
   \end{subfigure}
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.33\textwidth}
     \centering
     \includegraphics[width=\textwidth]{./figures/search.pdf}
     \caption{Effect of search.}
@@ -435,7 +434,7 @@ its availability model instantaneously at runtime. Each arrival and departure
 received at time $t$ represent strong positive information---moments when
 PocketParker knows either that a spot just existed (arrival) or now exists
 (departure). PocketParker uses these events to adjust the probability
-distribution and incorporate this new information. Figure~\ref{fig-example}
+distribution and incorporate this new information. Figure~\ref{fig-examples}
 displays an example of the before and after effects of departures, arrivals,
 and searches as discussed below.
 
@@ -447,7 +446,7 @@ spots. So we incorporate arrivals in two steps. First, we set $P(t, 0) = 0$
 indicating the availability of a spot and renormalize the distribution.
 Second, we shift the entire distribution downward by one spot, $P(t, n) =
 P(t, n - 1)$, reflecting the loss of a parking space due to the arrival.
-Figure~\ref{fig-example-arrival} shows an example of the effect of an
+Figure~\ref{fig-examples-arrival} shows an example of the effect of an
 arrival, including an increase in the probability that the lot has no spots.
 
 Departures produce a straightforward change to the probability distribution.
@@ -455,7 +454,7 @@ When a user departs, we know at that moment that there is a free spot in the
 lot, so we can set $P(t, 0) = 0$ and renormalize the distribution. Note that,
 since the probability that the lot is free is $P_{free} = \sum_{n > 0} P(t,
 n)$, at the exact time of each departure the probability that a spot is free
-is equal to 1. Figure~\ref{fig-example-departure} shows the hole in the
+is equal to 1. Figure~\ref{fig-examples-departure} shows the hole in the
 distribution at zero created by a departure event.
 
 Unsuccessful implicit searches, in contrast, represent weaker negative
@@ -466,7 +465,7 @@ lot is full while reflecting our current estimate of the lot. We do this by
 shifting the availability distribution towards full by some amount $s$, which
 we refer to as the \textit{search shift parameter}. So, after an implicit
 unsuccessful search, we set $P(t, n) = P(t, n - s)$, with $P(t, 0) = \sum_0^s
-P(t, n)$. Figure~\ref{fig-example-search} shows how the distribution shifts
+P(t, n)$. Figure~\ref{fig-examples-search} shows how the distribution shifts
 towards zero and probability accumulates in the full state after an
 unsuccessful search.
 
