@@ -7,10 +7,8 @@
   <lot name="L2" capacity="200" count="0" weight="0.1" poi="A" order="2" />
 
   <rate length="6H" arrival="10H" departure="10H" />
-  <rate length="5H" arrival="100H" departure="10H" />
-  <rate length="1H" arrival="50H" departure="10H" />
-  <rate length="1H" arrival="10H" departure="50H" />
-  <rate length="5H" arrival="10H" departure="100H" />
+  <rate length="6H" arrival="60H" departure="10H" />
+  <rate length="6H" arrival="10H" departure="60H" />
   <rate length="6H" arrival="10H" departure="10H" />
 
 </root>
