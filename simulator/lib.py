@@ -494,6 +494,12 @@ class Estimation(object):
       self.departure_window[event.lot].append(event)
     
     self.advance_time(event.lot, last_time)
+    for lot in self.lots.lots:
+      if lot == event.lot:
+        continue
+      last_time = self.time[lot]
+      self.time[lot] = event.time
+      self.advance_time(lot, last_time)
 
     if event.is_arrival:
       for i in numpy.arange(0, self.arrival_blank + 1, 1):
@@ -508,4 +514,5 @@ class Estimation(object):
     self.fold_boundaries(event.lot)
     
     print event
-    self.estimate_lot(event.lot)
+    for lot in self.lots.lots:
+      self.estimate_lot(lot)
