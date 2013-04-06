@@ -45,13 +45,13 @@ for index, lot in enumerate(args.lots):
         lot_results[name][monitored_fraction].append((abs(float(result) - (monitored_fraction * args.capacity)) / (monitored_fraction * args.capacity)) * 100.)
   ax = plt.subplot(1, len(args.lots), (index + 1))
   ax.set_title("\\textbf{%s}" % (full_name,))
-  for lot in lot_results.keys():
+  for lot in sorted(lot_results.keys()):
     X, Y, Yerr = [], [], []
     for monitored_fraction in sorted(lot_results[lot].keys()):
       X.append(monitored_fraction)
       Y.append(numpy.mean(lot_results[lot][monitored_fraction]))
       Yerr.append(numpy.std(lot_results[lot][monitored_fraction]))
-    ax.errorbar(X, Y, yerr=Yerr, label='Lot %d' % (int(lot[-1])))
+    ax.errorbar(X, Y, xerr=Yerr, label='Lot %d' % (int(lot[-1])))
   if index == 0:
     ax.legend(loc='upper right', fontsize=8)
     ax.set_ylabel("\\textbf{Estimate Error}")

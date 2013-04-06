@@ -70,6 +70,16 @@ events and 80~m for departures. Power consumption at this duty cycle is 8~mW,
 representing 4.2\% of a the capacity of a 1500~mAh battery discharged over
 24~hours if used continuously.
 
+\begin{figure}
+\centering
+\includegraphics[width=3.325in]{./figures/Rate_FP_and_ND.pdf}
+
+\caption{\textbf{False positive and negative rates as a function of detector
+duty cycle.}} 
+
+\label{fig-falsepositives}
+\end{figure}
+
 \begin{figure*}
 \centering
 \includegraphics[width=\textwidth]{./simulator/figures/lots.pdf}
@@ -88,10 +98,9 @@ a parking lot simulator in Python. Our simulator allows us to simulate any
 number of parking lots associated with any number of points of interest with
 varying desirability levels. For simplicity during our evaluation, we
 simulate two lots 1~and~2 with lot~1 filling before lot~2, although lot
-choice by simulated drivers is probabilistic. Particularly for evaluating our
-monitored fraction estimation we are interested in lots that fill and empty
-in various ways. We use five types of lots described by
-Figure~\ref{fig-lotsdescription}:
+choice by simulated drivers is probabilisticly weighted. Particularly for
+evaluating our monitored fraction estimation we are interested in lots that
+fill and empty in various ways. We use five types of lots:
 
 \begin{itemize}
 
@@ -109,43 +118,101 @@ repeatedly during each day, perhaps like a campus lot or movie theater.
 
 \end{itemize}
 
-\subsubsection{Monitored fraction estimation}
-
-\subsubsection{Probability and availability}
+Figure~\ref{fig-lotsdescription} shows the arrival and departure rates for each
+of the types of lot as well as the resulting overall capacity.
 
 \begin{figure*}
 \centering
 \includegraphics[width=\textwidth]{./simulator/figures/capacity_experiment.pdf}
 
-\caption{\textbf{Errors in capacity estimation.} \XXXnote{GWA: TODO.}}
+\caption{\textbf{Errors in monitored fraction estimation.} Currently
+PocketParker is better at estimating the monitored fraction when lots fill
+and empty regularly.}
 
 \label{fig-capacityerrors}
 \end{figure*}
+
+\subsubsection{Monitored fraction estimation}
+
+In Section~\ref{subsubsec-monitored} we describe our approach to estimated
+the monitored fraction, a parameter important to the operation of the
+PocketParker availability estimator. Figure~\ref{fig-capacityerrors} shows
+the results of 10 random simulations for each lot type. In each case, the
+monitored fraction estimator uses a weeks worth of data and proceeds as
+described previously. The error in the monitored fraction estimate is shown
+as a function of the actual monitored fraction for the simulation used,
+although that is unknown.
+
+For the five types of lots, we would expect PocketParker to do better
+monitored fraction estimation when lots fill regularly---Fast Fill, Slow
+Fill, and Multiple Fill---and poorly when they do fill erratically or not at
+all---High and Low Churn. \XXXnote{GWA: Finish when results look better.}
+
+In addition, because lot~1 in our simulations fills
+first and lot~2 sometimes does not fill at all, we would expect to do a
+better job with lot~1. \XXXnote{GWA: Finish when results look better.}
 
 \begin{figure}
 \centering
 \includegraphics[width=3.325in]{./simulator/figures/tracking_fastfill.pdf}
 
-\caption{\textbf{Availability probabilities tracking lot capacity.} \XXXnote{GWA: TODO.}}
+\caption{\textbf{Availability probabilities tracking lot capacity.} Dips in
+the availability probability correspond to times when PocketParker believes
+the lot is full. Discontinuities are caused by departures, which set the
+instantaneous probability that the lot is available to 1.0.}
 
 \label{fig-trackingexample}
 \end{figure}
 
+\subsubsection{Probability and availability}
+
+At this point we take a closer look at the way that PocketParker adjusts lot
+availability probabilities. Keep in mind that that the absolute value of the
+availability probability for each lot may not meaningful. Instead,
+PocketParker uses the probabilites to order available lots in response to
+queries. We examine its accuracy at performing this essential task next.
+However, it is illustrative to examine the probabilities PocketParker
+maintains and compare them against ground truth: the actual number of spots
+in the lot.
+
+Figure~\ref{fig-trackingexample} shows a 24~hour simulation of a Fast Fill
+parking lot with a monitored fraction of 0.1 and a 10\% error in the
+estimation of the monitored fraction. The ground truth capacity of the lot as
+simulated is plotted next to the PocketParker probability that the lot has an
+available spot. At the beginning of the simulation, both lots are marked as
+free. When lot~1 fills and lot~2 begins to fill, generating implicit searches
+in lot~1, the availability probability of lot~1 drops. It bumps upward
+repeatedly due to departures from lot~1, but does not equal the probability
+for lot~2 again until the point when the departure rate for lot~1 climbs and
+both lots begin to empty.
+
+\subsubsection{Prediction accuracy}
+
+PocketParker exists to help drivers choose parking lots. Here, we examine our
+simulation results and determine whether we accomplish this goal. In our
+simulations, we inject regular queries to PocketParker asking it to order the
+two available lots. We categorize its response as either a correct
+prediction, a missed opportunity, or a waste of time. A missed opportunity
+represents a case where a more desirable lot was available than the one that
+PocketParker recommended. A waste of time indicates that PocketParker sent
+the user on a wild goose chase to a lot that did not in fact have a spot
+available.
 
 \subsection{Deployment}
 
 Finally, to establish the accuracy of PocketParker we performed a small-scale
-deployment on campus. Five participants installed our PocketParker
-application and generated 372 events over ten days---202 arrivals and 170
-departures. Of those events, 127 occurred near campus including false
-positives, and 56 were mapped into the three campus lots monitored by
-PocketParker. One of the participants lives quite close to campus, and many
-of the parking transitions that occurred at their house were included in the
-127~events near campus. The deployment period included several days when
-participants did not come to campus, and most parking events were generated
-by three participants who came to campus daily. Figure~\ref{fig-events} shows
-all of the events that occurred in the three lots we monitored. Our computer
-science department is labeled as the point of interest.
+deployment on our university campus. Five participants installed our
+PocketParker application and generated 372 events over ten days---202
+arrivals and 170 departures. Of those events, 127 occurred near campus
+including false positives, and 56 were mapped into the three campus lots
+monitored by PocketParker. One of the participants lives quite close to
+campus, and many of the parking transitions that occurred at their house were
+included in the 71~events near campus that did not map into known parking
+lots. The deployment period included several days when participants did not
+come to campus, and most parking events were generated by three participants
+who came to campus daily. Figure~\ref{fig-events} shows all of the events
+that occurred in the three lots we monitored. Our computer science department
+is labeled as the point of interest.
 
 Of the participants that installed PocketParker, none complained of excessive
 energy usage or battery life problems. While the PocketParker interface
