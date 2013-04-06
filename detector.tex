@@ -40,10 +40,10 @@ The application needs to determine the state of the user---whether walking,
 driving or idle---with a test that is simple, quick and reasonably effective
 for our goals. We rely solely on accelerometer data for an initial
 determination of state, as continuously cycled GPS sensing would consume too
-much power. An accelerometer :15 duty cycle, with :05 sensing and :10 idle
-periods, proved optimal. Five seconds was the minimum time necessary to
-detect sensing activity accurately. We also wanted to obtain two sensing
-periods within a short period of time for confirmation.
+much power. An accelerometer fifteen second duty cycle, with five second
+sensing and ten second idle periods, proved optimal. Five seconds was the
+minimum time necessary to detect sensing activity accurately. We also wanted
+to obtain two sensing periods within a short period of time for confirmation.
 
 The initial test for user state relies on the standard deviation of sampled
 accelerometer data within a sensing period.  Our application first feeds
@@ -107,9 +107,9 @@ with GPS data has thus proven better.  Going forward, maintaining a history
 of user pedestrian history should further minimization of bearing
 inaccuracies.
 
-A final potential issue with detecting a parking event is that of a driving
-period too short to for the program to detect that a user is driving in
-the first place.  This situation would occur when a user simply moved his
+A final potential issue with detecting a parking event is that of having a
+driving period too short to for the program to detect that a user is driving
+in the first place.  This situation would occur when a user simply moved his
 car to a new parking spot in an adjacent row.  This is not a worrisome
 problem, as it does not stem from rational user behavior.
 
@@ -124,7 +124,7 @@ accelerometer-determined driving sense data.
 Before reporting a departure event, our mobile program employs GPS sensing
 to confirm a driving state.  In theory, it is unnecessary to turn on the
 GPS system, as we have already previously determined the parking spot
-location when the user first parked.  We have still found doing so to
+location when the user first parked.  Nonetheless, we have found doing so to
 be beneficial to weed out remaining falsely detected driving states.  A null
 GPS reading implies that a user is still indoors, and that our initial
 inference of a driving state was misplaced.
@@ -135,7 +135,7 @@ against a known list of lot locations to filter false reporting.
 
 False detection of both arrival and departure events could be further
 minimized by using more accurate but computationally intense algorithms that
-employ machine learning or Fourier transforms.  We have deliberately shied
+implement machine learning or Fourier transforms.  We have deliberately shied
 away from this approach however, as the nature of our application dictates
 that the bulk of testing and filtering take place on an energy-constrained
 mobile platform.  A more promising approach to reducing false detection and
