@@ -1,12 +1,27 @@
 \section{Introduction}
 
+Drivers enter a parking lot without having any specific knowledge about the
+lot's availability. It is not uncommon to spend an additional, non-trivial
+amount of time looking for a parking spot. This searching time directly
+translates into wasted gas and carbon dioxide harmful for the environment.
+
+In order to assist drivers searching for a parking space, numerous systems and
+smartphone applications have been proposed~\cite{Mathur:2010:PDS, 5062057,
+Delot:2009:CRP, Chen:2012:COS, 4212497, open-spot}. 
+
 We present {\it PocketParker}, a system that predicts parking lot availability
 using smartphones. Unlike previous approaches, our goal is to not require any
 additional input or infrastructure other than the smartphones used by the users
-of PocketParker. We accomplish this goal by combining an activity detector
-deployed as a smartphone app that automatically extracts park and depark events
-and a prediction model that estimates parking lot availability based on observed
-events. 
+of PocketParker. In order to accomplish this goal, we address two main
+challenges. We accomplish this goal by combining an activity detector
+deployed as a smartphone appplication that automatically extracts park and
+depark events as well as a prediction model that estimates parking lot
+availability based on observed events. Our activity detector addresses the
+challenges of energy efficiency and accuracy of detection. Our prediction model
+addresses the challenges of estimating the number of {\it hidden drivers} who do
+not participate in PocketParker as well as arrival and departure rates of a
+parking lot. Using this information, PocketParker probabilistically estimates
+how many parking spots are available at any given time.
 
 \begin{figure}
 \centering
