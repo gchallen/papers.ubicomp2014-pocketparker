@@ -67,7 +67,7 @@ gait.  This test catches the large majority of parking events, where people
 park their cars and immediately begin walking.
 
 However, drivers occasionally sit in their cars for a period before leaving.
-To catch this type of parking event, the program employs a second test.
+To detect this type of parking event, the program employs a second test.
 Unfortunately, simply observing a state transition from driving to idle is
 not, by itself, reliably determinative.  While the walking and idle states
 exhibit consistent well defined patterns, the driving state presents with
@@ -84,11 +84,12 @@ occurrence and location of a detected parking event to the server via HTTP.
 The server verifies the reported event against a pre-compiled list of known
 parking lot locations before recording the event.  This final step eliminates
 events that are either incorrect---a user apparently parking in a field---or
-unwanted---a user genuninely parking but in a loading dock but not in a lot.
+unwanted---a user genuninely parking but in a loading area rather than in
+a parking lot.
 
 Occasionally, a user upon parking will walk for too brief a period before
 entering a building for the program to obtain a location from GPS.  In our
-target market of the SUNY Buffalo campus, this is an uncommon occurrence in
+target market of the [LOCAL] campus, this is an uncommon occurrence in
 practice, as there are few parking spots close enough to buildings to permit
 this situation to transpire.  A reliable watermark for this rarity is a
 steady driving state coupled with a most recent individual walking state and
