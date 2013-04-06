@@ -470,13 +470,21 @@ P(t, n)$. Figure~\ref{fig-example-search} shows how the distribution shifts
 towards zero and probability accumulates in the full state after an
 unsuccessful search.
 
+The search shift parameter determines how aggressively PocketParker will use
+information provided by implicit searches. We believe that this parameter
+should be scaled with $\frac{1}{f_m}$, inversely with the monitored fraction.
+In Section~\ref{sec-evaluation} we evaluate different values of $s$ and show
+how they affect PocketParker's estimates. \XXXnote{GWA: Need to actually do
+this.}
+
 \subsubsection{Weighted arrivals and departures}
 
-This is the most conservative approach representing what we definitely know.
-However, if we assume that our monitored drivers are representative of some
-larger number of hidden drivers, we may set $P_l(t, n < X) = 0$ for some $X$
-larger than 1 and scaling with $\frac{1}{f_m}$. For our experiments we choose
-the conservative approach and set $X = 1$. We discuss in
-Section~\ref{sec-future} how users may customize the behavior of PocketParker
-to be more or less aggressive in locating parking spots, trading off time for
-a potentially more desirable spot.
+Shifting the distribution one space on arrivals and departures is the most
+conservative approach representing what we definitely know: that one spot is
+available. However, if we assume that our monitored drivers are
+representative of some larger number of hidden drivers, we may set $P_l(t, n
+< X) = 0$ for some $X$ larger than 1 and scaling with $\frac{1}{f_m}$. For
+our experiments we choose the conservative approach and set $X = 1$. We
+discuss in Section~\ref{sec-future} how users may customize the behavior of
+PocketParker to be more or less aggressive in locating parking spots, trading
+off time for a potentially more desirable spot.
