@@ -9,7 +9,7 @@ from scipy import interpolate
 
 from matplotlib import rc
 
-rc('font',**{'family':'serif','serif':['Times'], 'size': 12})
+rc('font',**{'family':'serif','serif':['Times'], 'size': 8})
 rc('text', usetex=True)
 
 import matplotlib.pyplot as plt
@@ -51,7 +51,7 @@ for i, lot in enumerate(capacities.keys()):
   probabilities[lot].append((24., 1.))
   ax1 = plt.subplot(len(capacities.keys()), 1, (i + 1))
   ax1.plot(*zip(*(capacities[lot])), label='Lot %d Capacity' % (int(lot[-1])))
-  ax1.legend(loc='upper left', fontsize=8)
+  ax1.legend(loc='upper left', fontsize=6)
   if i == 0:
     ax1.set_title('\\textbf{Capacity v. Availability Probability: %s}' % (run_name,))
     ax1.tick_params(axis='x', which='both', bottom='off', top='off', labelbottom='off')
@@ -61,9 +61,9 @@ for i, lot in enumerate(capacities.keys()):
   ax2 = ax1.twinx()
   ax2.plot(*zip(*(probabilities[lot])), label='Available Probability', color='black')
   ax2.axis(ymin=-0.5, ymax=1.5)
-  ax2.legend(loc='upper right', fontsize=8)
+  ax2.legend(loc='upper right', fontsize=6)
   ax2.set_ylabel('\\textbf{Available Probability}')
   ticks = ax2.yaxis.get_ticklocs()
   ax2.yaxis.set_ticks([v for v in ticks if v >= 0. and v <= 1.])
+fig.set_size_inches(3.5, 3.5)
 plt.savefig(args.output,bbox_inches='tight')
-
