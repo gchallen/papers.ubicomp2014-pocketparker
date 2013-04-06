@@ -2,7 +2,7 @@ TARGETS = figures/capacity.pdf figures/lots.pdf figures/capacity_experiment.pdf
 TARGETS += runs/fastfill_10_10.data runs/slowfill_10_10.data runs/multifill_10_10.data runs/highchurn_10_10.data runs/lowchurn_10_10.data
 TARGETS += runs/fastfill_10_20.data runs/fastfill_10_50.data runs/fastfill_10_100.data
 TARGETS += runs/fastfill_01_10.data runs/fastfill_05_10.data runs/fastfill_20_10.data runs/fastfill_50_10.data
-TARGETS += figures/tracking_fastfill.pdf
+TARGETS += figures/tracking_fastfill.pdf figures/accuracy_table.tex
 
 all: $(TARGETS)
 
@@ -53,6 +53,9 @@ runs/fastfill_50_10.data: simulator.py estimator.py lib.py lots/fastfill.xml
 
 figures/tracking_fastfill.pdf: tracking.py runs/fastfill_10_10.data
 	./$< $@ runs/fastfill_10_10.data
+
+figures/accuracy_table.tex: accuracy.py 
+	./$< runs/* > $@
 
 clean:
 	@rm -f $(TARGETS)

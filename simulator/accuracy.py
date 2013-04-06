@@ -98,7 +98,7 @@ print r"""\begin{table}[t]
 \multicolumn{1}{c}{\normalsize{\textbf{$f_m$ Error}}} & 
 \multicolumn{1}{c}{\normalsize{\textbf{Correct (\%)}}} & 
 \multicolumn{1}{c}{\normalsize{\textbf{Missed (\%)}}} & 
-\multicolumn{1}{c}{\normalsize{\textbf{Waste (\%)}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{Waste (\%)}}}\\ \toprule
 """
 
 for run_name in sorted(table_lines.keys()):
@@ -107,7 +107,7 @@ for run_name in sorted(table_lines.keys()):
   for monitored in sorted(table_lines[run_name]):
     for error in sorted(table_lines[run_name][monitored]):
       total, correct, missed, wasted = table_lines[run_name][monitored][error]
-      print r"""%.2f & %.2f & %.1f & %.1f & %.1f""" % (monitored,
+      print r"""%.2f & %.2f & %.1f & %.1f & %.1f \\""" % (monitored,
                                                        error,
                                                        (float(correct) / total) * 100.,
                                                        (float(missed) / total) * 100.,
