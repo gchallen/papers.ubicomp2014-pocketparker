@@ -28,7 +28,7 @@ lot_counts = {}
 time, max_time = 0., 0.
 
 for lot in lots.lots:
-  lot_counts[lot.name] = [(0., 0)]
+  lot_counts[lot.name] = [(0., lot.count)]
 for line in sys.stdin:
   e = Event.loads(line.strip(), lots)
   if e == None or not e.parked:

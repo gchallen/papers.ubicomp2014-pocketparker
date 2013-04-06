@@ -9,7 +9,7 @@ from scipy import interpolate
 
 from matplotlib import rc
 
-rc('font',**{'family':'serif','serif':['Times'], 'size': 12})
+rc('font',**{'family':'serif','serif':['Times'], 'size': 10})
 rc('text', usetex=True)
 
 import matplotlib.pyplot as plt
@@ -19,7 +19,6 @@ parser = argparse.ArgumentParser(description='Simulate lots.')
 parser.add_argument('output', type=str, default=None, help='Output file.')
 parser.add_argument('lots', type=str, nargs='+', help='Lots to test in order.')
 parser.add_argument('--count', type=int, default=10, help='Times to repeat each test.')
-parser.add_argument('--output', type=str, default=None, help='Output file.')
 parser.add_argument('--verbose', action='store_true', default=False, help='enable verbose output')
 parser.add_argument('--capacity', type=int, default=200,
                     help='Lot capacity. Should match lot description.')
@@ -46,13 +45,13 @@ for index, lot in enumerate(args.lots):
         lot_results[name][monitored_fraction].append((abs(float(result) - (monitored_fraction * args.capacity)) / (monitored_fraction * args.capacity)) * 100.)
   ax = plt.subplot(1, len(args.lots), (index + 1))
   ax.set_title("\\textbf{%s}" % (full_name,))
-  for lot in lot_results.keys():
+  for lot in sorted(lot_results.keys()):
     X, Y, Yerr = [], [], []
     for monitored_fraction in sorted(lot_results[lot].keys()):
       X.append(monitored_fraction)
       Y.append(numpy.mean(lot_results[lot][monitored_fraction]))
       Yerr.append(numpy.std(lot_results[lot][monitored_fraction]))
-    ax.errorbar(X, Y, yerr=Yerr, label='Lot %d' % (int(lot[-1])))
+    ax.errorbar(X, Y, xerr=Yerr, label='Lot %d' % (int(lot[-1])))
   if index == 0:
     ax.legend(loc='upper right', fontsize=8)
     ax.set_ylabel("\\textbf{Estimate Error}")

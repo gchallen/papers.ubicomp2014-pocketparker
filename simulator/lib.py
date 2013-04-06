@@ -303,7 +303,7 @@ class Estimation(object):
   
   def to_xml(self):
     element = etree.Element("estimation")
-    for key in ['error', 'interval', 'seed', 'search']:
+    for key in ['error', 'interval', 'seed', 'search', 'monitored']:
       element.set(key, str(getattr(self, key)))
     return element
 
