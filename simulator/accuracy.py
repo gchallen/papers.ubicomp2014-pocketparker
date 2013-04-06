@@ -16,7 +16,6 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
 parser = argparse.ArgumentParser(description='Simulate lots.')
-parser.add_argument('output', type=str, default=None, help='Output file.')
 parser.add_argument('runs', type=str, nargs='+', help='Runs to use.')
 parser.add_argument('--tie', type=float, default=0.01, help='Lot tie threshold. Default 0.01.')
 parser.add_argument('--verbose', action='store_true', default=False, help='enable verbose output')
