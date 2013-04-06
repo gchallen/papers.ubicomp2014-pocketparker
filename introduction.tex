@@ -10,12 +10,12 @@ In order to assist drivers searching for a parking space, numerous smartphone
 applications are developed and available in the online application stores such
 as Google Play Store and App Store. Although many drivers find these smartphone
 applications useful, these applications either do not provide real-time parking
-lot availability or just displays publicly-accessible availability information.
+lot availability or just display publicly-accessible availability information.
 
 To overcome this limitation, a few academic systems have been
 proposed~\cite{4212497, Chen:2012:COS, Delot:2009:CRP, 5062057,
-Mathur:2010:PDS}. However, these systems make a variety of assumptions that
-prevent them from being immediately deployable. Typical assumptions include the
+Mathur:2010:PDS}. However, these systems make various assumptions that prevent
+them from being immediately deployable. Typical assumptions include the
 availability of additional infrastructure~\cite{5062057}, additional equipment
 deployed on vehicles~\cite{Mathur:2010:PDS}, the presence of a vehicular
 network~\cite{Delot:2009:CRP, Mathur:2010:PDS, 4212497}, and manual inputs from
@@ -47,15 +47,26 @@ departure rates for a parking lot and adjusts the availability probability
 accordingly.
 
 To validate the effectiveness of PocketParker, we evaluate each of our
-techniques in a setting best suited for the technique. We evaluate our parking
-event detector in a controlled environment with eight volunteers participating
-in ten parking scenarios. We design a simulator to evaluate our parking
-availability estimator, which gives us the flexibility to experiment with a
-variety of parameters and parking lot types. Finally, we evaluate the overall
-effectiveness of PocketParker by deploying it on five smartphones used by our
-participants over ten days. To compare our data to ground truth, we deploy four
-cameras that monitor four parking lots over two weeks. We hand-code one day's
-worth of images for two parking lots to measure the true availability.
+techniques in a setting best suited for assessing the technique. We evaluate
+our parking event detector in a controlled environment with eight volunteers
+participating in ten parking scenarios. We design a simulator to evaluate our
+parking availability estimator, which gives us the flexibility to experiment
+with a variety of parameters and parking lot types. Finally, we evaluate the
+overall effectiveness of PocketParker by deploying it with five smartphones used
+by our participants over ten days. To obtain ground truth, we deploy four
+cameras that monitor four parking lots over two weeks. We inspect and hand-code
+one day's worth of images for two parking lots to measure their true
+availability. Altogether, our results show the efficiency and accuracy of
+PocketParker.
+
+The rest of the paper is organized as follows. Section~\ref{sec-related}
+discusses previous work related to PocketParker and puts our techniques in
+context. Section~\ref{sec-detector} describes our parking event detector.
+Section~\ref{sec-model} discusses the details of our prediction model that
+estimates parking lot availability. Section~\ref{sec-evaluation} presents our
+evaluation results in three settings, a controlled environment, a simulated
+environment, and a real deployment. Finally, Section~\ref{sec-future} discusses
+our future work and Section~\ref{sec-conclusions} concludes the paper.
 
 \begin{figure}
 \centering
