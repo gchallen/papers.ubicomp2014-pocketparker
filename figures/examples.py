@@ -5,7 +5,7 @@ import matplotlib.mlab as mlab
 from matplotlib import rc
 from scipy import misc
 
-rc('font',**{'family':'serif','serif':['Times'], 'size': 16})
+rc('font',**{'family':'serif','serif':['Times'], 'size': 9})
 rc('text', usetex=True)
 
 import matplotlib.pyplot as plt
@@ -50,6 +50,7 @@ cs, ps = to_array(probs)
 ax1.plot(cs, ps, label="Before", color='blue')
 ax1.fill_between(cs, ps, 0, color='blue')
 ax1.legend(loc='upper right')
+ax1.tick_params(axis='x', which='both', bottom='off', top='off', labelbottom='off')
 
 for count, prob in probs.items():
   if count < args.shift:
@@ -72,6 +73,7 @@ ax2.legend(loc='upper right')
 ax2.set_ylabel("\\textbf{Probability}")
 ax2.set_xlabel("\\textbf{Available Spots}")
 
+fig.set_size_inches(3., 2.)
 plt.savefig('arrival.pdf',bbox_inches='tight')
 
 ##
@@ -90,6 +92,7 @@ cs, ps = to_array(probs)
 ax1.plot(cs, ps, label="Before", color='blue')
 ax1.fill_between(cs, ps, 0, color='blue')
 ax1.legend(loc='upper right')
+ax1.tick_params(axis='x', which='both', bottom='off', top='off', labelbottom='off')
 
 for x in numpy.arange(args.capacity, -1, -1):
   if x  < args.shift:
@@ -106,6 +109,7 @@ ax2.legend(loc='upper right')
 
 ax2.set_xlabel("\\textbf{Available Spots}")
 
+fig.set_size_inches(3., 2.)
 plt.savefig('departure.pdf', bbox_inches='tight')
 
 ##
@@ -125,6 +129,7 @@ ax1.plot(cs, ps, label="Before", color='blue')
 ax1.fill_between(cs, ps, 0, color='blue')
 ax1.legend(loc='upper right')
 ax1.axis(ymin=0, ymax=0.1)
+ax1.tick_params(axis='x', which='both', bottom='off', top='off', labelbottom='off')
 
 probs[0] = sum([prob for count, prob in probs.items() if count < args.search])
 
@@ -144,4 +149,5 @@ ax2.axis(ymin=0, ymax=0.1)
 
 ax2.set_xlabel("\\textbf{Available Spots}")
 
+fig.set_size_inches(3., 2.)
 plt.savefig('search.pdf', bbox_inches='tight')
