@@ -15,9 +15,11 @@ PocketParker is efficiency and accurate.
 
 \begin{figure}
 \centering
-\includegraphics[width=\columnwidth]{./figures/Energy_accuracy.pdf}
+\includegraphics[width=3.325in]{./figures/Energy_accuracy.pdf}
 
-\caption{\textbf{Power usage vs. detector accuracy.} \XXXnote{GWA: TODO.}}
+\caption{\textbf{Power usage vs. detector accuracy.} Energy usage by
+PocketParker is low at all duty cycles, so we chose an aggresive duty cycle
+in order to improve detection accuracy.}
 
 \label{fig-energy}
 \end{figure}
@@ -48,27 +50,61 @@ provided.
 Figure~\ref{fig-energy} displays the tradeoff between energy usage and
 detection accuracy as a function of the PocketParker duty cycle. Here we
 combine an active period of 5~s with a inactive period of variable length,
-between 10~and~60~s, for an overall duty cycle between 0.6 and 0.07. Our
+between 5~and~55~s, for an overall duty cycle between 0.5 and 0.06. Our
 simulator uses energy numbers used by the Android Fuel Guage application
 along with the acceloremeter duty cycles and number of GPS locations
-requested to estimate average power consumption. This graph measures the
-accuracy of detected events in terms of distance from the actual location of
-the event labelled by the participant. As we expect, longer duty cycles
-consume less energy but produce longer detection latencies which translate
-into higher distances from the event location. Note also that the departure
-(depark) events have higher location error than the parking events, simply
-because after departing users are driving and therefore traveling more
-quickly.
+requested including false positives to estimate average power consumption.
+This graph measures the accuracy of detected events in terms of distance from
+the actual location of the event labelled by the participant
+
+As we expect, longer duty cycles consume less energy but produce longer
+detection latencies which translate into higher distances from the event
+location. Note also that the departure events have higher location error than
+the parking events, simply because after departing users are driving and
+therefore traveling more rapidly. Overall power usage by PocketParker is low,
+under 10~mW at all duty cycles. Because PocketParker's ability to map parking
+events into lots is affected by the detection distance accuracy, we chose a
+relatively-aggresive total period of 15~s for a $\frac{1}{3}$ duty cycle.
+This allows PocketParker to determine location to within 25~m for parking
+events and 80~m for departures. Power consumption at this duty cycle is 8~mW,
+representing 4.2\% of a the capacity of a 1500~mAh battery discharged over
+24~hours if used continuously.
 
 \subsection{Simulation Results}
 \label{subsec-simulator}
+
+To experiment with PocketParker in a more controlled setting, we implemented
+a parking lot simulator in Python. Our simulator allows us to simulate any
+number of parking lots associated with any number of points of interest with
+varying desirability levels. For simplicity during our evaluation, we
+simulate two lots 1~and~2 with lot~1 filling before lot~2, although lot
+choice by simulated drivers is probabilistic. Particularly for evaluating our
+monitored fraction estimation we are interested in lots that fill and empty
+in various ways. We use five types of lots described by
+Figure~\ref{fig-lotsdescription}:
+
+\begin{itemize}
+
+\item \textbf{Fast Fill} and \textbf{Slow Fill} fill once per day quickly or
+slowly, like a lot associated with a place of work.
+
+\item \textbf{High Churn} starts with lot~1 full and experiences continuously
+high arrival and departures rates, like an airport parking lot.
+
+\item \textbf{Low Churn} represents underutilized lots that never completely
+fill, with lot~2 almost completely unused.
+
+\item \textbf{Multiple Fill} represents a lot that rapidly fills and empties
+repeatedly during each day, perhaps like a campus lot or movie theater.
+
+\end{itemize}
 
 \begin{figure*}
 \centering
 \includegraphics[width=\textwidth]{./simulator/figures/lots.pdf}
 
-\caption{\textbf{Description of each type of lot simulated.} \XXXnote{GWA:
-TODO.}}
+\caption{\textbf{Description of each type of lot simulated.} Five different
+lots with different behaviors were used during simulations.}
 
 \label{fig-lotsdescription}
 \end{figure*}
@@ -84,7 +120,7 @@ TODO.}}
 
 \begin{figure}
 \centering
-\includegraphics[width=3.0in]{./simulator/figures/tracking_fastfill.pdf}
+\includegraphics[width=3.325in]{./simulator/figures/tracking_fastfill.pdf}
 
 \caption{\textbf{Availability probabilities tracking lot capacity.} \XXXnote{GWA: TODO.}}
 
@@ -124,7 +160,7 @@ ten-day deployment.} 56~events are shown in three monitored lots.}
 
 \begin{figure}
 \centering
-\includegraphics[width=\columnwidth]{./figures/Camera_setting.pdf}
+\includegraphics[width=3.0in]{./figures/Camera_setting.pdf}
 
 \caption{\textbf{Monitoring cameras.} A view of one of the monitored parking
 lots is shown.}
