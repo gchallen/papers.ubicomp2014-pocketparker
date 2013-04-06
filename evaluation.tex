@@ -3,15 +3,8 @@
 
 \XXXnote{GWA: TODO: Integrate.}
 
-\begin{figure}
-\centering
-\includegraphics[width=\columnwidth]{./figures/Camera_setting.pdf}
 
-\caption{\textbf{Monitoring cameras.} A view of one of the monitored parking
-lots is shown.}
-
-\label{fig-camera}
-\end{figure}
+\subsection{Detector Experiment}
 
 \begin{figure}
 \centering
@@ -21,6 +14,8 @@ lots is shown.}
 
 \label{fig-energy}
 \end{figure}
+
+\input{./figures/experiment_table/table.tex}
 
 To furnish further ground truth, we conducted a structured experiment on March
 17th. Eight volunteers participated, including seven men and one woman, seven 
@@ -35,17 +30,8 @@ for a total of slightly under an hour total for the entire experiment.
 The experiment permitted us to obtain sensing data from a cross section of
 people posessed of varying body morphologies and different habits of driving
 cars and handling mobile devices.
-\input{./figures/experiment_table/table.tex}
 
-\begin{figure*}
-\centering
-\includegraphics[width=\textwidth,height=2in]{./figures/detectedEventsOnMap.pdf}
-
-\caption{\textbf{Map showing all events detected by PocketParker during our
-deployment.} \XXXnote{GWA: TODO.}}
-
-\label{fig-energy}
-\end{figure*}
+\subsection{Simulation Results}
 
 \begin{figure*}
 \centering
@@ -63,6 +49,37 @@ TODO.}}
 
 \caption{\textbf{Errors in capacity estimation.} \XXXnote{GWA: TODO.}}
 
-\label{fig-lotsdescription}
+\label{fig-capacityerrors}
 \end{figure*}
 
+\begin{figure}
+\centering
+\includegraphics[width=3.0in]{./simulator/figures/tracking_fastfill.pdf}
+
+\caption{\textbf{Availability probabilities tracking lot capacity.} \XXXnote{GWA: TODO.}}
+
+\label{fig-trackingexample}
+\end{figure}
+
+
+\subsection{Deployment}
+
+\begin{figure*}
+\centering
+\includegraphics[width=\textwidth,height=2in]{./figures/detectedEventsOnMap.pdf}
+
+\caption{\textbf{Map showing all events detected by PocketParker during our
+deployment.} \XXXnote{GWA: TODO.}}
+
+\label{fig-energy}
+\end{figure*}
+
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth]{./figures/Camera_setting.pdf}
+
+\caption{\textbf{Monitoring cameras.} A view of one of the monitored parking
+lots is shown.}
+
+\label{fig-camera}
+\end{figure}
