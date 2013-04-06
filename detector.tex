@@ -105,18 +105,36 @@ problem, as it does not stem from rational user behavior.
 
 We employ user state transitions to detect parking departure events in a 
 manner similar to that used to detect parking arrivals.  Our program
-reports a departure event when the user steady state is walking but the
-two most recent individual states are driving.  The constraint of two
-consecutive driving states rather than one proved necessary to minimize
+tentatively detects a departure event when the user steady state is walking
+but the two most recent individual states are driving.  The constraint of
+two consecutive driving states rather than one proved necessary to minimize
 spurious detection of driving due to the relatively variable nature of
-driving sense data.  As with reporting parking arrival events, the
-application reports parking departure back to the HTTP server.
+accelerometer-determined driving sense data.
 
-At this stage, it is in theory unnecessary to switch on GPS sensing, as
-we have already previously determined the parking spot location when the
-user originally arrived.  We have still found it beneficial to do so,
-however, to weed out remaining falsely detected driving states.  A null
+Before reporting a departure event, our mobile program employs GPS sensing
+to confirm a driving state.  In theory, it is unnecessary to turn on the
+GPS system, as we have already previously determined the parking spot
+location when the user first parked.  We have still found doing so to
+be beneficial to weed out remaining falsely detected driving states.  A null
 GPS reading implies that a user is still indoors, and that our initial
 inference of a driving state was misplaced.
+
+The application reports a confirmed parking departure events to the
+HTTP server.  As with arrival events, departure event locations are matched
+against a known list of lot locations to filter false reporting.
+
+False detection of both arrival and departure events could be further
+minimized by using more accurate but computationally intense algorithms that
+employ machine learning or Fourier transforms.  We have deliberately shied
+away from this approach however, as the nature of our application dictates
+that the bulk of testing and filtering take place on an energy-constrained
+mobile platform.  A more promising approach to reducing false detection and
+a subject for further research would be to employ additional location
+services.
+
+
+
+
+
 
 
