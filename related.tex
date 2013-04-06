@@ -36,19 +36,24 @@ and an ultrasonic range finder that scan the surrounding areas and detect
 empty street parking spots. Compared to ParkNet, our approach relies only on
 smartphones and does not require any additional input.
 
-A few systems have been proposed to assist parking via vehicular ad-hoc
-networks or crowdsourcing. Delot et al.~\cite{Delot:2009:CRP} propose a parking
-lot reservation system in a vehicular network. Chen et al.~\cite{Chen:2012:COS}
-propose a crowdsourcing approach that asks participants to report the parking
-availability of their surrounding areas. Caliskan et al.~\cite{4212497} propose
-an availability prediction model based on information exchanged by vehicles in a
-vehicular ad-hoc network. Their approach assumes that, for each parking lot,
-vehicles that drive by the parking lot receive the parking lot information such
-as capacity, occupancy, arrival rate, and departure rate. Since
-the propagation delay in a vehicular network makes this information stale, a
-prediction model is used to estimate current availability. In contrast to our
-work, their approach assumes that each parking lot accurately measures the
-necessary information.
+A few systems have been proposed to assist parking via vehicular ad-hoc networks
+or crowdsourcing. SPARK~\cite{5062057} employs extra roadside infrastructure
+that monitors parking lots and communicates with vehicles. Delot et
+al.~\cite{Delot:2009:CRP} propose a parking lot reservation system in a
+vehicular network. Chen et al.~\cite{Chen:2012:COS} propose a crowdsourcing
+approach that asks participants to report the parking availability of their
+surrounding areas. Caliskan et al.~\cite{4212497} propose an availability
+prediction model based on information exchanged by vehicles in a vehicular
+ad-hoc network. Their approach assumes that, for each parking lot, vehicles that
+drive by the parking lot receive the parking lot information such as capacity,
+occupancy, arrival rate, and departure rate. Since the propagation delay in a
+vehicular network makes this information stale, a prediction model is used to
+estimate current availability. In contrast to our work, their approach assumes
+that each parking lot accurately measures the necessary information.
+
+Google has operated a service called Open Spot for roughly two years but has
+terminated it in 2012~\cite{open-spot}. It was a crowdsourcing
+approach that relied on reports from users on free parking spots.
 
 \subsection{Tracking-Related Projects}
 
@@ -76,12 +81,13 @@ if so, which bus it is.
 Other systems have used smartphone sensors to enable a variety of tracking
 tasks. VTrack~\cite{Thiagarajan:2009:VAE} is a traffic monitoring system that
 combines readings from multiple sensors for travel time estimation.
-Nericell~\cite{Mohan:2008:NRM} uses multiple sensors to monitor road and
-traffic conditions in an urban setting. Balan et al.~\cite{Balan:2011:RTI} uses
-GPS devices deployed in taxi cabs to estimate taxi fare and trip duration.
-StarTrack~\cite{Ananthanarayanan:2009:SFE, Haridasan:2010:SNG} provides general
-abstractions for appliations that need tracking functionalities such as
-recording, comparing, and querying tracks.
+Nericell~\cite{Mohan:2008:NRM} uses multiple sensors to monitor road and traffic
+conditions in an urban setting. P$^{2}$~\cite{Eriksson:2008:PPU} uses vibration
+and GPS sensors to monitor road surface conditions. Balan et
+al.~\cite{Balan:2011:RTI} uses GPS devices deployed in taxi cabs to estimate
+taxi fare and trip duration. StarTrack~\cite{Ananthanarayanan:2009:SFE,
+Haridasan:2010:SNG} provides general abstractions for appliations that need
+tracking functionalities such as recording, comparing, and querying tracks.
 SignalGuru~\cite{Koukoumidis:2011:SLM} uses smartphones with cameras mounted in
 vehicles to learn traffic signal schedule patterns, so drivers can adjust their
 speed.
