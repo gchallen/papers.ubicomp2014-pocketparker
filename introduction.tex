@@ -7,10 +7,10 @@ searching time not only translates into frustration but also wastes energy and
 produces carbon dioxide harmful for the environment.
 
 In order to assist drivers searching for a parking space, numerous smartphone
-applications are developed and available in the online application stores.
-Although many drivers find these smartphone applications useful, these
-applications either do not provide real-time parking lot availability or
-just displays publicly-accessible availability information. 
+applications are developed and available in the online application stores such
+as Google Play Store and App Store. Although many drivers find these smartphone
+applications useful, these applications either do not provide real-time parking
+lot availability or just displays publicly-accessible availability information.
 
 To overcome this limitation, a few academic systems have been
 proposed~\cite{4212497, Chen:2012:COS, Delot:2009:CRP, 5062057,
@@ -27,21 +27,35 @@ additional input or infrastructure other than the smartphones used by the users
 of PocketParker. More specifically, we only require our users to download a
 smartphone application that runs in the background and detects parking related
 events. Using this information, we construct a prediction model that estimates
-the availability of a parking lot and respond to availability queries in our
-backend server. This simple operational requirement gives PocketParker the
-advantage of being easily deployable.
+the availability of a parking lot in our backend server. This simple operational
+requirement gives PocketParker the advantage of being easily deployable. In
+general, we consider our approach to be an example of a special type of
+crowdsourcing that does not require any manual user input. We term {\it
+pocketsourcing} to refer to this type of crowdsourcing.
 
-This goal accompanies two technical challenges. The first challenge is detecting
-parking related events accurately while minimizing energy consumption, and the
-second challenge is accurately predicting parking lot availability in the
-presence of {\it hidden drivers} who do not use our application. We address the
-first challenge by designing a simple, yet effective event detector; our event
-detector mainly relies on the accelerometer on a smartphone to detect park and
-depark events, which is more energy-efficient than GPS. Our prediction model
-addresses the challenges of estimating the number of {\it hidden drivers} who do
-not participate in PocketParker as well as arrival and departure rates of a
-parking lot. Using this information, PocketParker probabilistically estimates
-how many parking spots are available at any given time.
+Our goal of pocketsourcing accompanies two technical challenges. The first
+challenge is detecting parking related events accurately while minimizing energy
+consumption; the second challenge is accurately predicting parking lot
+availability in the presence of {\it hidden drivers} who do not use our
+application. We address the first challenge by designing a simple, yet effective
+event detector; our event detector mainly relies on the accelerometer on a
+smartphone to detect park and depark events, which is more energy-efficient than
+GPS. We address the second challenge by designing an availability estimator that
+probabilistically predicts the availability of a parking lot based on the events
+reported by our event detector; our prediction model estimates arrival and
+departure rates for a parking lot and adjusts the availability probability
+accordingly.
+
+To validate the effectiveness of PocketParker, we evaluate each of our
+techniques in a setting best suited for the technique. We evaluate our parking
+event detector in a controlled environment with eight volunteers participating
+in ten parking scenarios. We design a simulator to evaluate our parking
+availability estimator, which gives us the flexibility to experiment with a
+variety of parameters and parking lot types. Finally, we evaluate the overall
+effectiveness of PocketParker by deploying it on five smartphones used by our
+participants over ten days. To compare our data to ground truth, we deploy four
+cameras that monitor four parking lots over two weeks. We hand-code one day's
+worth of images for two parking lots to measure the true availability.
 
 \begin{figure}
 \centering
