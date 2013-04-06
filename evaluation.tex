@@ -73,6 +73,32 @@ representing 4.2\% of a the capacity of a 1500~mAh battery discharged over
 \subsection{Simulation Results}
 \label{subsec-simulator}
 
+To experiment with PocketParker in a more controlled setting, we implemented
+a parking lot simulator in Python. Our simulator allows us to simulate any
+number of parking lots associated with any number of points of interest with
+varying desirability levels. For simplicity during our evaluation, we
+simulate two lots 1~and~2 with lot~1 filling before lot~2, although lot
+choice by simulated drivers is probabilistic. Particularly for evaluating our
+monitored fraction estimation we are interested in lots that fill and empty
+in various ways. We use five types of lots described by
+Figure~\ref{fig-lotsdescription}:
+
+\begin{itemize}
+
+\item \textbf{Fast Fill} and \textbf{Slow Fill} fill once per day quickly or
+slowly, like a lot associated with a place of work.
+
+\item \textbf{High Churn} starts with lot~1 full and experiences continuously
+high arrival and departures rates, like an airport parking lot.
+
+\item \textbf{Low Churn} represents underutilized lots that never completely
+fill, with lot~2 almost completely unused.
+
+\item \textbf{Multiple Fill} represents a lot that rapidly fills and empties
+repeatedly during each day, perhaps like a campus lot or movie theater.
+
+\end{itemize}
+
 \begin{figure*}
 \centering
 \includegraphics[width=\textwidth]{./simulator/figures/lots.pdf}
