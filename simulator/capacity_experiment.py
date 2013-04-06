@@ -9,7 +9,7 @@ from scipy import interpolate
 
 from matplotlib import rc
 
-rc('font',**{'family':'serif','serif':['Times'], 'size': 12})
+rc('font',**{'family':'serif','serif':['Times'], 'size': 10})
 rc('text', usetex=True)
 
 import matplotlib.pyplot as plt
