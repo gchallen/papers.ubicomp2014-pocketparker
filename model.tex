@@ -76,7 +76,7 @@ PocketParker, which we call \textit{hidden drivers}. Accomplishing this
 requires that we estimate the ratio between monitored and hidden drivers.
 We describe an approach to doing so in Section~\ref{subsec-hidden}. With an
 estimate of the hidden driver ratio, we can scale the search and departure
-rates according, described in Section~\ref{subsec-rates}. Finally,
+rates accordingly, described in Section~\ref{subsec-rates}. Finally,
 Section~\ref{subsec-online} describes how we integrate all of this
 information to update our availability estimate as arrival and departure
 events are received.
@@ -365,7 +365,7 @@ n)$, we want to estimate the probabilities $P(t_1, n)$ at a later time $t_1$.
 PocketParker uses recently-observed arrivals, implicit searches and
 departures to estimate the search $s_{est}$ and departure $d_{est}$ rates the
 lot experienced between $t_0$ and $t_1$. Currently, we use arrival and
-departuress over a fixed-size window of time $I$ before $t_0$, $s_{obs}(t_0 -
+departures over a fixed-size window of time $I$ before $t_0$, $s_{obs}(t_0 -
 I, t_0)$ scaled to the length of the interval $t_0$ to $t_1$:
 %
 \[s_{est}(t_0, t_1) = s_{obs}(t_0 - I, t_0) \cdot \frac{(t_1 - t_0)}{I} \]

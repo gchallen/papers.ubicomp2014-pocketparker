@@ -61,7 +61,7 @@ detection accuracy as a function of the PocketParker duty cycle. Here we
 combine an active period of 5s with a inactive period of variable length,
 between 5~and~55s, for an overall duty cycle between 0.5 and 0.06. Our
 simulator uses energy numbers used by the Android Fuel Guage application
-along with the acceloremeter duty cycles and number of GPS locations
+along with the accelerometer duty cycles and number of GPS locations
 requested including false positives to estimate average power consumption.
 This graph measures the accuracy of detected events in terms of distance from
 the actual location of the event labeled by the participant.
@@ -181,7 +181,7 @@ instantaneous probability that the lot is available to 1.0.}
 At this point we take a closer look at the way that PocketParker adjusts lot
 availability probabilities. Keep in mind that the absolute value of the
 availability probability for each lot may not meaningful. Instead,
-PocketParker uses the probabilites to order available lots in response to
+PocketParker uses the probabilities to order available lots in response to
 queries. We examine its accuracy at performing this essential task next.
 However, it is illustrative to examine the probabilities PocketParker
 maintains and observe how they vary as the number of available spots in the
