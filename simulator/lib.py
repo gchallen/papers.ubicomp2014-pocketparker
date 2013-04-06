@@ -55,7 +55,7 @@ class Event(object):
           s += " []"
     return s
  
-  load_pattern = re.compile(r"(?P<time>[0-9\.]+)\s+(?P<type>\w)\s+(?P<lot>\S+)(?P<search>.*)")
+  load_pattern = re.compile(r"(?P<time>[0-9\.]+)\s+(?P<type>(?:A|D))\s+(?P<lot>\S+)(?P<search>.*)")
   search_pattern = re.compile(r"S \[(?P<search>.*?)\]")
   @classmethod
   def loads(self, s, lots):
@@ -388,6 +388,7 @@ class Estimation(object):
 
         self.fold_boundaries(lot)
         from_time += self.interval
+        self.estimate_lots()
     
     num_searches = int(round(self.num_searches(lot) * \
                              ((self.time[lot] - from_time) / self.interval),0))
@@ -483,7 +484,7 @@ class Estimation(object):
         self.count_estimate[event.lot][i] = 0.
       self.renormalize(event.lot, test=False)
     elif event.is_departure:
-      for i in numpy.arange(lot.capacity, (self.departure_blank - 1), -1):
+      for i in numpy.arange(event.lot.capacity, (self.departure_blank - 1), -1):
         self.count_estimate[event.lot][i] = self.count_estimate[event.lot][i - (self.departure_blank)]
       for i in numpy.arange(0, self.departure_blank + 1, 1):
         self.count_estimate[event.lot][i] = 0.
