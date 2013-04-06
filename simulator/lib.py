@@ -1,4 +1,4 @@
-import copy, random, re, json, numpy, copy
+import copy, random, re, json, numpy, copy, StringIO
 
 from scipy import misc
 from lxml import etree
@@ -14,7 +14,7 @@ def get_parameters(stream):
   for line in stream:
     line = line.strip()
     if line == XML_SEPARATOR:
-      return etree.fromstring(xml)
+      return etree.parse(StringIO.StringIO(xml))
     xml += line
 
 class Event(object):
@@ -55,7 +55,7 @@ class Event(object):
           s += " []"
     return s
  
-  load_pattern = re.compile(r"(?P<time>[0-9\.]+)\s+(?P<type>\w)\s+(?P<lot>\S+)(?P<search>.*)")
+  load_pattern = re.compile(r"(?P<time>[0-9\.]+)\s+(?P<type>(?:A|D))\s+(?P<lot>\S+)(?P<search>.*)")
   search_pattern = re.compile(r"S \[(?P<search>.*?)\]")
   @classmethod
   def loads(self, s, lots):
@@ -112,6 +112,9 @@ class Lots(object):
       return [lot for lot in self.lots if lot.name == name][0]
     except IndexError:
       return None
+
+  def print_capacity(self, time):
+    return "\n".join(["%.2f C %s %d" % (time, lot.name, lot.count,) for lot in self.lots])
 
 class Lot(object):
   def __init__(self, element, verbose=False):
@@ -257,21 +260,22 @@ class Simulation(object):
     return random.random() <= self.search
 
   def to_xml(self):
-    return etree.Element("simulation", monitored=str(self.monitored))
+    element = etree.Element("simulation")
+    for key in ['monitored', 'search', 'arrival', 'departure', 'seed']:
+      element.set(key, str(getattr(self, key)))
+    return element
 
 class Estimation(object):
   def __init__(self, args, tree):
     for key,type in {'error': float, 'interval': convert_time,
-                     'seed': seed_random, 'search': float}.items():
+                     'seed': seed_random, 'search': float,
+                     'arrival_blank': int, 'departure_blank': int,
+                     'search_blank': int, 'granularity': float}.items():
       setattr(self, key, type(getattr(args, key)))
     self.monitored = (1. + random.uniform(-1. * self.error, 1. * self.error)) \
         * float(tree.xpath("//simulation")[0].get("monitored"))
     self.lots = Lots(tree)
 
-    self.arrival_blank = 1
-    self.search_blank = 10
-    self.departure_blank = 1
-   
     self.time = {}
     self.search_window = {}
     self.departure_window = {}
@@ -296,6 +300,12 @@ class Estimation(object):
           count += 1
           self.count_estimate[lot][i] = 1. / (lot.capacity + 1)
     self.test_counts()
+  
+  def to_xml(self):
+    element = etree.Element("estimation")
+    for key in ['error', 'interval', 'seed', 'search']:
+      element.set(key, str(getattr(self, key)))
+    return element
 
   def is_available(self, lot):
     return sum([count for i, count in self.count_estimate[lot].items() if i > 0])
@@ -385,6 +395,7 @@ class Estimation(object):
 
         self.fold_boundaries(lot)
         from_time += self.interval
+        self.estimate_lot(lot, time=from_time)
     
     num_searches = int(round(self.num_searches(lot) * \
                              ((self.time[lot] - from_time) / self.interval),0))
@@ -436,11 +447,18 @@ class Estimation(object):
 
     self.fold_boundaries(lot)
 
-  def estimate_lots(self, lots=None):
-    if lots == None:
-      lots = self.lots.lots
-    for lot in lots:
-      print lot.name, self.time[lot], self.is_available(lot)
+  def estimate_lot(self, lot, time=None):
+    if time == None:
+      time = self.time[lot]
+    print "P", lot.name, time, self.is_available(lot),
+    step = int(lot.capacity * self.granularity)
+    probs = []
+    for limit in numpy.arange(0, lot.capacity, step):
+      probs.append([limit, sum([prob for count, prob in self.count_estimate[lot].items() if count >= limit and count < limit + step])])
+    probs[-1][1] += self.count_estimate[lot][lot.capacity]
+    for count, prob in probs:
+      print "%d:%.3f" % (count, prob),
+    print
 
   def implicit_searches(self, event):
     better_lots = [lot for lot in self.lots.lots if lot != event.lot and lot.poi == event.lot.poi and lot.order < event.lot.order]
@@ -480,7 +498,7 @@ class Estimation(object):
         self.count_estimate[event.lot][i] = 0.
       self.renormalize(event.lot, test=False)
     elif event.is_departure:
-      for i in numpy.arange(lot.capacity, (self.departure_blank - 1), -1):
+      for i in numpy.arange(event.lot.capacity, (self.departure_blank - 1), -1):
         self.count_estimate[event.lot][i] = self.count_estimate[event.lot][i - (self.departure_blank)]
       for i in numpy.arange(0, self.departure_blank + 1, 1):
         self.count_estimate[event.lot][i] = 0.
@@ -488,4 +506,4 @@ class Estimation(object):
     self.fold_boundaries(event.lot)
     
     print event
-    self.estimate_lots()
+    self.estimate_lot(event.lot)
