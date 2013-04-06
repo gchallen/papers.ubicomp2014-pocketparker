@@ -35,18 +35,25 @@ accurately measured at the parking lot.
 \subsection{Transportation-Related Projects}
 
 A few previous systems have been proposed to enable automatic transit
-tracking~\cite{Biagioni:2011:EAT, Thiagarajan:2010:CTT, Zhou:2012:LWP}. Although
-the goals are different, both automatic transit tracking and parking lot
-availability monitoring employ an overlapping set of techniques such as activity
-detection and location tracking. Thiagarajan et al.~\cite{Thiagarajan:2010:CTT}
-propose an automatic, real-time transit tracking approach that uses smartphones
-of public transit users as data sources. They propose an algorithm to
-detect when a user is traveling in a vehicle and an algorithm to detect if a
-vehicle is a public transit vehicle. EasyTracker~\cite{Biagioni:2011:EAT} uses
-smartphones deployed in buses to enable automatic transit tracking. The goal of
-EasyTracker is to require no other input. The system combines a few mechanisms
-to realize this goal such as route extraction, stop extraction, and arrival time
-prediction.
+tracking~\cite{Biagioni:2011:EAT, Thiagarajan:2010:CTT, Zhou:2012:LWP}. From the
+high-level point of view, some of the techniques such as activity detection and
+location tracking that transit tracking requires bear similarities to
+our techniques; however, these techniques need to be optimized and tailored
+towards different scenarios, hence the specifics vary widely.
+
+Thiagarajan et al.~\cite{Thiagarajan:2010:CTT} propose an automatic, real-time
+transit tracking approach that uses smartphones of public transit riders as data
+sources. They propose an algorithm to detect when a user is traveling in a
+vehicle and an algorithm to detect if a vehicle is a public transit vehicle.
+EasyTracker~\cite{Biagioni:2011:EAT} uses smartphones deployed in buses to
+enable automatic transit tracking. The goal of EasyTracker is to require no
+other input than what is from the deployed smartphones. The system combines a
+few mechanisms to realize this goal such as route extraction, stop extraction,
+and arrival time prediction. Zhou et al.~\cite{Zhou:2012:LWP} propose a bus
+arrival time estimation system based on smartphones used by public transit
+riders. They combine multiple sources such as accelerometer data, audio, and
+cell tower signals to detect if a rider is in a public transit vehicle and if
+so, which bus it is.
 
 VTrack~\cite{Thiagarajan:2009:VAE}
 
