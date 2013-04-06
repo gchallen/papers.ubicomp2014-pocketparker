@@ -90,7 +90,7 @@ for run in args.runs:
 
   table_lines[run_name][monitored][error] = (total, correct, missed, wasted)
 
-print r"""\begin{table}[t]
+print r"""\begin{table}[t!]
 \begin{threeparttable}
 {\small
 \begin{tabularx}{\columnwidth}{Xrrrrr}
