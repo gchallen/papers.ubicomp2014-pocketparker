@@ -37,12 +37,13 @@ driving, or idle.
 
 The application needs to determine the state of the user---whether walking,
 driving or idle---with a test that is simple, quick and reasonably effective
-for our goals. We rely solely on accelerometer data for an initial
+for our goals.  We rely solely on accelerometer data for an initial
 determination of state, as continuously cycled GPS sensing would consume too
-much power. An accelerometer $\frac{2}{3}$ duty cycle, with 5~s sensing and
-10~s idle periods, proved optimal. Five seconds was the minimum time
-necessary to detect sensing activity accurately~\cite{FIXME}. We also wanted
-to obtain two sensing periods within a short period of time for confirmation.
+much power. An accelerometer $\frac{2}{3}$ duty cycle, \XXXnote{CWN - should
+this be 1/3??} with 5~s sensing and 10~s idle periods, proved optimal. Five
+seconds was the minimum time necessary to detect sensing activity
+accurately~\cite{FIXME}. We also wanted to obtain two sensing periods within
+a short period of time for confirmation.
 
 The initial test for user state relies on the standard deviation of sampled
 accelerometer data within a sensing period. Our application first feeds
@@ -55,15 +56,15 @@ reference. From this history, we define the user steady state to be whatever
 state, if any, constitutes a majority of the individual states observed
 within the last nine periods.
 
-We use user state, in turn, to determine parking arrival events. The program
+We use user state, in turn, to deduce parking arrival events. The program
 determines that a parking event has transpired upon fulfillment of several
 conditions. The user steady state must be driving and the last two
 individual states observed must be walking. Alternatively, if only the last
-one state observed is walking, an additional test is imposed: the number of
-waveform peaks $2\;\frac{m}{s^2}$ above the mean observed accelerometer value
-must exceed a minimum threshhold corresponding to that produced by a slow
-human gait. This test catches the large majority of parking events, where
-people park their cars and immediately begin walking.
+one state observed is walking, the program imposes an additional constraint:
+the number of waveform peaks $2\;\frac{m}{s^2}$ above the mean observed
+accelerometer value must exceed a minimum threshhold corresponding to that
+produced by a slow human gait. This test catches the large majority of parking
+events, where people park their cars and immediately begin walking.
 
 However, drivers occasionally sit in their cars for a period before leaving.
 To detect this type of parking event, the program employs a second test.
@@ -88,11 +89,11 @@ parking lot.
 
 Occasionally, a user upon parking will walk for too brief a period before
 entering a building for the program to obtain a location from GPS. On our
-campus, as there are few parking spots close enough to buildings to produce
-this behavior. A reliable watermark for this rarity is a steady driving state
-coupled with a most recent individual walking state and a null GPS reading.
-In this situation, we employ alternative Android location providers such as
-WiFi to determine user locale.
+campus, this is an uncommon occurrence in practice, as there are few parking
+spots close enough to buildings to produce this behavior. A reliable watermark
+for this rarity is a steady driving state coupled with a most recent
+individual walking state and a null GPS reading. In this situation, we employ
+alternative Android location providers such as WiFi to determine user locale.
 
 While walking, users may change their bearing. If this occurs before the
 first GPS fix, the app may not be able to calculate the original location of
@@ -121,25 +122,32 @@ accelerometer-determined driving sense data.
 Before reporting a departure event, our mobile program employs GPS sensing to
 confirm a driving state. In theory, it is unnecessary to turn on the GPS
 system, as we have already previously determined the parking spot location
-when the user first parked. We have still found doing so to be beneficial to
-weed out remaining falsely detected driving states. A null GPS reading
+when the user first parked. Rather, we have still found doing so aids
+ferreting out remaining falsely detected driving states. A null GPS reading
 implies that a user is still indoors, and that our initial inference of a
 driving state was misplaced.
 
-The application reports a confirmed parking departure events to the HTTP
+The application reports confirmed parking departure events to the HTTP
 server. As with arrival events, departure event locations are matched against
 a known list of lot locations to filter false reporting.
 
+\subsection{Filtering False Positives}
+
+Incorrect parking arrival and departure events stem in part from the
+underlying issue of false detection of the individual driving state. The
+relatively variable accelerlometer data patterns produced when driving---and
+that are easily counterfeited by intermittent walking---complicate reliable
+detection of this state. Happily, a sizable bulk of these false positives
+consists of the case where users eventually simply walk indoors. Mandating
+that a vaild GPS reading accompanies a preliminary driving state
+determination allieviates this subset, albeit at the price of additional
+power consumed.
+
 False detection of both arrival and departure events could be further
 minimized by using more accurate but computationally intense algorithms that
-employ machine learning or Fourier transforms. We have deliberately shied
-away from this approach however, as the nature of our application dictates
-that the bulk of testing and filtering take place on an energy-constrained
-mobile platform. A more promising approach to reducing false detection and a
-subject for further research would be to employ additional location services.
-
-\subsection{Filtering False Positives}
-\label{subsec-false}
-
-\XXXnote{GWA: Carl, say something about the process here. Maybe the text
-already includes it but let's be specific.}
+implement machine learning or Fourier transforms. We have deliberately shied
+away from such an approach however, as the inherent nature of our application
+dictates that the bulk of testing and filtering take place on an
+energy-constrained mobile platform. A more promising approach to reducing
+false detection and a subject for further research would be to employ
+additional location services.
