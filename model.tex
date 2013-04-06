@@ -70,7 +70,10 @@ drivers, explained in more detail in Section~\ref{subsec-hidden}.
 Recall from Section~\ref{FIXME} that our false-positive filter uses knowledge
 of the location of lots obtained from the OpenStreetMap database. We estimate
 the capacity of each lot by converting the location of the lot into a size
-and dividing by the size of an average parking spot. \XXXnote{Anand and
+and dividing by the size of an average parking spot. We use the parking lot design
+standards provided in \cite{parkingdesign} to estimate the number of spots after estimating the 
+area of the parking lot from which we detect an park event. \ref{} Shows our estimation accuracy 
+for five lots in our campus.XXXnote \XXXnote{Anand and
 Taeyeon, add capacity estimation stuff here. What is the size of the spot
 that we determined? Reference for that. Estimates for each of the lots we
 used and comparison with the true counts.} Errors in the capacity can result
