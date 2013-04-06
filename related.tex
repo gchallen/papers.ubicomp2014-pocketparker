@@ -3,8 +3,23 @@
 
 \subsection{Activity Detection}
 
-\cite{Constandache:2010:DYS}
-\cite{Keally:2011:PTP}
+Activity detection is a basic primitive that enables other higher-level
+functionalities. Several previous systems~\cite{Constandache:2010:DYS,
+Keally:2011:PTP, Reddy:2010:UMP, Yang:2011:DDP, Wang:2009:FEE} have proposed
+techniques for activity detection, solving the main challenges of energy
+efficiency and accuracy. Yang et al.~\cite{Yang:2011:DDP} develops an algorithm
+that detects if a driver is using a phone by sending high-frequency beeps via
+in-car speakers. EEMSS~\cite{Wang:2009:FEE} is a system that provides continuous
+identification of general human states such as walking, driving, and being in an
+office. Reddy et al.~\cite{Reddy:2010:UMP} propose a classification approach
+that determines human movement states such as walking, running, biking, or
+vehicle-traveling. Constandache et al.~\cite{Constandache:2010:DYS} use 
+smartphone accelerometers to determine users' walking trails. Keally et
+al.~\cite{Keally:2011:PTP} use a combination of on-body wireless sensors and
+smartphones to classify human states. Our system can benefit from these
+techniques for detecting parking-related events; however, we find it sufficient
+to use a simple detector since it avoids the complexity of detecting events
+unrelated to parking.
 
 \subsection{Parking Lot Monitoring}
 
@@ -15,25 +30,25 @@ Some applications also report parking lot availability based on publicly
 available information. To the best of our knowledge, there is no application
 that automatically infers parking lot availability by monitoring drivers.
 
-Most close to our work is ParkNet~\cite{Mathur:2010:PDS}, a system that
+Perhaps closest to our work is ParkNet~\cite{Mathur:2010:PDS}, a system that
 estimates street parking availability. ParkNet uses vehicles equipped with GPS
-and a ultrasonic range finder that scan the surrounding areas and detect
+and an ultrasonic range finder that scan the surrounding areas and detect
 empty street parking spots. Compared to ParkNet, our approach relies only on
-smartphones and do not require any additional input.
+smartphones and does not require any additional input.
 
 A few systems have been proposed to assist parking via vehicular ad-hoc
 networks or crowdsourcing. Delot et al.~\cite{Delot:2009:CRP} propose a parking
 lot reservation system in a vehicular network. Chen et al.~\cite{Chen:2012:COS}
-proposes a crowdsourcing approach that asks participants to report their
-surrounding's parking availability. Caliskan et al.~\cite{4212497} propose an
-availability prediction model based on information exchanged by vehicles in a
+propose a crowdsourcing approach that asks participants to report the parking
+availability of their surrounding areas. Caliskan et al.~\cite{4212497} propose
+an availability prediction model based on information exchanged by vehicles in a
 vehicular ad-hoc network. Their approach assumes that, for each parking lot,
 vehicles that drive by the parking lot receive the parking lot information such
-as the capacity, the occupancy, the arrival rate, and the departure rate. Since
+as capacity, occupancy, arrival rate, and departure rate. Since
 the propagation delay in a vehicular network makes this information stale, a
-prediction model is used to estimate current availability. In contrast to
-our work, this approach assumes that the necessary information is initially
-accurately measured at each parking lot.
+prediction model is used to estimate current availability. In contrast to our
+work, their approach assumes that each parking lot accurately measures the
+necessary information.
 
 \subsection{Transportation-Related Projects}
 
@@ -50,13 +65,13 @@ sources. They propose an algorithm to detect when a user is traveling in a
 vehicle and an algorithm to detect if a vehicle is a public transit vehicle.
 EasyTracker~\cite{Biagioni:2011:EAT} uses smartphones deployed in buses to
 enable automatic transit tracking. The goal of EasyTracker is to require no
-other input than what is from the deployed smartphones. The system combines a
-few mechanisms to realize this goal such as route extraction, stop extraction,
-and arrival time prediction. Zhou et al.~\cite{Zhou:2012:LWP} propose a bus
-arrival time estimation system based on smartphones used by public transit
-riders. They combine multiple sources such as accelerometer data, audio, and
-cell tower signals to detect if a rider is in a public transit vehicle and if
-so, which bus it is.
+other input than what is available from the deployed smartphones. The system
+combines a few mechanisms to realize this goal such as route extraction, stop
+extraction, and arrival time prediction. Zhou et al.~\cite{Zhou:2012:LWP}
+propose a bus arrival time estimation system based on smartphones used by public
+transit riders. They combine multiple sources such as accelerometer data, audio,
+and cell tower signals to detect if a rider is in a public transit vehicle and
+if so, which bus it is.
 
 Other systems have used smartphone sensors to enable a variety of tracking
 tasks. VTrack~\cite{Thiagarajan:2009:VAE} is a traffic monitoring system that
