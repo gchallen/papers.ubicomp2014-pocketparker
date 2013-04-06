@@ -395,7 +395,7 @@ class Estimation(object):
 
         self.fold_boundaries(lot)
         from_time += self.interval
-        self.estimate_lot(lot, time=from_time)
+        self.estimate_lot(lot, time=from_time, special=True)
     
     num_searches = int(round(self.num_searches(lot) * \
                              ((self.time[lot] - from_time) / self.interval),0))
@@ -447,10 +447,14 @@ class Estimation(object):
 
     self.fold_boundaries(lot)
 
-  def estimate_lot(self, lot, time=None):
+  def estimate_lot(self, lot, time=None, special=False):
     if time == None:
       time = self.time[lot]
-    print "P", lot.name, time, self.is_available(lot),
+    if special:
+      start = "P*"
+    else:
+      start = "P"
+    print time, start, lot.name, self.is_available(lot),
     step = int(lot.capacity * self.granularity)
     probs = []
     for limit in numpy.arange(0, lot.capacity, step):
