@@ -20,5 +20,6 @@ estimation = Estimation(args, tree)
 for line in sys.stdin:
   e = Event.loads(line.strip(), estimation.lots)
   if e == None:
+    print line.strip()
     continue
   estimation.event(e)

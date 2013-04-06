@@ -388,7 +388,8 @@ class Estimation(object):
 
         self.fold_boundaries(lot)
         from_time += self.interval
-        self.estimate_lots()
+        print "HERE"
+        self.estimate_lot(lot, time=from_time)
     
     num_searches = int(round(self.num_searches(lot) * \
                              ((self.time[lot] - from_time) / self.interval),0))
@@ -440,11 +441,10 @@ class Estimation(object):
 
     self.fold_boundaries(lot)
 
-  def estimate_lots(self, lots=None):
-    if lots == None:
-      lots = self.lots.lots
-    for lot in lots:
-      print lot.name, self.time[lot], self.is_available(lot)
+  def estimate_lot(self, lot, time=None):
+    if time == None:
+      time = self.time[lot]
+    print "P", lot.name, time, self.is_available(lot)
 
   def implicit_searches(self, event):
     better_lots = [lot for lot in self.lots.lots if lot != event.lot and lot.poi == event.lot.poi and lot.order < event.lot.order]
@@ -492,4 +492,4 @@ class Estimation(object):
     self.fold_boundaries(event.lot)
     
     print event
-    self.estimate_lots()
+    self.estimate_lot(event.lot)
