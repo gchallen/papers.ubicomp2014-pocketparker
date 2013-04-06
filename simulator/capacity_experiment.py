@@ -45,7 +45,7 @@ for index, lot in enumerate(args.lots):
         lot_results[name][monitored_fraction].append((abs(float(result) - (monitored_fraction * args.capacity)) / (monitored_fraction * args.capacity)) * 100.)
   ax = plt.subplot(1, len(args.lots), (index + 1))
   ax.set_title("\\textbf{%s}" % (full_name,))
-  for lot in lot_results.keys():
+  for lot in sorted(lot_results.keys()):
     X, Y, Yerr = [], [], []
     for monitored_fraction in sorted(lot_results[lot].keys()):
       X.append(monitored_fraction)
