@@ -1,19 +1,25 @@
 \section{Introduction}
 
 Drivers enter a parking lot without having any specific knowledge about the
-lot's availability. It is not uncommon for any driver to spend an additional,
-non-trivial amount of time looking for a parking spot. This searching time
-directly translates into not only frustration but also wasted energy and carbon
-dioxide harmful for the environment.
+lot's availability. Especially in urban areas, it is common for any driver to
+spend an additional, non-trivial amount of time looking for a parking spot. This
+searching time not only translates into frustration but also wastes energy and
+produces carbon dioxide harmful for the environment.
 
 In order to assist drivers searching for a parking space, numerous smartphone
-applications are available in the online application stores and many academic
-systems have been proposed~\cite{4212497, Chen:2012:COS, Delot:2009:CRP,
-5062057, Mathur:2010:PDS}. These applications and systems make a variety of
-assumptions such as availability of additional infrastructure~\cite{5062057},
-additional equipment deployed on vehicles monitored~\cite{Mathur:2010:PDS},
-vehicular networks~\cite{Delot:2009:CRP, Mathur:2010:PDS, 4212497}, and manual
-user reports~\cite{Chen:2012:COS}.
+applications are developed and available in the online application stores.
+Although many drivers find these smartphone applications useful, these
+applications either do not provide real-time parking lot availability or
+just displays publicly-accessible availability information. 
+
+To overcome this limitation, a few academic systems have been
+proposed~\cite{4212497, Chen:2012:COS, Delot:2009:CRP, 5062057,
+Mathur:2010:PDS}. However, these systems make a variety of assumptions that
+prevent them from being immediately deployable. Typical assumptions include, the
+availability of additional infrastructure~\cite{5062057}, additional equipment
+deployed on vehicles~\cite{Mathur:2010:PDS}, the presence of a vehicular
+network~\cite{Delot:2009:CRP, Mathur:2010:PDS, 4212497}, and manual inputs from
+users~\cite{Chen:2012:COS}.
 
 We present {\it PocketParker}, a system that predicts parking lot availability
 using smartphones. Unlike previous approaches, our goal is to not require any
