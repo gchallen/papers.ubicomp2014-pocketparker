@@ -113,6 +113,9 @@ class Lots(object):
     except IndexError:
       return None
 
+  def print_capacity(self, time):
+    return "\n".join(["%.2f C %s %d" % (time, lot.name, lot.count,) for lot in self.lots])
+
 class Lot(object):
   def __init__(self, element, verbose=False):
     for key,type in {'name' : str, 'capacity': int,
