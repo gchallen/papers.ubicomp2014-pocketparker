@@ -328,9 +328,7 @@ class Estimation(object):
         self.count_estimate[lot][i] = 0
     self.renormalize(lot)
 
-  def renormalize(self, lot, test=True):
-    if test:
-      self.test_counts([lot])
+  def renormalize(self, lot):
     lot_sum = sum(self.count_estimate[lot].values())
     for i in self.lot_range[lot]:
       self.count_estimate[lot][i] /= lot_sum
@@ -490,7 +488,7 @@ class Estimation(object):
         for i in numpy.arange(1, search.lot.capacity + 1, 1):
           self.count_estimate[search.lot][i] = self.count_estimate[search.lot][i + self.search_blank]
         self.count_estimate[search.lot][0] += sum([prob for count, prob in self.count_estimate[search.lot].items() if count > 0 and count < self.search_blank])
-        self.renormalize(search.lot, test=False)
+        self.renormalize(search.lot)
 
     elif event.is_departure:
       self.departure_window[event.lot].append(event)
@@ -500,13 +498,13 @@ class Estimation(object):
     if event.is_arrival:
       for i in numpy.arange(0, self.arrival_blank + 1, 1):
         self.count_estimate[event.lot][i] = 0.
-      self.renormalize(event.lot, test=False)
+      self.renormalize(event.lot)
     elif event.is_departure:
       for i in numpy.arange(event.lot.capacity, (self.departure_blank - 1), -1):
         self.count_estimate[event.lot][i] = self.count_estimate[event.lot][i - (self.departure_blank)]
       for i in numpy.arange(0, self.departure_blank + 1, 1):
         self.count_estimate[event.lot][i] = 0.
-      self.renormalize(event.lot, test=False)
+      self.renormalize(event.lot)
     self.fold_boundaries(event.lot)
     
     print event
