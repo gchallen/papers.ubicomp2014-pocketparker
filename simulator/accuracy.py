@@ -91,4 +91,32 @@ for run in args.runs:
 
   table_lines[run_name][monitored][error] = (total, correct, missed, wasted)
 
-print table_lines
+print r"""\begin{table}[t]
+\begin{threeparttable}
+{\small
+\begin{tabularx}{\columnwidth}{XXXXX}
+\multicolumn{1}{c}{\normalsize{\textbf{$f_m$}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{$f_m$ Error}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{Correct (\%)}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{Missed (\%)}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{Waste (\%)}}} & 
+"""
+
+for run_name in sorted(table_lines.keys()):
+  print r"""\multicolumn{5}{c}{\normalsize{\textbf{%s}}} \\
+\midrule""" % (run_name,)
+  for monitored in sorted(table_lines[run_name]):
+    for error in sorted(table_lines[run_name][monitored]):
+      total, correct, missed, wasted = table_lines[run_name][monitored][error]
+      print r"""%.2f & %.2f & %.1f & %.1f & %.1f""" % (monitored,
+                                                       error,
+                                                       (float(correct) / total) * 100.,
+                                                       (float(missed) / total) * 100.,
+                                                       (float(wasted) / total) * 100.)
+
+print r"""\end{tabularx}
+}
+\caption{\textbf{Estimated capacity of parking lots using the parking design standard.}}
+\label{table-capacity}
+\end{threeparttable}
+\end{table}"""
