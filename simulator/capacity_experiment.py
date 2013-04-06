@@ -19,7 +19,6 @@ parser = argparse.ArgumentParser(description='Simulate lots.')
 parser.add_argument('output', type=str, default=None, help='Output file.')
 parser.add_argument('lots', type=str, nargs='+', help='Lots to test in order.')
 parser.add_argument('--count', type=int, default=10, help='Times to repeat each test.')
-parser.add_argument('--output', type=str, default=None, help='Output file.')
 parser.add_argument('--verbose', action='store_true', default=False, help='enable verbose output')
 parser.add_argument('--capacity', type=int, default=200,
                     help='Lot capacity. Should match lot description.')
