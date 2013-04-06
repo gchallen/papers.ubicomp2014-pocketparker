@@ -43,6 +43,5 @@ for count in range(args.repeat):
           print event
         elif event.is_departure and simulation.saw_departure():
           print event
-      if event.changed_lot:
-        print "%.2f %s" % (time, event.lot)
+      print lots.print_capacity(event.time)
     time += rate.length

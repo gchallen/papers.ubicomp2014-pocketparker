@@ -89,5 +89,5 @@ if args.output != None:
   for lot in lots.lots:
     lot_counts[lot.name] = [(t / 60. / 60. / 24., count) for t, count in lot_counts[lot.name]]
     ax.plot(*zip(*lot_counts[lot.name]), label="Lot %d" % (int(lot.name[-1]),))
-  ax.legend(fontsize=8)
+  ax.legend(fontsize=10)
   plt.savefig(args.output,bbox_inches='tight')
