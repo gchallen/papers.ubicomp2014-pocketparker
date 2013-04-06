@@ -5,7 +5,7 @@ import matplotlib.mlab as mlab
 from matplotlib import rc
 from scipy import misc
 
-rc('font',**{'family':'serif','serif':['Times'], 'size': 14})
+rc('font',**{'family':'serif','serif':['Times'], 'size': 16})
 rc('text', usetex=True)
 
 import matplotlib.pyplot as plt
@@ -69,6 +69,7 @@ ax2.plot(cs, ps, label="After", color='red')
 ax2.fill_between(cs, ps, 0, color='red')
 ax2.legend(loc='upper right')
 
+ax2.set_ylabel("\\textbf{Probability}")
 ax2.set_xlabel("\\textbf{Available Spots}")
 
 plt.savefig('arrival.pdf',bbox_inches='tight')
@@ -104,6 +105,7 @@ ax2.plot(cs, ps, label="After", color='red')
 ax2.fill_between(cs, ps, 0, color='red')
 ax2.legend(loc='upper right')
 
+ax2.set_ylabel("\\textbf{Probability}")
 ax2.set_xlabel("\\textbf{Available Spots}")
 
 plt.savefig('departure.pdf', bbox_inches='tight')
@@ -143,6 +145,7 @@ ax2.fill_between(cs, ps, 0, color='red')
 ax2.legend(loc='upper right')
 ax2.axis(ymin=0, ymax=0.1)
 
+ax2.set_ylabel("\\textbf{Probability}")
 ax2.set_xlabel("\\textbf{Available Spots}")
 
 plt.savefig('search.pdf', bbox_inches='tight')
