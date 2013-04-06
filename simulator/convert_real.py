@@ -26,18 +26,18 @@ for line in open(args.l1, 'r'):
   time, count, unused, unused = line.split()
   if not first:
     for time in numpy.arange(0, int(time), 600):
-      everything.append((time, "%.2f C P1 0" % (time,)))
+      everything.append((time, "%.2f C L1 0" % (time,)))
     first = True
-  everything.append((time, "%.2f C P1 %d" % (float(time), L1 - int(count))))
+  everything.append((time, "%.2f C L1 %d" % (float(time), L1 - int(count))))
 
 first = False
 for line in open(args.l2, 'r'):
   time, count, unused, unused = line.split()
   if not first:
     for time in numpy.arange(0, int(time), 600):
-      everything.append((time, "%.2f C P2 0" % (time,)))
+      everything.append((time, "%.2f C L2 0" % (time,)))
     first = True
-  everything.append((time, "%.2f C P2 %d" % (float(time), L1 - int(count))))
+  everything.append((time, "%.2f C L2 %d" % (float(time), L1 - int(count))))
 
 print """<root>
   <name value="Campus"/>
