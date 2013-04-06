@@ -7,7 +7,7 @@
 
 \caption{\textbf{Detection algorithm example.} \XXXnote{GWA: TODO.}}
 
-\label{fig-camera}
+\label{fig-detectionexample}
 \end{figure}
 
 The inputs to PocketParker's availability estimation algorithm are arrival
@@ -39,11 +39,11 @@ The application needs to determine the state of the user---whether walking,
 driving or idle---with a test that is simple, quick and reasonably effective
 for our goals.  We rely solely on accelerometer data for an initial
 determination of state, as continuously cycled GPS sensing would consume too
-much power. An accelerometer $\frac{2}{3}$ duty cycle, \XXXnote{CWN - should
-this be 1/3??} with 5~s sensing and 10~s idle periods, proved optimal. Five
-seconds was the minimum time necessary to detect sensing activity
-accurately~\cite{FIXME}. We also wanted to obtain two sensing periods within
-a short period of time for confirmation.
+much power. An accelerometer $\frac{1}{3}$ duty cycle, with 5~s sensing and
+10~s idle periods, proved optimal. Five seconds was the minimum time
+necessary to detect sensing activity accurately~\cite{FIXME}\XXXnote{GWA:
+Anand: Need this reference if you can find it.}. We also wanted to obtain two
+sensing periods within a short period of time for confirmation.
 
 The initial test for user state relies on the standard deviation of sampled
 accelerometer data within a sensing period. Our application first feeds
@@ -132,6 +132,7 @@ server. As with arrival events, departure event locations are matched against
 a known list of lot locations to filter false reporting.
 
 \subsection{Filtering False Positives}
+\label{subsec-false}
 
 Incorrect parking arrival and departure events stem in part from the
 underlying issue of false detection of the individual driving state. The
@@ -151,5 +152,3 @@ dictates that the bulk of testing and filtering take place on an
 energy-constrained mobile platform. A more promising approach to reducing
 false detection and a subject for further research would be to employ
 additional location services.
-
-
