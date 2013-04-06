@@ -130,26 +130,25 @@ The application reports confirmed parking departure events to the HTTP
 server. As with arrival events, departure event locations are matched against
 a known list of lot locations to filter false reporting.
 
-Such incorrect events stem in part from the underlying issue of false
-detection of the individual driving state.  The relatively variable
-accelerlometer data patterns produced when driving---and that are easily
-counterfeited by intermittent walking---complicate reliable detection of this
-state.  Happily, a sizable bulk of these false positives consists of the case
-where users eventually simply walk indoors.  Mandating that a vaild GPS
-reading accompanies a preliminary driving state determination allieviates this
-subset, albeit at the price of additional power consumed.
+\subsection{Filtering False Positives}
+
+Incorrect parking arrival and departure events stem in part from the
+underlying issue of false detection of the individual driving state. The
+relatively variable accelerlometer data patterns produced when driving---and
+that are easily counterfeited by intermittent walking---complicate reliable
+detection of this state. Happily, a sizable bulk of these false positives
+consists of the case where users eventually simply walk indoors. Mandating
+that a vaild GPS reading accompanies a preliminary driving state
+determination allieviates this subset, albeit at the price of additional
+power consumed.
 
 False detection of both arrival and departure events could be further
 minimized by using more accurate but computationally intense algorithms that
-implement machine learning or Fourier transforms.  We have deliberately shied
+implement machine learning or Fourier transforms. We have deliberately shied
 away from such an approach however, as the inherent nature of our application
 dictates that the bulk of testing and filtering take place on an
-energy-constrained mobile platform.  A more promising approach to reducing
+energy-constrained mobile platform. A more promising approach to reducing
 false detection and a subject for further research would be to employ
 additional location services.
 
 
-\subsection{Filtering False Positives}
-
-\XXXnote{GWA: Carl, say something about the process here. Maybe the text
-already includes it but let's be specific.}
