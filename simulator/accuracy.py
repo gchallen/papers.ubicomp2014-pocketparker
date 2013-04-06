@@ -16,7 +16,6 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
 parser = argparse.ArgumentParser(description='Simulate lots.')
-parser.add_argument('output', type=str, default=None, help='Output file.')
 parser.add_argument('runs', type=str, nargs='+', help='Runs to use.')
 parser.add_argument('--tie', type=float, default=0.01, help='Lot tie threshold. Default 0.01.')
 parser.add_argument('--verbose', action='store_true', default=False, help='enable verbose output')
@@ -91,4 +90,32 @@ for run in args.runs:
 
   table_lines[run_name][monitored][error] = (total, correct, missed, wasted)
 
-print table_lines
+print r"""\begin{table}[t]
+\begin{threeparttable}
+{\small
+\begin{tabularx}{\columnwidth}{XXXXX}
+\multicolumn{1}{c}{\normalsize{\textbf{$f_m$}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{$f_m$ Error}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{Correct (\%)}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{Missed (\%)}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{Waste (\%)}}}\\ \toprule
+"""
+
+for run_name in sorted(table_lines.keys()):
+  print r"""\multicolumn{5}{c}{\normalsize{\textbf{%s}}} \\
+\midrule""" % (run_name,)
+  for monitored in sorted(table_lines[run_name]):
+    for error in sorted(table_lines[run_name][monitored]):
+      total, correct, missed, wasted = table_lines[run_name][monitored][error]
+      print r"""%.2f & %.2f & %.1f & %.1f & %.1f \\""" % (monitored,
+                                                       error,
+                                                       (float(correct) / total) * 100.,
+                                                       (float(missed) / total) * 100.,
+                                                       (float(wasted) / total) * 100.)
+
+print r"""\end{tabularx}
+}
+\caption{\textbf{Estimated capacity of parking lots using the parking design standard.}}
+\label{table-capacity}
+\end{threeparttable}
+\end{table}"""

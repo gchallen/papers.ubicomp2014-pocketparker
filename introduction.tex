@@ -15,7 +15,7 @@ just displays publicly-accessible availability information.
 To overcome this limitation, a few academic systems have been
 proposed~\cite{4212497, Chen:2012:COS, Delot:2009:CRP, 5062057,
 Mathur:2010:PDS}. However, these systems make a variety of assumptions that
-prevent them from being immediately deployable. Typical assumptions include, the
+prevent them from being immediately deployable. Typical assumptions include the
 availability of additional infrastructure~\cite{5062057}, additional equipment
 deployed on vehicles~\cite{Mathur:2010:PDS}, the presence of a vehicular
 network~\cite{Delot:2009:CRP, Mathur:2010:PDS, 4212497}, and manual inputs from
@@ -24,12 +24,20 @@ users~\cite{Chen:2012:COS}.
 We present {\it PocketParker}, a system that predicts parking lot availability
 using smartphones. Unlike previous approaches, our goal is to not require any
 additional input or infrastructure other than the smartphones used by the users
-of PocketParker. In order to accomplish this goal, we address two main
-challenges. We accomplish this goal by combining an activity detector
-deployed as a smartphone appplication that automatically extracts park and
-depark events as well as a prediction model that estimates parking lot
-availability based on observed events. Our activity detector addresses the
-challenges of energy efficiency and accuracy of detection. Our prediction model
+of PocketParker. More specifically, we only require our users to download a
+smartphone application that runs in the background and detects parking related
+events. Using this information, we construct a prediction model that estimates
+the availability of a parking lot and respond to availability queries in our
+backend server. This simple operational requirement gives PocketParker the
+advantage of being easily deployable.
+
+This goal accompanies two technical challenges. The first challenge is detecting
+parking related events accurately while minimizing energy consumption, and the
+second challenge is accurately predicting parking lot availability in the
+presence of {\it hidden drivers} who do not use our application. We address the
+first challenge by designing a simple, yet effective event detector; our event
+detector mainly relies on the accelerometer on a smartphone to detect park and
+depark events, which is more energy-efficient than GPS. Our prediction model
 addresses the challenges of estimating the number of {\it hidden drivers} who do
 not participate in PocketParker as well as arrival and departure rates of a
 parking lot. Using this information, PocketParker probabilistically estimates
