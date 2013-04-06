@@ -46,6 +46,17 @@ reported by our event detector; our prediction model estimates arrival and
 departure rates for a parking lot and adjusts the availability probability
 accordingly.
 
+To validate the effectiveness of PocketParker, we evaluate each of our
+techniques in a setting best suited for the technique. We evaluate our parking
+event detector in a controlled environment with eight volunteers participating
+in ten parking scenarios. We design a simulator to evaluate our parking
+availability estimator, which gives us the flexibility to experiment with a
+variety of parameters and parking lot types. Finally, we evaluate the overall
+effectiveness of PocketParker by deploying it on five smartphones used by our
+participants over ten days. To compare our data to ground truth, we deploy four
+cameras that monitor four parking lots over two weeks. We hand-code one day's
+worth of images for two parking lots to measure the true availability.
+
 \begin{figure}
 \centering
 \includegraphics[width=\columnwidth]{./figures/blockdiagram.pdf}
