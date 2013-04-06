@@ -260,21 +260,22 @@ class Simulation(object):
     return random.random() <= self.search
 
   def to_xml(self):
-    return etree.Element("simulation", monitored=str(self.monitored))
+    element = etree.Element("simulation")
+    for key in ['monitored', 'search', 'arrival', 'departure', 'seed']:
+      element.set(key, str(getattr(self, key)))
+    return element
 
 class Estimation(object):
   def __init__(self, args, tree):
     for key,type in {'error': float, 'interval': convert_time,
-                     'seed': seed_random, 'search': float}.items():
+                     'seed': seed_random, 'search': float,
+                     'arrival_blank': int, 'departure_blank': int,
+                     'search_blank': int}.items():
       setattr(self, key, type(getattr(args, key)))
     self.monitored = (1. + random.uniform(-1. * self.error, 1. * self.error)) \
         * float(tree.xpath("//simulation")[0].get("monitored"))
     self.lots = Lots(tree)
 
-    self.arrival_blank = 1
-    self.search_blank = 10
-    self.departure_blank = 1
-   
     self.time = {}
     self.search_window = {}
     self.departure_window = {}
@@ -299,6 +300,12 @@ class Estimation(object):
           count += 1
           self.count_estimate[lot][i] = 1. / (lot.capacity + 1)
     self.test_counts()
+  
+  def to_xml(self):
+    element = etree.Element("estimation")
+    for key in ['error', 'interval', 'seed', 'search']:
+      element.set(key, str(getattr(self, key)))
+    return element
 
   def is_available(self, lot):
     return sum([count for i, count in self.count_estimate[lot].items() if i > 0])
@@ -388,7 +395,6 @@ class Estimation(object):
 
         self.fold_boundaries(lot)
         from_time += self.interval
-        print "HERE"
         self.estimate_lot(lot, time=from_time)
     
     num_searches = int(round(self.num_searches(lot) * \
