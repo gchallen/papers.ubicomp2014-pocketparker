@@ -1,4 +1,7 @@
-TARGETS = figures/capacity.pdf figures/lots.pdf figures/capacity_experiment.pdf runs/fastfill_10_10.data runs/slowfill_10_10.data runs/multifill_10_10.data runs/highchurn_10_10.data runs/lowchurn_10_10.data
+TARGETS = figures/capacity.pdf figures/lots.pdf figures/capacity_experiment.pdf
+TARGETS += runs/fastfill_10_10.data runs/slowfill_10_10.data runs/multifill_10_10.data runs/highchurn_10_10.data runs/lowchurn_10_10.data
+TARGETS += runs/fastfill_10_20.data runs/fastfill_10_50.data runs/fastfill_10_100.data
+TARGETS += runs/fastfill_01_10.data runs/fastfill_05_10.data runs/fastfill_20_10.data runs/fastfill_50_10.data
 
 all: $(TARGETS)
 
