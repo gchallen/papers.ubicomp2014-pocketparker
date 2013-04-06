@@ -80,7 +80,6 @@ fig = plt.figure()
 
 ax1 = plt.subplot(211)
 ax1.set_title("\\textbf{Effect of Departure}")
-ax1.set_ylabel("\\textbf{Probability}")
 
 probs = {}
 for x in numpy.arange(0, args.capacity + 1, 1):
@@ -105,7 +104,6 @@ ax2.plot(cs, ps, label="After", color='red')
 ax2.fill_between(cs, ps, 0, color='red')
 ax2.legend(loc='upper right')
 
-ax2.set_ylabel("\\textbf{Probability}")
 ax2.set_xlabel("\\textbf{Available Spots}")
 
 plt.savefig('departure.pdf', bbox_inches='tight')
@@ -116,7 +114,6 @@ fig = plt.figure()
 
 ax1 = plt.subplot(211)
 ax1.set_title("\\textbf{Effect of Search}")
-ax1.set_ylabel("\\textbf{Probability}")
 
 probs = {}
 for x in numpy.arange(0, args.capacity + 1, 1):
@@ -145,7 +142,6 @@ ax2.fill_between(cs, ps, 0, color='red')
 ax2.legend(loc='upper right')
 ax2.axis(ymin=0, ymax=0.1)
 
-ax2.set_ylabel("\\textbf{Probability}")
 ax2.set_xlabel("\\textbf{Available Spots}")
 
 plt.savefig('search.pdf', bbox_inches='tight')
