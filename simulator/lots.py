@@ -2,91 +2,94 @@
 
 import argparse, sys, scipy, numpy, copy
 
-import lib
-from lib import Lots, Event, get_parameters
+from lib import Simulation, Lots, Rate, Event, print_parameters, HOURS_TO_SECONDS
 from lxml import etree
-from scipy import interpolate
 
 from matplotlib import rc
 
-rc('font',**{'family':'serif','serif':['Times'], 'size': 14})
+rc('font',**{'family':'serif','serif':['Times'], 'size': 10})
 rc('text', usetex=True)
 
 import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser(description='Produce lot plots.')
-parser.add_argument('--output', type=str, default=None, help='Output file.')
+parser.add_argument('output', type=str, default=None, help='Output file.')
+parser.add_argument('lots', type=str, nargs='+', help='Lots to graph in order.')
+parser.add_argument('--seed', type=int, help='Random seed. Default 1.', default=1)
 parser.add_argument('--verbose', action='store_true', default=False, help='enable verbose output')
-parser.add_argument('--resample', type=int, default=60, help='Resample interval in sec. Default 60.')
 args = parser.parse_args()
 
-tree = get_parameters(sys.stdin)
-lots = Lots(tree)
+class FakeArgs(object):
+  def __init__(self, seed):
+    self.seed = seed
+    self.monitored = 1.
+    self.search = 0.
+    self.arrival = 1.
+    self.departure = 1.
 
-lot_counts = {}
-time, max_time = 0., 0.
+fig = plt.figure()
 
-for lot in lots.lots:
-  lot_counts[lot.name] = [(0., 0)]
-for line in sys.stdin:
-  e = Event.loads(line.strip(), lots)
-  if e == None or not e.parked:
-    continue
-  if e.time > max_time:
-    max_time = e.time
-  if e.is_arrival:
-    lot_counts[e.lot.name].append((e.time, lot_counts[e.lot.name][-1][1] + 1))
-  else:
-    lot_counts[e.lot.name].append((e.time, lot_counts[e.lot.name][-1][1] - 1))
+for i, lot in enumerate(args.lots):
 
-if args.verbose:
-  print >>sys.stderr, "Resampling counts"
+  fake_args = FakeArgs(args.seed)
+  simulation = Simulation(fake_args)
+  tree = etree.parse(lot)
+  name = tree.xpath("//name")[0].get('value')
+  lots = Lots(tree)
+  rates = Rate.from_tree(tree)
 
-resampled_counts = {}
-for lot, counts in lot_counts.items():
-  f = interpolate.interp1d([count[0] for count in counts],
-                           [count[1] for count in counts])
-  max_time = max([count[0] for count in counts])
-  resampled_counts[lot] = zip(numpy.arange(0., max_time - 1., args.resample),
-                              f(numpy.arange(0., max_time - 1., args.resample)))
-
-"""
-if args.verbose:
-  print >>sys.stderr, "Filtering counts"
-
-filtered_counts = {}
-filter_window = []
-for lot, counts in resampled_counts.items():
-  filtered_counts[lot] = []
-  for count in counts:
-    filter_window.append(count[1])
-    filter_window = filter_window[-1200:]
-    filtered_counts[lot].append((count[0], count[1] - (float(sum(filter_window)) / len(filter_window))))
-"""
-filtered_counts = copy.copy(resampled_counts)
-
-if args.verbose:
-  print >>sys.stderr, "Binning counts"
-
-binned_counts = {}
-for lot, counts in filtered_counts.items():
-  max_time = max([count[0] for count in counts])
-  binned_counts[lot] = []
-  for time in numpy.arange(0., max_time, 24. * 60. * 60.):
-    binned = [count[1] for count in counts if count[0] > time and count[0] < time + 24. * 60. * 60.]
-    binned_counts[lot].append(float(max(binned) - min(binned)))
-
-for lot, counts in binned_counts.items():
-  print "%s %.2f" % (lot, sum(counts) / len(counts))
-
-if args.output != None:
-  fig = plt.figure()
-  ax = fig.add_subplot(111)
-  plt.title("\\textbf{Monitored Capacity Estimation}")
-  ax.set_xlabel("\\textbf{Day}")
-  ax.set_ylabel("\\textbf{Running Count $a_l$}")
+  time = 0.
+  arrivals = []
+  departures = []
+  capacities = {}
   for lot in lots.lots:
-    lot_counts[lot.name] = [(t / 60. / 60. / 24., count) for t, count in lot_counts[lot.name]]
-    ax.plot(*zip(*lot_counts[lot.name]), label="Lot %d" % (int(lot.name[-1]),))
-  ax.legend(fontsize=10)
-  plt.savefig(args.output,bbox_inches='tight')
+    capacities[lot] = [(0., lot.count)]
+  for rate in rates:
+    arrivals.append((time / HOURS_TO_SECONDS, rate.arrival * HOURS_TO_SECONDS))
+    arrivals.append(((time + rate.length) / HOURS_TO_SECONDS, rate.arrival * HOURS_TO_SECONDS))
+    departures.append((time / HOURS_TO_SECONDS, -1 * rate.departure * HOURS_TO_SECONDS))
+    departures.append(((time + rate.length) / HOURS_TO_SECONDS, -1 * rate.departure * HOURS_TO_SECONDS))
+    for event in rate.events(time):
+      for lot in lots.lots:
+        capacities[lot].append((event.time / HOURS_TO_SECONDS, lot.count))
+      if event.is_arrival:
+        event = lots.park(event)
+      elif event.is_departure:
+        event = lots.leave(event)
+      else:
+        raise Exception("Problem with event type")
+      event.saw_search = simulation.saw_search()
+      if event.time < time:
+        raise Exception(event.time, time)
+      if event.parked and simulation.saw_driver():
+        if event.is_arrival and simulation.saw_arrival():
+          pass
+        elif event.is_departure and simulation.saw_departure():
+          pass
+    time += rate.length
+  ax1 = plt.subplot(2, len(args.lots), (i + 1))
+  ax1.set_title("\\textbf{%s}" % (name,))
+  for lot in lots.lots:
+    ax1.plot(*zip(*(capacities[lot])), label='Lot %d' % (int(lot.name[-1]),))
+  if i == 0:
+    ax1.set_ylabel("\\textbf{Capacity}")
+  ax1.axis(xmin=0, xmax=24, ymin=0, ymax=max([lot.capacity for lot in lots.lots]))
+  if i == 0:
+    ax1.legend(loc='upper right', fontsize=8)
+  ax2 = plt.subplot(2, len(args.lots), (i + len(args.lots) + 1))
+  ax2.plot(*zip(*arrivals), label='Arrival', color='blue')
+  ax2.fill_between(*zip(*arrivals), color='blue')
+  ax2.plot(*zip(*departures), label='Departure', color='green')
+  ax2.fill_between(*zip(*departures), color='green')
+  if i == 0:
+    ax2.set_ylabel("\\textbf{Rate}")
+  ax2.set_xlabel("\\textbf{Hour}")
+  ax2.axis(xmin=0, xmax=24,
+           ymin=min([rate for t, rate in departures]),
+           ymax=max([rate for t, rate in arrivals]))
+  if i == 0:
+    ax2.legend(loc='upper right', fontsize=8)
+
+fig.set_size_inches(9.,4.)
+fig.tight_layout()
+plt.savefig(args.output,bbox_inches='tight')
