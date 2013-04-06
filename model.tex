@@ -1,6 +1,3 @@
-\clearpage
-\newpage
-
 \section{Availability Estimation}
 \label{sec-model}
 
@@ -70,7 +67,10 @@ drivers, explained in more detail in Section~\ref{subsec-hidden}.
 Recall from Section~\ref{FIXME} that our false-positive filter uses knowledge
 of the location of lots obtained from the OpenStreetMap database. We estimate
 the capacity of each lot by converting the location of the lot into a size
-and dividing by the size of an average parking spot. \XXXnote{Anand and
+and dividing by the size of an average parking spot. We use the parking lot design
+standards provided in \cite{parkingdesign} to estimate the number of spots after estimating the 
+area of the parking lot from which we detect an park event. \ref{} Shows our estimation accuracy 
+for five lots in our campus.XXXnote \XXXnote{Anand and
 Taeyeon, add capacity estimation stuff here. What is the size of the spot
 that we determined? Reference for that. Estimates for each of the lots we
 used and comparison with the true counts.} Errors in the capacity can result
@@ -395,10 +395,11 @@ Its effect on $P_l$ will be to redistribute the probability mass more evenly
 across the entire interval from $0$ to $C$. Taken over many intervals, the
 probability of the lot having any number of spots available will equalize,
 which is what we would expect: after a long period without any information,
-we cannot make an accurate prediction of the state of the lot. Note also that
-the speed at which the probabilities are redistributed through rateless
-spreading is determined again by the monitored fraction. The fewer drivers we
-monitor, the more quickly we lose all memory of the state of the lot.
+all states become equally likely and we cannot make an accurate prediction of
+the state of the lot. Note also that the speed at which the probabilities are
+redistributed through rateless spreading is determined again by the monitored
+fraction. The fewer drivers we monitor, the more quickly we lose all memory
+of the state of the lot.
 
 \begin{figure*}
   \centering
@@ -429,9 +430,34 @@ monitor, the more quickly we lose all memory of the state of the lot.
 \subsection{Online Updates}
 \label{subsec-online}
 
-Each arrival and departure received represent strong positive information:
-moments when PocketParker knows either that a spot just existed (arrival) or
-now exists (departure). Unsuccessful searches, in contrast, represent weaker
-negative information, either because they may not have actually been observed
-by PocketParker (unannotated) or so may not have actually taken place, or
-because they may not have been thorough (annotated).
+Finally, we conclude by describing how PocketParker uses arrival to adjust
+its availability model instantaneously at runtime. Each arrival and departure
+received represent strong positive information---moments when PocketParker
+knows either that a spot just existed (arrival) or now exists (departure).
+Unsuccessful implicit searches, in contrast, represent weaker negative
+information, both because they were not have actually been observed by
+PocketParker and so may not have actually taken place, or because they may
+not have been thorough.
+
+Departures produce an intuitive change to the probability distribution. When
+a user departs, we know at that moment that there is a free spot in the lot,
+so we can set $P_l(t, 0) = 0$ and renormalize the distribution. Arrivals
+provide two somewhat conflict pieces of information. First, PocketParker
+knows that at the time of the arrival there was a spot free, so in this way
+arrivals indicate that the lot is not full. However, PocketParker also knows
+that immediately after an arrival the lot has one fewer available spots. So
+we incorporate arrivals in two steps. First, we set $P_l(t, 0) = 0$
+indicating the availability of a spot and renormalize the distribution.
+Second, we shift the entire distribution downward by one spot, $P_l(t, n) =
+P_l(t, n - 1)$, reflecting the loss of a spot.
+
+\subsubsection{Weighted arrivals and departures}
+
+This is the most conservative approach representing what we definitely know.
+However, if we assume that our monitored drivers are representative of some
+larger number of hidden drivers, we may set $P_l(t, n < X) = 0$ for some $X$
+larger than 1 and scaling with $\frac{1}{f_m}$. For our experiments we choose
+the conservative approach and set $X = 1$. We discuss in
+Section~\ref{sec-future} how users may customize the behavior of PocketParker
+to be more or less aggressive in locating parking spots, trading off time for
+a potentially more desirable spot.

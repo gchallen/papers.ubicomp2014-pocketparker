@@ -3,14 +3,14 @@
 
   <name value="High Churn" />
 
-  <lot name="L1" capacity="200" count="0" weight="0.9" poi="A" order="1" />
-  <lot name="L2" capacity="200" count="0" weight="0.1" poi="A" order="1" />
+  <lot name="L1" capacity="200" count="200" weight="0.9" poi="A" order="1" />
+  <lot name="L2" capacity="200" count="200" weight="0.1" poi="A" order="1" />
 
-  <rate length="4H" arrival="200H" departure="180H" />
-  <rate length="4H" arrival="180H" departure="200H" />
-  <rate length="4H" arrival="200H" departure="180H" />
-  <rate length="4H" arrival="180H" departure="200H" />
-  <rate length="4H" arrival="200H" departure="180H" />
-  <rate length="4H" arrival="180H" departure="200H" />
+  <rate length="4H" arrival="200H" departure="150H" />
+  <rate length="4H" arrival="150H" departure="200H" />
+  <rate length="4H" arrival="200H" departure="150H" />
+  <rate length="4H" arrival="150H" departure="200H" />
+  <rate length="4H" arrival="200H" departure="150H" />
+  <rate length="4H" arrival="150H" departure="200H" />
 
 </root>
