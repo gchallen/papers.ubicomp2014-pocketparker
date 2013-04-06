@@ -51,7 +51,7 @@ for index, lot in enumerate(args.lots):
       X.append(monitored_fraction)
       Y.append(numpy.mean(lot_results[lot][monitored_fraction]))
       Yerr.append(numpy.std(lot_results[lot][monitored_fraction]))
-    ax.errorbar(X, Y, yerr=Yerr, label='Lot %d' % (int(lot[-1])))
+    ax.errorbar(X, Y, xerr=Yerr, label='Lot %d' % (int(lot[-1])))
   if index == 0:
     ax.legend(loc='upper right', fontsize=8)
     ax.set_ylabel("\\textbf{Estimate Error}")
