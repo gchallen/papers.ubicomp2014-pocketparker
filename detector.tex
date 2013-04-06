@@ -53,18 +53,19 @@ less than $0.15\;\frac{m}{s^2}$ implies a user state of idle, a measurement
 above $0.50\;\frac{m}{s^2}$ to that of walking, and values in between to
 driving. The application stores a history of user states for future
 reference. From this history, we define the user steady state to be whatever
-state, if any, constitutes a majority of the individual states observed
+state, if any, that constitutes a majority of the individual states observed
 within the last nine periods.
 
 We use user state, in turn, to deduce parking arrival events. The program
 determines that a parking event has transpired upon fulfillment of several
 conditions. The user steady state must be driving and the last two
-individual states observed must be walking. Alternatively, if only the last
-one state observed is walking, the program imposes an additional constraint:
-the number of waveform peaks $2\;\frac{m}{s^2}$ above the mean observed
-accelerometer value must exceed a minimum threshhold corresponding to that
-produced by a slow human gait. This test catches the large majority of parking
-events, where people park their cars and immediately begin walking.
+individual states observed must be walking. Alternatively, if the steady
+state is driving but only the last one state observed is walking, the program
+imposes an additional constraint: the number of waveform peaks
+$2\;\frac{m}{s^2}$ above the mean observed accelerometer value must exceed
+a minimum threshhold corresponding to that produced by a slow human gait.
+This test catches the large majority of parking events, where people park
+their cars and immediately begin walking.
 
 However, drivers occasionally sit in their cars for a period before leaving.
 To detect this type of parking event, the program employs a second test.
@@ -80,12 +81,12 @@ When the program concludes that a user has parked, it turns on GPS detection
 long enough to determine the walking velocity and bearing of the user. It
 then calculates backwards to estimate the location where the user started
 walking---i.e., the parking spot. The mobile application reports the
-occurrence and location of a detected parking event to the server via HTTP.
-The server verifies the reported event against a pre-compiled list of known
-parking lot locations before recording the event. This final step eliminates
-events that are either incorrect---a user apparently parking in a field---or
-unwanted---a user genuninely parking but in a loading area rather than in a
-parking lot.
+occurrence and location of the newly detected parking event to the server via
+HTTP. The server verifies the reported event against a pre-compiled list of
+known parking lot locations before recording the event. This final step
+eliminates events that are either incorrect---a user apparently parking in
+a field---or unwanted---a user genuninely parking but in a loading area rather
+than in a parking lot.
 
 Occasionally, a user upon parking will walk for too brief a period before
 entering a building for the program to obtain a location from GPS. On our
@@ -99,17 +100,17 @@ While walking, users may change their bearing. If this occurs before the
 first GPS fix, the app may not be able to calculate the original location of
 the parking spot. An apparent remedy to this would be to use compass data to
 detect changes in bearing. This would work if the relative orientation of the
-phone viz-a-viz the user were also detectable. In practice, when not in use
-mobile phones are typically oriented randomly by users, particularly when
-placed in pockets and backpacks. Sticking solely with GPS data has thus
+phone viz-a-viz the user were also detectable. In practice though, when not
+in use mobile phones are typically oriented randomly by users, particularly
+when placed in pockets and backpacks. Sticking solely with GPS data has thus
 proven better. Going forward, maintaining a history of user pedestrian
 history should further minimization of bearing inaccuracies.
 
-A final potential issue with detecting a parking event is that of a driving
-period too short to for the program to detect that a user is driving in the
-first place. This situation would occur when a user simply moved his car to a
-new parking spot in an adjacent row. This is not a worrisome problem, as it
-does not stem from rational user behavior.
+A final potential issue with detecting a parking event is that of handling a
+driving period too short to for the program to detect that a user is driving
+in the first place. This situation would occur when a user simply moved his
+car to a new parking spot in an adjacent row. This is not a worrisome problem,
+as it does not stem from rational user behavior.
 
 We employ user state transitions to detect parking departure events in a
 manner similar to that used to detect parking arrivals. Our program
@@ -124,8 +125,8 @@ confirm a driving state. In theory, it is unnecessary to turn on the GPS
 system, as we have already previously determined the parking spot location
 when the user first parked. Rather, we have still found doing so aids
 ferreting out remaining falsely detected driving states. A null GPS reading
-implies that a user is still indoors, and that our initial inference of a
-driving state was misplaced.
+implies that a user is indoors, and that our initial inference of a driving
+state was misplaced.
 
 The application reports confirmed parking departure events to the HTTP
 server. As with arrival events, departure event locations are matched against
@@ -136,8 +137,8 @@ a known list of lot locations to filter false reporting.
 
 Incorrect parking arrival and departure events stem in part from the
 underlying issue of false detection of the individual driving state. The
-relatively variable accelerlometer data patterns produced when driving---and
-that are easily counterfeited by intermittent walking---complicate reliable
+relatively variable accelerometer data patterns produced when driving---and
+that are often counterfeited by intermittent walking---complicate reliable
 detection of this state. Happily, a sizable bulk of these false positives
 consists of the case where users eventually simply walk indoors. Mandating
 that a vaild GPS reading accompanies a preliminary driving state
@@ -148,7 +149,7 @@ False detection of both arrival and departure events could be further
 minimized by using more accurate but computationally intense algorithms that
 implement machine learning or Fourier transforms. We have deliberately shied
 away from such an approach however, as the inherent nature of our application
-dictates that the bulk of testing and filtering take place on an
+dictates that the bulk of testing and filtering takes place on an
 energy-constrained mobile platform. A more promising approach to reducing
 false detection and a subject for further research would be to employ
 additional location services.

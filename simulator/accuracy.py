@@ -16,20 +16,14 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
 parser = argparse.ArgumentParser(description='Simulate lots.')
-parser.add_argument('output', type=str, default=None, help='Output file.')
-parser.add_argument('run', type=str, help='Run to use.')
+parser.add_argument('runs', type=str, nargs='+', help='Runs to use.')
 parser.add_argument('--tie', type=float, default=0.01, help='Lot tie threshold. Default 0.01.')
 parser.add_argument('--verbose', action='store_true', default=False, help='enable verbose output')
 args = parser.parse_args()
 
 capacity_pattern = re.compile(r"^(?P<time>[\d\.]+) C (?P<name>\w+) (?P<capacity>\d+).*")
 probability_pattern = re.compile(r"^(?P<time>[\d\.]+) (?P<type>(?:P|P\*)) (?P<name>\w+) (?P<probability>[\d\.]+).*")
-
-f = open(args.run, 'r')
-tree = get_parameters(f)
-lots = Lots(tree)
-run_name = tree.xpath("//name")[0].get('value')
-
+  
 def best_lot(lots, capacities):
   available_lots = [lot for lot in lots if capacities[lot.name][-1][1] < lot.capacity]
   if len(available_lots) == 0:
@@ -47,37 +41,81 @@ def estimated_best(lots, probabilities):
   else:
     return sorted_lots[0].name, sorted_lots[0].order
 
-capacities = {}
-probabilities = {}
+table_lines = {}
+for run in args.runs:
+  f = open(run, 'r')
+  tree = get_parameters(f)
+  lots = Lots(tree)
+  run_name = tree.xpath("//name")[0].get('value')
+  monitored = float(tree.xpath("//simulation")[0].get('monitored'))
+  error = float(tree.xpath("//estimation")[0].get('error'))
 
-for lot in lots.lots:
-  capacities[lot.name] = [(0., lot.capacity)]
-  probabilities[lot.name] = [(0., 0.)]
+  capacities = {}
+  probabilities = {}
 
-total, correct, missed, wasted = 0, 0, 0, 0
+  for lot in lots.lots:
+    capacities[lot.name] = [(0., lot.capacity)]
+    probabilities[lot.name] = [(0., 0.)]
 
-for line in f:
-  capacity_match = capacity_pattern.match(line)
-  if capacity_match:
-    time, name, capacity = (float(capacity_match.group('time')) / HOURS_TO_SECONDS), \
-        capacity_match.group('name'), int(capacity_match.group('capacity'))
-    capacities[name].append((time, capacity))
-  else:
-    probability_match = probability_pattern.match(line)
-    if probability_match:
-      time, type, name, probability = \
-          (float(probability_match.group('time')) / HOURS_TO_SECONDS), probability_match.group('type'), \
-          probability_match.group('name'), float(probability_match.group('probability'))
-      probabilities[name].append((time, probability))
-  best_l, best_o = best_lot(lots.lots, capacities)
-  estimated_l, estimated_o = estimated_best(lots.lots, probabilities)
-  if best_l != None:
-    if best_l == estimated_l:
-      correct += 1
-    elif best_o < estimated_o:
-      missed += 1
+  total, correct, missed, wasted = 0, 0, 0, 0
+
+  for line in f:
+    capacity_match = capacity_pattern.match(line)
+    if capacity_match:
+      time, name, capacity = (float(capacity_match.group('time')) / HOURS_TO_SECONDS), \
+          capacity_match.group('name'), int(capacity_match.group('capacity'))
+      capacities[name].append((time, capacity))
     else:
-      wasted += 1
-    total += 1
+      probability_match = probability_pattern.match(line)
+      if probability_match:
+        time, type, name, probability = \
+            (float(probability_match.group('time')) / HOURS_TO_SECONDS), probability_match.group('type'), \
+            probability_match.group('name'), float(probability_match.group('probability'))
+        probabilities[name].append((time, probability))
+    best_l, best_o = best_lot(lots.lots, capacities)
+    estimated_l, estimated_o = estimated_best(lots.lots, probabilities)
+    if best_l != None:
+      if best_l == estimated_l:
+        correct += 1
+      elif best_o < estimated_o:
+        missed += 1
+      else:
+        wasted += 1
+      total += 1
+  
+  if not table_lines.has_key(run_name):
+    table_lines[run_name] = {}
+  if not table_lines[run_name].has_key(monitored):
+    table_lines[run_name][monitored] = {}
 
-print total, correct, missed, wasted
+  table_lines[run_name][monitored][error] = (total, correct, missed, wasted)
+
+print r"""\begin{table}[t]
+\begin{threeparttable}
+{\small
+\begin{tabularx}{\columnwidth}{XXXXX}
+\multicolumn{1}{c}{\normalsize{\textbf{$f_m$}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{$f_m$ Error}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{Correct (\%)}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{Missed (\%)}}} & 
+\multicolumn{1}{c}{\normalsize{\textbf{Waste (\%)}}} & 
+"""
+
+for run_name in sorted(table_lines.keys()):
+  print r"""\multicolumn{5}{c}{\normalsize{\textbf{%s}}} \\
+\midrule""" % (run_name,)
+  for monitored in sorted(table_lines[run_name]):
+    for error in sorted(table_lines[run_name][monitored]):
+      total, correct, missed, wasted = table_lines[run_name][monitored][error]
+      print r"""%.2f & %.2f & %.1f & %.1f & %.1f""" % (monitored,
+                                                       error,
+                                                       (float(correct) / total) * 100.,
+                                                       (float(missed) / total) * 100.,
+                                                       (float(wasted) / total) * 100.)
+
+print r"""\end{tabularx}
+}
+\caption{\textbf{Estimated capacity of parking lots using the parking design standard.}}
+\label{table-capacity}
+\end{threeparttable}
+\end{table}"""
