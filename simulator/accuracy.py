@@ -93,21 +93,22 @@ for run in args.runs:
 print r"""\begin{table}[t]
 \begin{threeparttable}
 {\small
-\begin{tabularx}{\columnwidth}{XXXXX}
-\multicolumn{1}{c}{\normalsize{\textbf{$f_m$}}} & 
-\multicolumn{1}{c}{\normalsize{\textbf{$f_m$ Error}}} & 
-\multicolumn{1}{c}{\normalsize{\textbf{Correct (\%)}}} & 
-\multicolumn{1}{c}{\normalsize{\textbf{Missed (\%)}}} & 
-\multicolumn{1}{c}{\normalsize{\textbf{Waste (\%)}}}\\ \toprule
+\begin{tabularx}{\columnwidth}{Xrrrrr}
+\multicolumn{1}{c}{\textbf{Type}} & 
+\multicolumn{1}{c}{\textbf{$f_m$}} & 
+\multicolumn{1}{c}{\textbf{$f_m$ Error}} & 
+\multicolumn{1}{c}{\textbf{Correct}} & 
+\multicolumn{1}{c}{\textbf{Missed}} & 
+\multicolumn{1}{c}{\textbf{Waste}}\\ \toprule
 """
 
 for run_name in sorted(table_lines.keys()):
-  print r"""\multicolumn{5}{c}{\normalsize{\textbf{%s}}} \\
+  print r"""\textbf{%s} & & & & & \\
 \midrule""" % (run_name,)
   for monitored in sorted(table_lines[run_name]):
     for error in sorted(table_lines[run_name][monitored]):
       total, correct, missed, wasted = table_lines[run_name][monitored][error]
-      print r"""%.2f & %.2f & %.1f & %.1f & %.1f \\""" % (monitored,
+      print r"""& %.2f & %.2f & %.1f \%% & %.1f \%% & %.1f \%% \\""" % (monitored,
                                                        error,
                                                        (float(correct) / total) * 100.,
                                                        (float(missed) / total) * 100.,
@@ -115,7 +116,7 @@ for run_name in sorted(table_lines.keys()):
 
 print r"""\end{tabularx}
 }
-\caption{\textbf{Estimated capacity of parking lots using the parking design standard.}}
+\caption{\textbf{Accuracy of PocketParker predictions for various kinds of lots and parameters.}}
 \label{table-capacity}
 \end{threeparttable}
 \end{table}"""
