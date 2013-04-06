@@ -18,23 +18,23 @@ and a ultrasonic range finder that scan the surrounding areas and detect
 empty street parking spots. Compared to ParkNet, our approach relies only on
 smartphones and do not require any additional input.
 
-A few systems have been proposed to assist parking using vehicular ad-hoc
+A few systems have been proposed to assist parking via vehicular ad-hoc
 networks or crowdsourcing. Delot et al.~\cite{Delot:2009:CRP} propose a parking
 lot reservation system in a vehicular network. Chen et al.~\cite{Chen:2012:COS}
-proposes a crowdsourcing approach that asks participants to report the
-surrounding parking availability. Caliskan et al.~\cite{4212497} propose an
+proposes a crowdsourcing approach that asks participants to report their
+surrounding's parking availability. Caliskan et al.~\cite{4212497} propose an
 availability prediction model based on information exchanged by vehicles in a
-vehicular ad-hoc network. Their approach assumes that for each parking lot,
+vehicular ad-hoc network. Their approach assumes that, for each parking lot,
 vehicles that drive by the parking lot receive the parking lot information such
 as the capacity, the occupancy, the arrival rate, and the departure rate. Since
 the propagation delay in a vehicular network makes this information stale, a
 prediction model is used to estimate current availability. In contrast to
 our work, this approach assumes that the necessary information is initially
-accurately measured at the parking lot.
+accurately measured at each parking lot.
 
 \subsection{Transportation-Related Projects}
 
-A few previous systems have been proposed to enable automatic transit
+A few previous systems have investigated techniques for automatic transit
 tracking~\cite{Biagioni:2011:EAT, Thiagarajan:2010:CTT, Zhou:2012:LWP}. From the
 high-level point of view, some of the techniques such as activity detection and
 location tracking that transit tracking requires bear similarities to
@@ -55,6 +55,9 @@ riders. They combine multiple sources such as accelerometer data, audio, and
 cell tower signals to detect if a rider is in a public transit vehicle and if
 so, which bus it is.
 
-VTrack~\cite{Thiagarajan:2009:VAE}
-
-StarTrack~\cite{Ananthanarayanan:2009:SFE}
+Other systems have used smartphone sensors to enable a variety of tracking
+tasks. VTrack~\cite{Thiagarajan:2009:VAE} is a traffic monitoring system that
+combines readings from multiple sensors for travel time estimation.
+StarTrack~\cite{Ananthanarayanan:2009:SFE} provides general abstractions for
+appliations that need tracking functionalities such as recording, comparing, and
+querying tracks.
