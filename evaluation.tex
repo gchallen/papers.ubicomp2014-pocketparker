@@ -48,17 +48,25 @@ provided.
 Figure~\ref{fig-energy} displays the tradeoff between energy usage and
 detection accuracy as a function of the PocketParker duty cycle. Here we
 combine an active period of 5~s with a inactive period of variable length,
-between 10~and~60~s, for an overall duty cycle between 0.6 and 0.07. Our
+between 5~and~55~s, for an overall duty cycle between 0.5 and 0.06. Our
 simulator uses energy numbers used by the Android Fuel Guage application
 along with the acceloremeter duty cycles and number of GPS locations
-requested to estimate average power consumption. This graph measures the
-accuracy of detected events in terms of distance from the actual location of
-the event labelled by the participant. As we expect, longer duty cycles
-consume less energy but produce longer detection latencies which translate
-into higher distances from the event location. Note also that the departure
-(depark) events have higher location error than the parking events, simply
-because after departing users are driving and therefore traveling more
-quickly.
+requested including false positives to estimate average power consumption.
+This graph measures the accuracy of detected events in terms of distance from
+the actual location of the event labelled by the participant
+
+As we expect, longer duty cycles consume less energy but produce longer
+detection latencies which translate into higher distances from the event
+location. Note also that the departure events have higher location error than
+the parking events, simply because after departing users are driving and
+therefore traveling more rapidly. Overall power usage by PocketParker is low,
+under 10~mW at all duty cycles. Because PocketParker's ability to map parking
+events into lots is affected by the detection distance accuracy, we chose a
+relatively-aggresive total period of 15~s for a $\frac{1}{3}$ duty cycle.
+This allows PocketParker to determine location to within 25~m for parking
+events and 80~m for departures. Power consumption at this duty cycle is 8~mW,
+representing 4.2\% of a the capacity of a 1500~mAh battery discharged over
+24~hours if used continuously.
 
 \subsection{Simulation Results}
 \label{subsec-simulator}
