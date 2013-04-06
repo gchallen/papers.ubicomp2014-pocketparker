@@ -1,4 +1,4 @@
-import copy, random, re, json, numpy, copy
+import copy, random, re, json, numpy, copy, StringIO
 
 from scipy import misc
 from lxml import etree
@@ -14,7 +14,7 @@ def get_parameters(stream):
   for line in stream:
     line = line.strip()
     if line == XML_SEPARATOR:
-      return etree.fromstring(xml)
+      return etree.parse(StringIO.StringIO(xml))
     xml += line
 
 class Event(object):
@@ -270,7 +270,7 @@ class Estimation(object):
     for key,type in {'error': float, 'interval': convert_time,
                      'seed': seed_random, 'search': float,
                      'arrival_blank': int, 'departure_blank': int,
-                     'search_blank': int}.items():
+                     'search_blank': int, 'granularity': float}.items():
       setattr(self, key, type(getattr(args, key)))
     self.monitored = (1. + random.uniform(-1. * self.error, 1. * self.error)) \
         * float(tree.xpath("//simulation")[0].get("monitored"))
@@ -450,7 +450,15 @@ class Estimation(object):
   def estimate_lot(self, lot, time=None):
     if time == None:
       time = self.time[lot]
-    print "P", lot.name, time, self.is_available(lot)
+    print "P", lot.name, time, self.is_available(lot),
+    step = int(lot.capacity * self.granularity)
+    probs = []
+    for limit in numpy.arange(0, lot.capacity, step):
+      probs.append([limit, sum([prob for count, prob in self.count_estimate[lot].items() if count >= limit and count < limit + step])])
+    probs[-1][1] += self.count_estimate[lot][lot.capacity]
+    for count, prob in probs:
+      print "%d:%.3f" % (count, prob),
+    print
 
   def implicit_searches(self, event):
     better_lots = [lot for lot in self.lots.lots if lot != event.lot and lot.poi == event.lot.poi and lot.order < event.lot.order]
