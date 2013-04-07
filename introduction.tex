@@ -1,25 +1,24 @@
 \section{Introduction}
 
-Drivers enter a parking lot without having any specific knowledge about the
-lot's availability. Especially in urban areas, it is common for any driver to
-spend an additional, non-trivial amount of time looking for a parking spot. This
-searching time not only translates into frustration but also wastes energy and
-produces carbon dioxide harmful for the environment.
+Parking lots present a difficult search problem. Drivers lack the visibility
+to determine where spots are available, and may spend a non-trivial amount of
+time searching for a spot. The problem is difficult enough that WikiHow
+includes directions~\cite{wikihow-park}, and the Wall Street Journal has
+published an online article~\cite{wsj-park} with tips on spot stalking for
+shoppers during the holidays. Searching not only generates frustration but
+also wastes energy and produces harmful carbon emissions.
 
 In order to assist drivers searching for a parking space, numerous smartphone
-applications are developed and available in the online application stores such
-as Google Play Store and App Store. Although many drivers find these smartphone
-applications useful, these applications either do not provide real-time parking
-lot availability or just display publicly-accessible availability information.
-
-To overcome this limitation, a few academic systems have been
-proposed~\cite{4212497, Chen:2012:COS, Delot:2009:CRP, 5062057,
-Mathur:2010:PDS}. However, these systems make various assumptions that prevent
-them from being immediately deployable. Typical assumptions include the
-availability of additional infrastructure~\cite{5062057}, additional equipment
-deployed on vehicles~\cite{Mathur:2010:PDS}, the presence of a vehicular
-network~\cite{Delot:2009:CRP, Mathur:2010:PDS, 4212497}, and manual inputs from
-users~\cite{Chen:2012:COS}.
+applications are developed and available in the online application stores
+such as Google Play Store and App Store. Although drivers may find these
+smartphone applications useful, they either do not provide real-time parking
+lot availability or simply display publicly-available information. Several
+research projects have attempted to address these limitations~\cite{4212497,
+Chen:2012:COS, Delot:2009:CRP, 5062057, Mathur:2010:PDS}, but include
+requirements rendering them impractical, such as additional
+infrastructure~\cite{5062057}, on-vehicle equipment~\cite{Mathur:2010:PDS} or
+vehicular networking~\cite{Delot:2009:CRP, Mathur:2010:PDS}, or onerous
+manual user input~\cite{Chen:2012:COS}.
 
 We present {\it PocketParker}, a system that predicts parking lot availability
 using smartphones. Unlike previous approaches, our goal is to not require any
