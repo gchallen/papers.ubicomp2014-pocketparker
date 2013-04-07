@@ -72,25 +72,24 @@ test catches the large majority of parking events, where people park their cars
 and immediately begin walking.
 
 However, drivers occasionally sit in their cars for a period before leaving.
-To detect this type of parking event, we employ a second test. Unfortunately,
-simply observing a state transition from driving to idle is
+To detect this type of parking event, we employ a second test. The difficulty is
+that simply observing a state transition from driving to idle is
 not, by itself, reliably determinative. While the walking and idle states
 exhibit consistent, well-defined patterns, the driving state presents with
 more fluctuation. The steady state of driving often contains individual idle
-state periods. Rather, the program concludes that a driver has parked only
-when the user steady state transcends from driving to idle to walking within
-a three-minute period.
+state periods. Due to this difficulty, we determine that a driver has parked
+only when the user steady state changes from driving to idle to walking
+within a three-minute period.
 
-When the program concludes that a user has parked, it turns on GPS detection
-long enough to determine the walking velocity and bearing of the user. It
-then calculates backwards to estimate the location where the user started
-walking---i.e., the parking spot. The mobile application reports the
-occurrence and location of the newly detected parking event to the server via
-HTTP. The server verifies the reported event against a pre-compiled list of
-known parking lot locations before recording the event. This final step
-eliminates events that are either incorrect---a user apparently parking in
-a field---or unwanted---a user genuninely parking but in a loading area rather
-than in a parking lot.
+When we determine that a user has parked, we turn on GPS detection long enough
+to determine the walking velocity and bearing of the user. We then calculate
+backwards to estimate the location where the user started walking---i.e., the
+parking spot. We then report the occurrence and location of the newly detected
+parking event to the server via HTTP. The server verifies the reported event
+against a pre-compiled list of known parking lot locations before recording the
+event. This final step eliminates events that are either incorrect---a user
+apparently parking in a field---or unwanted---a user genuninely parking but in a
+loading area rather than in a parking lot.
 
 Occasionally, a user upon parking will walk for too brief a period before
 entering a building for the program to obtain a location from GPS. On our
