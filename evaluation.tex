@@ -216,7 +216,29 @@ available spot.
 
 Table~\ref{table-accuracy} shows data from simulations run on several
 different lot types and while varying simulation parameters including the
-monitored fraction $f_m$ and estimation error in the monitored fraction.
+monitored fraction $f_m$ and estimation error in the monitored fraction. At
+regular timesteps we query PocketParker and ask it to order the two lots
+lot~1 and lot~2. We then compare its ordering with the ground truth available
+through the simulator. In the case that two lots have probabilities within
+$0.01$ of each other, PocketParker considers this a tie and suggests the more
+preferable lot first.
+
+Several trends can be observed in the results. First, overall PocketParker
+does well on most lot types. The High Churn lot presents the greatest
+difficulty, which we would expect since its large number of incoming and
+outgoing drivers make prediction difficult. We are also concerned that the
+High Churn errors are exclusively waste, indicating that PocketParker is
+consistently sending drivers to the wrong lot, probably because it is
+predicting that spots are available longer than they actually are. Clearly
+more work is needed to determine the right approach for High Churn lots.
+
+Excluding the High Churn lot, the lowest correct percentage with a $f_m >
+0.1$ is 75\% for the Slow Fill lot, and accuracy is good throughout. The Low
+Churn lot has a small number of errors but this is because both lots are
+usually empty. Its error breakdown is similar to the High Churn lot, which
+suggests it is something about regular departures and arrivals that is
+causing PocketParker to be too optimistic about availability in the more
+desirable lot.
 
 \subsection{Deployment}
 
@@ -278,10 +300,9 @@ were careful to ensure that the lot was never marked completely full if there
 was a single available spot visible. Because we collected a relatively-small
 number of parking events into camera-monitored lots A~and~B during our
 deployment, we merge all events into a single day before feeding the events
-into the PocketParker estimation engine. We also hard code a monitored driver
-fraction of \XXXnote{GWA: FIXME} for the results shown. Given the location of
-other campus buildings to the south of our building, lot~A is considered more
-desirable than lot~B.
+into the PocketParker estimation engine. Given the location of other campus
+buildings to the south of our building, lot~A is considered more desirable
+than lot~B.
 
 \begin{figure}[t]
 \centering
