@@ -83,19 +83,20 @@ When we determine that a user has parked, we turn on GPS detection long enough
 to determine the walking velocity and bearing of the user. We then calculate
 backwards to estimate the location where the user started walking---i.e., the
 parking spot. We then report the occurrence and location of the newly detected
-parking event to the server via HTTP. The server verifies the reported event
-against a pre-compiled list of known parking lot locations before recording the
-event. This final step eliminates events that are either incorrect---a user
-apparently parking in a field---or unwanted---a user genuninely parking but in a
-loading area rather than in a parking lot.
+parking event to the server. The server verifies the reported event against a
+pre-compiled list of known parking lot locations before recording the event.
+This final step eliminates events that are either incorrect (e.g., a user
+parking in a field) or unwanted (e.g., a user genuninely parking but in a
+loading area rather than in a parking lot).
 
 Occasionally, a user upon parking will walk for too brief a period before
-entering a building for the program to obtain a location from GPS. On our
-campus, this is an uncommon occurrence in practice, as there are few parking
-spots close enough to buildings to produce this behavior. A reliable watermark
-for this rarity is a steady driving state coupled with a most recent
-individual walking state and a null GPS reading. In this situation, we employ
-alternative Android location providers such as WiFi to determine user locale.
+entering a building for the program to obtain a location from GPS. We find that
+at least in our evaluation settings, this is an uncommon occurrence as we have
+few parking spots close enough to buildings to produce this behavior.
+Nevertheless, a reliable watermark for this rarity is a steady driving state
+coupled with a most recent individual walking state and a null GPS reading;
+thus, we employ alternative Android location providers such as WiFi to determine
+user locale.
 
 While walking, users may change their bearing. If this occurs before the
 first GPS fix, the app may not be able to calculate the original location of
@@ -108,30 +109,27 @@ proven better. Going forward, maintaining a history of user pedestrian
 history should further minimization of bearing inaccuracies.
 
 A final potential issue with detecting a parking event is that of handling a
-driving period too short to for the program to detect that a user is driving
-in the first place. This situation would occur when a user simply moved his
-car to a new parking spot in an adjacent row. This is not a worrisome problem,
-as it does not stem from rational user behavior.
+driving period too short to for us to detect that a user is driving in the first
+place. For example, this situation could occur when a user simply moved his car
+to a new parking spot in an adjacent row. Since it does not stem from rational
+user behavior, we do not handle this case.
 
 We employ user state transitions to detect parking departure events in a
-manner similar to that used to detect parking arrivals. Our program
-tentatively detects a departure event when the user steady state is walking
-but the two most recent individual states are driving. The constraint of two
-consecutive driving states rather than one proved necessary to minimize
-spurious detection of driving due to the relatively variable nature of
-accelerometer-determined driving sense data.
+manner similar to that used to detect parking arrivals. We tentatively detect a
+departure event when the user's steady state is walking but the two most recent
+individual states are driving. The constraint of two consecutive driving states
+rather than one proved necessary to minimize spurious detection of driving due
+to the relatively variable nature of accelerometer-determined driving sense
+data.
 
-Before reporting a departure event, our mobile program employs GPS sensing to
-confirm a driving state. In theory, it is unnecessary to turn on the GPS
-system, as we have already previously determined the parking spot location
-when the user first parked. Rather, we have still found doing so aids
-ferreting out remaining falsely detected driving states. A null GPS reading
-implies that a user is indoors, and that our initial inference of a driving
-state was misplaced.
-
-The application reports confirmed parking departure events to the HTTP
-server. As with arrival events, departure event locations are matched against
-a known list of lot locations to filter false reporting.
+Before reporting a departure event, we employ GPS sensing to confirm a driving
+state. In theory, it is unnecessary to turn on the GPS system, as we have
+already previously determined the parking spot location when the user first
+parked. However, we have still found that doing so aids ferreting out remaining
+falsely detected driving states. A null GPS reading implies that a user is
+indoors, and that our initial inference of a driving state was misplaced. As
+with arrival events, departure event locations are matched against a known list
+of lot locations to filter false reporting.
 
 \subsection{Filtering False Positives}
 \label{subsec-false}
