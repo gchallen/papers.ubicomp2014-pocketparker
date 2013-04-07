@@ -16,10 +16,10 @@ experiment to determine the correct parameter settings for our parking event
 detector. Second, we have implemented a parking lot simulator, which allows
 us to experiment with various kinds of lots as well as vary the monitored
 fraction and other parameters. Finally, we performed a small-scale deployment
-of PocketParker on our campus and use it to monitor three lots. Camera
-monitoring was used to ground truth the predictions from our deployment
-dataset. All three components of our evaluation together confirm that
-PocketParker is efficiency and accurate.
+of PocketParker that monitored several lots at our university. In two lots,
+camera monitoring was used to ground truth the predictions from our
+PocketParker deployment. All three components of our evaluation together
+confirm that PocketParker is efficiency and accurate.
 
 \subsection{Detector Experiment}
 
@@ -95,8 +95,8 @@ arrivals and departures. This is important since, without explicit user
 input, it would be impossible to determine this information while
 PocketParker is in use. Figure~\ref{fig-falsepositives} show PocketParker can
 detect 80\% of arrival and departure events correctly at the lowest duty
-cycle, which is the one that we use. False positive rates are already quite
-low, and this is before we apply our GPS availability filter. False positives
+cycle, which is the one that we use. False positive rates are already low,
+and this is before we apply our GPS availability filter. False positives
 decline as the duty cycle decreases because PocketParker has fewer
 opportunities to detect user activity.
 
@@ -158,16 +158,15 @@ For the five types of lots, we would expect PocketParker to do better
 monitored fraction estimation when lots fill regularly---Fast Fill, Slow
 Fill, and Multiple Fill---and poorly when they do fill erratically or not at
 all---High and Low Churn. The results in Figure~\ref{fig-capacityerrors}
-generally follow this pattern. Errors for High Churn are quite high, and Low
-Churn errors persist even at high monitored driver fractions. This is
-natural, as the Low Churn lot never fills. Fast Fill results improve with
-increasing monitored driver fraction. We are investigating, however, the
-problems with estimating lot~1 capacity, and persistent errors with the Slow
-Fill lots. Improving the accuracy of monitored fraction estimation may
-require additional smoothing techniques or incorporating information from
-other lots. However, as we demonstrate later, our availability estimator is
-quite robust to errors in the monitored fraction up to 100\% of the true
-value.
+generally follow this pattern. Errors for High Churn are high, and Low Churn
+errors persist even at high monitored driver fractions. This is expected, as
+the Low Churn lot never fills. Fast Fill results improve with increasing
+monitored driver fraction. We are investigating, however, the problems with
+estimating lot~1 capacity, and persistent errors with the Slow Fill lots.
+Improving the accuracy of monitored fraction estimation may require
+additional smoothing techniques or incorporating information from other lots.
+However, as we demonstrate later, our availability estimator is quite robust
+to errors in the monitored fraction up to 100\% of the true value.
 
 \begin{figure}
 \centering
@@ -219,7 +218,29 @@ available spot.
 
 Table~\ref{table-accuracy} shows data from simulations run on several
 different lot types and while varying simulation parameters including the
-monitored fraction $f_m$ and estimation error in the monitored fraction.
+monitored fraction $f_m$ and estimation error in the monitored fraction. At
+regular timesteps we query PocketParker and ask it to order the two lots
+lot~1 and lot~2. We then compare its ordering with the ground truth available
+through the simulator. In the case that two lots have probabilities within
+$0.01$ of each other, PocketParker considers this a tie and suggests the more
+preferable lot first.
+
+Several trends can be observed in the results. First, overall PocketParker
+does well on most lot types. The High Churn lot presents the greatest
+difficulty, which we would expect since its large number of incoming and
+outgoing drivers make prediction difficult. We are also concerned that the
+High Churn errors are exclusively waste, indicating that PocketParker is
+consistently sending drivers to the wrong lot, probably because it is
+predicting that spots are available longer than they actually are. Clearly
+more work is needed to determine the right approach for High Churn lots.
+
+Excluding the High Churn lot, the lowest correct percentage with a $f_m >
+0.1$ is 75\% for the Slow Fill lot, and accuracy is good throughout. The Low
+Churn lot has a small number of errors but this is because both lots are
+usually empty. Its error breakdown is similar to the High Churn lot, which
+suggests it is something about regular departures and arrivals that is
+causing PocketParker to be too optimistic about availability in the more
+desirable lot.
 
 \subsection{Deployment}
 
@@ -281,10 +302,9 @@ were careful to ensure that the lot was never marked completely full if there
 was a single available spot visible. Because we collected a relatively-small
 number of parking events into camera-monitored lots A~and~B during our
 deployment, we merge all events into a single day before feeding the events
-into the PocketParker estimation engine. We also hard code a monitored driver
-fraction of \XXXnote{GWA: FIXME} for the results shown. Given the location of
-other campus buildings to the south of our building, lot~A is considered more
-desirable than lot~B.
+into the PocketParker estimation engine. Given the location of other campus
+buildings to the south of our building, lot~A is considered more desirable
+than lot~B.
 
 \begin{figure}
 \centering
