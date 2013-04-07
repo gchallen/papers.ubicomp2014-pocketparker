@@ -137,7 +137,7 @@ Incorrect parking arrival and departure events stem in part from the
 underlying issue of false detection of the individual driving state. The
 relatively variable accelerometer data patterns produced when driving---and
 that are often counterfeited by intermittent walking---complicate reliable
-detection of this state. Happily, a sizable bulk of these false positives
+detection of this state. Luckily, a sizable bulk of these false positives
 consists of the case where users eventually simply walk indoors. Mandating
 that a vaild GPS reading accompanies a preliminary driving state
 determination allieviates this subset, albeit at the price of additional
@@ -148,6 +148,4 @@ minimized by using more accurate but computationally intense algorithms that
 implement machine learning or Fourier transforms. We have deliberately shied
 away from such an approach however, as the inherent nature of our application
 dictates that the bulk of testing and filtering takes place on an
-energy-constrained mobile platform. A more promising approach to reducing
-false detection and a subject for further research would be to employ
-additional location services.
+energy-constrained mobile platform.
