@@ -230,12 +230,12 @@ PocketParker users are generally representative of the entire driving
 population, we do not assume that all or even a large fraction of drivers
 will download and install PocketParker and we want our system to still
 provide accurate predictions with the limited information caused by hidden
-drivers. To accomplish this, PocketParker needs to estimate percentage of
-drivers that are monitored, which we call the \textit{monitored fraction}.
-\XXXnote{CWN -- why is it 1/f(m)?} A low monitored fraction indicates that
-few users are using PocketParker, whereas a high monitored fraction means
-that we are receiving inputs from most drivers. Put another way, the amount
-of uncertainty PocketParker must face when predicting lot availability is
+drivers. To accomplish this, PocketParker needs to estimate the percentage of
+drivers that are monitored, which we call the \textit{monitored fraction}
+$f_m$. A low monitored fraction indicates that few users are using
+PocketParker, whereas a high monitored fraction means that we are receiving
+inputs from most drivers. Put another way, the amount of uncertainty
+PocketParker must face when predicting lot availability is
 inversely-proportional to the monitored fraction.
 
 \subsubsection{Importance of monitored fraction estimation}

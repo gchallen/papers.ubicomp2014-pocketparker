@@ -45,9 +45,7 @@ determination of state, as continuously cycled GPS sensing would consume too
 much power. As we show in Section~\ref{sec-evaluation}, an accelerometer
 $\frac{1}{4}$ duty cycle with 5~s sensing and 15~s idle periods proved
 optimal and five seconds was the minimum time necessary to detect sensing
-activity accurately. Since we also wanted to obtain data from two consecutive
-sensing periods for confirmation, we have determined that these short time
-periods work well.
+activity accurately.
 
 In order to set the initial state of a user, we use the standard deviation of
 sampled accelerometer data within a sensing period. Our application first
@@ -70,16 +68,14 @@ value must exceed a minimum threshhold corresponding to that produced by a
 slow human gait.  This test catches a large majority of parking events, where
 people park and immediately begin walking.
 
-\vfill\eject
-
 However, drivers occasionally sit in their cars for a period before leaving.
 To detect this type of parking event, we employ a second test. The difficulty is
 that simply observing a state transition from driving to idle is
 not, by itself, reliably determinative. While the walking and idle states
 exhibit consistent, well-defined patterns, the driving state presents with
-more fluctuation. The steady state of driving often contains individual idle
-state periods. Due to this difficulty, we determine that a driver has parked
-only when the user steady state changes from driving to idle to walking
+more fluctuation, i.e., the steady state of driving often contains individual
+idle state periods. Due to this difficulty, we determine that a driver has
+parked only when the user's steady state changes from driving to idle to walking
 within a three-minute period.
 
 When we determine that a user has parked, we turn on GPS detection long enough
