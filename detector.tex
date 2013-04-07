@@ -64,7 +64,7 @@ steady state must be driving and the last two individual states observed must
 be walking. Alternatively, if the steady state is driving but only the last
 one state observed is walking, we impose an additional constraint: the number
 of waveform peaks $2\;\frac{m}{s^2}$ above the mean observed accelerometer
-value must exceed a minimum threshhold corresponding to that produced by a
+value must exceed a minimum threshold corresponding to that produced by a
 slow human gait.  This test catches a large majority of parking events, where
 people park and immediately begin walking.
 
@@ -85,7 +85,7 @@ parking spot. We then report the occurrence and location of the newly detected
 parking event to the server. The server verifies the reported event against a
 pre-compiled list of known parking lot locations before recording the event.
 This final step eliminates events that are either incorrect (e.g., a user
-parking in a field) or unwanted (e.g., a user genuninely parking but in a
+parking in a field) or unwanted (e.g., a user genuinely parking but in a
 loading area rather than in a parking lot).
 
 Occasionally, a user upon parking will walk for too brief a period before
@@ -139,8 +139,8 @@ relatively variable accelerometer data patterns produced when driving---and
 that are often counterfeited by intermittent walking---complicate reliable
 detection of this state. Luckily, a sizable bulk of these false positives
 consists of the case where users eventually simply walk indoors. Mandating
-that a vaild GPS reading accompanies a preliminary driving state
-determination allieviates this subset, albeit at the price of additional
+that a valid GPS reading accompanies a preliminary driving state
+determination alleviates this subset, albeit at the price of additional
 power consumed.
 
 False detection of both arrival and departure events could be further
