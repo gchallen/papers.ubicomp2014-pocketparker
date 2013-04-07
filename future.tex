@@ -6,46 +6,44 @@
 \XXXnote{GWA: Better rate estimation using historical data.}
 
 PocketParker presently bases its parking preditions on a fifteen-minute 
-limited rolling window of recent parking events. We do not tap the benefit
-of daily and weekly patterns that would otherwise enhance predictive accuracy.
-Adding a large database of historical data will increase the sample size and
-hence statistical accuracy of our predictive algorithm.
+limited rolling window of recent parking events. We do not presently tap the
+benefit of daily and weekly patterns that would otherwise enhance predictive
+accuracy, but hope to do so in the future. Maintaining a database of
+previously collected historical data from our own application will increase
+the sample size and hence statistical accuracy of our parking preditions.
+Integration of ParkerPocket with an existing mobile navigation solution such
+as Google Maps would increase exponentially the data we can tap and the
+accuracy benefits users receive.
 
-Historical data will also address a more fundamental issue:  the situation
-of a lot that fills abruptly, a typical occurence on academic campuses during
-class changes. Basing a negative recommendation about a particular lot's
-availability solely upon recently acquired unsuccessful searches implies that
-a time lag necessarily exists between when users start discovering on their
-own that a lot is full and when we have collected enough data to conclude and
-somewhat belatedly recommend that a lot is an unwise recommendation. Access
-to historical data will dissolve this limitation immediately:  we can time
-parking advisories for particular lots before they hit capacity based on
-previous trends.
+Historical data will also address a present fundamental limitation:  the
+situation of a lot that fills abruptly, a typical occurence on academic
+campuses during class changes. Basing a negative recommendation about a
+particular lot's availability solely upon recently acquired unsuccessful
+searches implies that a time lag necessarily exists between when users start
+discovering on their own that a lot is full and when we have collected enough
+data to conclude and somewhat belatedly recommend that a lot is an unwise
+option. Access to historical data will dissolve this limitation immediately:
+using previous trends, we can time parking advisories for particular lots
+before they hit capacity.
+
+An anticipated future enhancement of our appliction, adding solicitation of
+a user's configured desired parking preferences, will also significantly
+benefit from historical data. We will be able to suggest available lots to
+end users based on proximity to logistically preferable but full lots. If a
+user further furnishes insight into how long he is willing to wait for a
+desired parking location, we can mine historical data for how long a user
+in that situation will have to wait for a parking spot and make
+recommendations accordingly.
+
+... tie in with mapping application -- automatically retrieve labeled search
+data i.e., lot preference
 
 
 ...will enhance accuracy, and hence credibility of the application, with end users...
 
-accuracy of our predictions of particular lots.
-
-Any future enhancement of the app to solicit user input regarding desired
-destinations would also significantly benefit from historical data---we
-could suggest lots to end users 
-
-When combined with user
-
-Longer term historical data
-would enhance predicion
-
-
-
 \XXXnote{GWA: Integration into navigation software.}
 
-Both the accuracy and usage of ParkerPocket would be enhanced significantly
-by integration with existing mobile navigation solutions. \XXXnote{Google Maps by
-name?} Access to large blocks of data of many users over extended time
-would clearly address the present issue of lack of historical data.
 
-%tie in with above segment...
 
 labelled searches...
 
