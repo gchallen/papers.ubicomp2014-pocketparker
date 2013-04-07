@@ -344,7 +344,7 @@ estimated monitored fraction as derived in Section~\ref{subsubsec-monitored}.
 One reason we do not simply scale by $\frac{1}{f_m}$ is that our uncertainty
 about the true count should be affected by $f_m$. If all drivers use
 PocketParker, we know the true count exactly; if few do, we should be
-uncertain about the true count.
+uncertain.
 
 To compute the probability distribution we treat $s_{obs}$ as the output of a
 binomial distribution with probability $f_m$ and vary the number of trials.
@@ -463,9 +463,7 @@ search, we set $P(t, n) = P(t, n - s)$, with $P(t, 0) = \sum_0^s P(t, n)$.
 Figure~\ref{fig-examples-search} shows how the distribution shifts towards
 zero and probability accumulates in the full state after an unsuccessful
 search. The search shift parameter determines how aggressively PocketParker
-will use information provided by implicit searches. We believe that this
-parameter should be scaled with $\frac{1}{f_m}$, inversely with the monitored
-fraction.
+will use information provided by implicit searches.
 
 \subsubsection{Weighted arrivals and departures}
 
