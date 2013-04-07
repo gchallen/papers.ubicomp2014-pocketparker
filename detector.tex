@@ -52,7 +52,7 @@ sampled accelerometer data within a sensing period. Our application first
 feeds readings through a smoothing filter to suppress ambient sensor noise
 and other low amplitude signals. A standard deviation of the processed signal
 of less than $0.15\;\frac{m}{s^2}$ implies a user state of idle, a
-measurement above $0.50\;\frac{m}{s^2}$ to that of walking, and values in
+measurement above $1.0\;\frac{m}{s^2}$ to that of walking, and values in
 between to driving. The application stores a history of user states. From
 this history, we define the user steady state to be a state, if any, that
 constitutes a majority of the individual states observed within the last nine
