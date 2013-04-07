@@ -43,14 +43,14 @@ information that can be used in several ways to determine what lots to search
 and in what order. PocketParker's estimator uses the events produced by our
 parking event detector both to estimate the rates at which drivers are
 searching and departing from the lot and to adjust the availability
-probability directly. In this section, we present the design of the
-PocketParker parking lot availability estimator and portions of our system
-that run on the backend server.
+probability directly. In this section, we present both the design of the
+PocketParker client parking lot availability estimator and portions of
+the backend server for our system.
 
 \subsection{Overview}
 
 Figure~\ref{fig-lots} shows an example setup with two parking lots and two
-destinations used throughout this section. For each lot PocketParker
+destinations that are used throughout this section. For each lot PocketParker
 maintains a time-varying probability that the lot has $n$ free spots $P(t,
 n)$. While we are mainly interested in the probability that the lot has a
 space available $P_{free} = \sum_{n > 0} P(t, n)$, we maintain separate
@@ -73,8 +73,8 @@ rate at which departures and searches are taking place. PocketParker must use
 the events it can detect to estimate the rate at which events are taking
 place in the lot, which includes the effect of drivers not using
 PocketParker, which we call \textit{hidden drivers}. Accomplishing this
-requires that we estimate the ratio between monitored and hidden drivers, and
-we describe an approach to doing so in Section~\ref{subsec-hidden}. With an
+requires that we estimate the ratio between monitored and hidden drivers.
+We describe an approach to doing so in Section~\ref{subsec-hidden}. With an
 estimate of the hidden driver ratio, we can scale the search and departure
 rates according, described in Section~\ref{subsec-rates}. Finally,
 Section~\ref{subsec-online} describes how we integrate all of this
@@ -185,11 +185,11 @@ associated with a given lot.
 If we do not directly observe a user searching a lot before we detect an
 arrival, we cannot be certain that they performed the search. If the
 unsearched but preferable lot was available, they may not have searched it
-because they prefer to choose the first available spot, enjoy the exercise of
-walking farther to their destination, or want to irritate their passengers.
-However, these are not the type of users we believe would benefit from or use
-our PocketParker application, since finding a non-optimal parking spot is
-fairly simple in most cases.
+because they preferred to choose the first available spot, enjoyed the
+exercise of walking farther to their destination, or wanted to irritate
+their passengers. However, these are not the type of users we believe
+would benefit from or use our PocketParker application, since finding a
+non-optimal parking spot is fairly simple in most cases.
 
 A more interesting case is where a user has not performed a search before
 parking in a less-desirable lot because they \textit{believe} the more
@@ -228,14 +228,22 @@ Monitored PocketParker users compete for parking spaces with unmonitored
 users, which we call \textit{hidden drivers}. While we assume that
 PocketParker users are generally representative of the entire driving
 population, we do not assume that all or even a large fraction of drivers
-will download and install PocketParker and we want our system to still
+will download and install PocketParker. We want our system still to
 provide accurate predictions with the limited information caused by hidden
 drivers. To accomplish this, PocketParker needs to estimate the percentage of
+<<<<<<< HEAD
 drivers that are monitored, which we call the \textit{monitored fraction}
 $f_m$. A low monitored fraction indicates that few users are using
 PocketParker, whereas a high monitored fraction means that we are receiving
 inputs from most drivers. Put another way, the amount of uncertainty
 PocketParker must face when predicting lot availability is
+=======
+drivers that are monitored, which we call the \textit{monitored fraction}.
+\XXXnote{CWN -- why is it 1/f(m)?} A low monitored fraction indicates that
+few users are using PocketParker, whereas a high monitored fraction means
+that we are receiving inputs from most drivers. Put another way, the amount
+of uncertainty PocketParker must face when predicting lot availability is
+>>>>>>> 1d8aa0ca48d07268f309a9be265d97f5e3617aa2
 inversely-proportional to the monitored fraction.
 
 \subsubsection{Importance of monitored fraction estimation}
@@ -315,20 +323,20 @@ completely and often, to estimate the monitored fraction for other
 less-desirable lots. Here we are making the reasonable assumption that lots
 connected to the same destination share similar fractions of PocketParker
 users. Finally, PocketParker's monitored fraction estimator runs periodically
-over up to a week's worth of data for each lot, to incorporate changes in the
+over up to a week's worth of data for each lot, incorporating changes in the
 monitored fraction caused by increasing use of our app.
 
 \subsection{Rate Estimation}
 \label{subsec-rates}
 
 When PocketParker receives arrival and departure event information, it knows
-something concrete the state of the lot. However, to predict availability at
-other times we need to adjust our estimation based on recently-observed
-events, which we call rate estimation. To estimate the rate of events in the
-entire population including hidden drivers, PocketParker must scale its rate
-of parking events my monitored drivers appropriately. Next, we use these
-scaled estimates to adjust the probability that a given lot has a certain
-number of spots and has spots available.
+something concrete about the state of the lot. However, to predict
+availability at other times we need to adjust our estimation based on
+recently-observed events, which we call rate estimation. To estimate the rate
+of events in the entire population including hidden drivers, PocketParker
+must scale its rate of parking events by monitored drivers appropriately.
+Next, we use these scaled estimates to adjust the probability that a given
+lot has a certain number of spots and has spots available.
 
 During a time interval $t_0$ to $t_1$, PocketParker will observe some number
 of searches $s_{obs}(t_0, t_1)$ or departures $d_{obs}(t_0, t_1)$ in any
