@@ -1,65 +1,73 @@
 \section{Limitations and Future Work}
 \label{sec-future}
 
-\XXXnote{GWA: Street parking!}
+The pocketsourcing approach taken by PocketParker makes it easy to integrate
+into existing mapping applications, such as Google Maps. Doing so would
+benefit PocketParker in two ways. First, Google Maps and other navigation
+tools are in extremely wide deployment, with the Play Store estimating
+100~500~million installs for Google Maps. If we can increase the monitored
+fraction significantly, much of the work PocketParker does to perform
+estimation and work around low monitored fractions will be unnecessary.
 
-\XXXnote{GWA: Better rate estimation using historical data.}
+PocketParker will also benefit from the increased amount of location context
+available through integration into mapping software. We imagine a ``Help Me
+Park'' button which engages PocketParker. This small piece of natural user
+input allows PocketParker to identify \textit{explicit} searches and use them
+to build up a lot desirability model with requiring annotations. However,
+once PocketParker begins guiding users to available parking spaces we will
+have to incorporate the effects of our guidance on natural user behavior.
+However, we believe that many users will only query PocketParker when parking
+in unfamiliar locations, while still providing data about lots they use
+regularly and know well.
 
-PocketParker presently bases its parking preditions on a fifteen-minute 
+PocketParker presently bases its parking preditions on a fifteen-minute
 limited rolling window of recent parking events. We do not presently tap the
 benefit of daily and weekly patterns that would otherwise enhance predictive
 accuracy, but hope to do so in the future. Maintaining a database of
 previously collected historical data from our own application will increase
 the sample size and hence statistical accuracy of our parking preditions.
-Integration of ParkerPocket with an existing mobile navigation solution such
-as Google Maps would increase exponentially the data we can tap and the
-accuracy benefits users will receive.
+This is another area where integration with a mapping application would help,
+providing PocketParker with access to much more data.
 
 Access to historical data will also address a present fundamental limitation:
-the situation of a lot that fills abruptly, a typical occurence on academic
-campuses during class changes. Basing a negative recommendation about a
+the situation of a lot that fills abruptly, a typical occurence at
+universities during class changes. Basing a negative recommendation about a
 particular lot's availability solely upon recently acquired unsuccessful
 searches implies that a time lag necessarily exists between when users start
 discovering on their own that a lot is full and when we have collected enough
-data to conclude and somewhat belatedly recommend that a lot is an unwise
-option. Having historical data on hand will dissolve this limitation
-immediately:  using previous trends, we will be able to time parking
-advisories for particular lots before they hit capacity.
+data to conclude---somewhat belatedly---that a lot is an unwise option.
+Having historical data on hand will dissolve this limitation immediately:
+using previous trends, we will be able to time parking advisories for
+particular lots before they hit capacity.
 
-An anticipated future enhancement of our appliction, adding capacity to
-solicit the exact prefered parking destination from a user, will also
-significantly benefit from historical data. We will be able to suggest lots
-available to end users based on proximity to logistically preferable but full
-lots. If a user further furnishes insight into how long he is willing to wait
-for a desired parking location, we will be able to mine historical data for
-how long someone in that situation will have to wait for a parking spot and
-make recommendations accordingly.
+Finally, we believe that once users begin interacting with PocketParker we
+will see different preferences emerge. Some user will want PocketParker to
+help them aggressively hunt for spots, and be willing to wait for drivers to
+leave. Others may be more interested in simply finding a spot quickly even if
+it is farther away. PocketParker has several parameters that can control its
+predictions, and we will need to determine which are the most intuitive to
+users.
 
-Integration with Google Maps or other navigation solution will permit
-automatic retrieval of labeled search preferences in lieu of manual user
-input.
-
-
-Over time, accuracy and popularity of PocketParker should mutually enhance
-each other.  Increasingly dense data, stemming from higher user adoption rates
-and additional historical information, 
-
-...will enhance accuracy, and hence credibility of the application, with end users...
-
-\XXXnote{GWA: Integration into navigation software.}
-
-
-
-labelled searches...
-
-\XXXnote{GWA: Incorporating user preferences.}
-
-\XXXnote{GWA: Discuss what happens if all lots are full.}
-
-SOL, pal...
-
-\XXXnote{GWA: Hierarchical decomposition of lots over time.}
-
-
-
-
+%
+%An anticipated future enhancement of our appliction, adding capacity to
+%solicit the exact prefered parking destination from a user, will also
+%significantly benefit from historical data. We will be able to suggest lots
+%available to end users based on proximity to logistically preferable but full
+%lots. If a user further furnishes insight into how long he is willing to wait
+%for a desired parking location, we will be able to mine historical data for
+%how long someone in that situation will have to wait for a parking spot and
+%make recommendations accordingly.
+%
+%Integration with Google Maps or other navigation solution will permit
+%automatic retrieval of labeled search preferences in lieu of manual user
+%input.
+%
+%
+%Over time, accuracy and popularity of PocketParker should mutually enhance
+%each other.  Increasingly dense data, stemming from higher user adoption rates
+%and additional historical information, 
+%
+%...will enhance accuracy, and hence credibility of the application, with end users...
+%
+%
+%labelled searches...
