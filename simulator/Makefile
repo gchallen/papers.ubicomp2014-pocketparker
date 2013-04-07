@@ -26,13 +26,13 @@ figures/accuracy_table.tex: accuracy.py
 
 #################
 
-runs/campus_05_00.data: estimator.py libs.py data/campus_05.in
+runs/campus_05_00.data: estimator.py lib.py data/campus_05.in
 	cat data/campus_05.in | ./estimator.py 0.0 1.0 > $@
 
-runs/campus_10_00.data: estimator.py libs.py data/campus_10.in
+runs/campus_10_00.data: estimator.py lib.py data/campus_10.in
 	cat data/campus_10.in | ./estimator.py 0.0 1.0 > $@
 
-runs/campus_20_00.data: estimator.py libs.py data/campus_20.in
+runs/campus_20_00.data: estimator.py lib.py data/campus_20.in
 	cat data/campus_20.in | ./estimator.py 0.0 1.0 > $@
 
 #################
