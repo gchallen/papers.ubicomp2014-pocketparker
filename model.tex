@@ -1,5 +1,40 @@
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth]{./figures/CartoonLot.pdf}
+
+\caption{\textbf{Example parking lot setup.} Two lots and three
+destinations are shown.}
+
+\label{fig-lots}
+\end{figure}
+
 \section{Availability Estimation}
 \label{sec-model}
+
+\begin{figure*}
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/arrival.pdf}
+    \caption{Effect of arrival.}
+    \label{fig-examples-arrival}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/departure.pdf}
+    \caption{Effect of departure.}
+    \label{fig-examples-departure}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/search.pdf}
+    \caption{Effect of search.}
+    \label{fig-examples-search}
+  \end{subfigure}
+  \caption{\textbf{Effect of different types of events on the lot availability
+  distribution.} Arrivals, departures, and implicit searches each have a
+  different instantaneous effect on PocketParker's availability distribution.}
+  \label{fig-examples}
+\end{figure*}
 
 In order for parking events to be useful, they must be incorporated into a
 model allowing us to predict parking lot availability. Our goal is to respond
@@ -13,16 +48,6 @@ PocketParker parking lot availability estimator and portions of our system
 that run on the backend server.
 
 \subsection{Overview}
-
-\begin{figure}
-\centering
-\includegraphics[width=\columnwidth]{./figures/CartoonLot.pdf}
-
-\caption{\textbf{Example parking lot setup.} Two lots and three
-destinations are shown.}
-
-\label{fig-lots}
-\end{figure}
 
 Figure~\ref{fig-lots} shows an example setup with two parking lots and two
 destinations used throughout this section. For each lot PocketParker
@@ -81,32 +106,6 @@ sizes, however, may vary significantly from lot to lot or based on the lot's
 location. To improve our estimate, we may need to incorporate
 location-specific parking spot size estimates. Alternatively, mapping
 databases may be directly annotated with the number of spots per lot.
-
-\begin{figure*}
-  \begin{subfigure}[b]{0.33\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{./figures/arrival.pdf}
-    \caption{Effect of arrival.}
-    \label{fig-examples-arrival}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.33\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{./figures/departure.pdf}
-    \caption{Effect of departure.}
-    \label{fig-examples-departure}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.33\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{./figures/search.pdf}
-    \caption{Effect of search.}
-    \label{fig-examples-search}
-  \end{subfigure}
-  \caption{\textbf{Effect of different types of events on the lot availability
-  distribution.} Arrivals, departures, and implicit searches each have a
-  different instantaneous effect on PocketParker's availability distribution.}
-  \label{fig-examples}
-\end{figure*}
-
 
 \subsection{Lot Relationships}
 \label{subsec-lots}
@@ -214,6 +213,16 @@ we point out how integrating PocketParker into existing navigation
 applications could address this problem by making searches explicit, rather
 than implicit.
 
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth]{./simulator/figures/capacity.pdf}
+
+\caption{\textbf{Example of capacity estimation.} Running counts for two lots
+are shown.}
+
+\label{fig-capacityexample}
+\end{figure}
+
 \subsection{Hidden Driver Estimation}
 \label{subsec-hidden}
 
@@ -253,18 +262,18 @@ which requires an estimate of the monitored fraction.
 Section~\ref{subsec-rates} describes how the monitored rate is used as an
 input into rate estimation and scaling.
 
-\subsubsection{Estimating the monitored fraction}
-\label{subsubsec-monitored}
-
 \begin{figure}
 \centering
-\includegraphics[width=\columnwidth]{./simulator/figures/capacity.pdf}
+\includegraphics[width=\columnwidth]{./figures/rates.pdf}
 
-\caption{\textbf{Example of capacity estimation.} Running counts for two lots
-are shown.}
+\caption{\textbf{Example of rate estimation.} Spread of each distribution
+shows the effect of the monitored fraction on rate certainty.}
 
-\label{fig-capacityexample}
+\label{fig-rateexample}
 \end{figure}
+
+\subsubsection{Estimating the monitored fraction}
+\label{subsubsec-monitored}
 
 PocketParker estimates the monitored fraction by first determining the
 monitored capacity---the capacity of the lot measured by monitored
@@ -312,16 +321,6 @@ connected to the same destination share similar fractions of PocketParker
 users. Finally, PocketParker's monitored fraction estimator runs periodically
 over up to a week's worth of data for each lot, to incorporate changes in the
 monitored fraction caused by increasing use of our app.
-
-\begin{figure}
-\centering
-\includegraphics[width=\columnwidth]{./figures/rates.pdf}
-
-\caption{\textbf{Example of rate estimation.} Spread of each distribution
-shows the effect of the monitored fraction on rate certainty.}
-
-\label{fig-rateexample}
-\end{figure}
 
 \subsection{Rate Estimation}
 \label{subsec-rates}

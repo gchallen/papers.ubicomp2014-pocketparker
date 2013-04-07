@@ -1,4 +1,4 @@
-\begin{figure*}
+\begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{./simulator/figures/lots.pdf}
 
@@ -13,17 +13,17 @@ lots with different behaviors were used during simulations.}
 
 We evaluate PocketParker in three ways. First, we conducted a controlled
 experiment to determine the correct parameter settings for our parking event
-detector. Second, we have implemented a parking lot simulator, which allows
-us to experiment with various kinds of lots as well as vary the monitored
-fraction and other parameters. Finally, we performed a small-scale deployment
-of PocketParker on our campus and use it to monitor three lots. Camera
-monitoring was used to ground truth the predictions from our deployment
-dataset. All three components of our evaluation together confirm that
-PocketParker is efficiency and accurate.
+detector. Second, we have implemented a parking lot simulator allowing us to
+experiment with various kinds of lots as well as vary the monitored fraction
+and other parameters. Finally, we performed a small-scale deployment of
+PocketParker on our campus and use it to monitor two lots. Camera monitoring
+was used to ground truth the predictions from our deployment dataset. All
+three components of our evaluation together confirm that PocketParker is
+efficiency and accurate.
 
 \subsection{Detector Experiment}
 
-\begin{figure}
+\begin{figure}[t]
 \centering
 \includegraphics[width=3.325in]{./figures/Energy_accuracy.pdf}
 
@@ -38,47 +38,46 @@ order to improve detection accuracy.}
 
 To determine the right parameter settings for our transition detector, we
 conducted a controlled experiment. During this experiment, accelerometer and
-GPS data was collected continuously and store on each device, and
+GPS data was collected and stored continuously on each device, and
 participants were asked to manually label each transition into and out of the
-car. Afterwards, data was fed into Python-based simulator implementing the
-same algorithm used by the PocketParker application, allowing us measure
-accuracy and energy consumption as function of the detector duty cycle.
+car. Afterwards, data was processed by a Python simulator implementing the
+identical algorithm used by the PocketParker application, allowing us measure
+accuracy and energy consumption as a function of the detector duty cycle.
 
-Eight volunteers participated, including seven men and one woman, seven of
-whom were right-handed and one of whom was left-handed. Each was asked to
-conduct the same experiment 10 times: carrying the instrumented phone, walk
-out to their car, label departure, drive around briefly, park, label arrival,
-and walk back inside. Since the way the phone is carried while walking and
-placed in the car while driving affects the accelerometer readings, care was
-taken to generate a good mix of carry and car location styles.
+Eight volunteers participated, including seven men and one woman. Seven were
+right-handed and one was left-handed. Each was asked to conduct the same
+experiment ten times: (1) carrying the instrumented phone, walk to their car;
+(2) label departure; (3) drive around campus briefly; (4) park and label
+arrival; (5) return inside. Since the way the phone is carried while walking
+and placed in the car while driving affects the accelerometer readings, care
+was taken to generate a good mix of carry and car location styles.
 Table~\ref{table-experiment} shows the breakdown. The experiment permitted us
-to obtain sensing data from a cross section of people posessed of varying
-body morphologies and different habits of driving cars and handling mobile
-devices. Participation in the experiment took roughly one hour and pizza was
-provided.
+to obtain sensing data from a cross section of individuals possessing
+different body morphologies, habits of driving cars, and ways of handling
+mobile devices. Participation in the experiment took roughly one hour and
+pizza was provided.
 
 Figure~\ref{fig-energy} displays the tradeoff between energy usage and
 detection accuracy as a function of the PocketParker duty cycle. Here we
-combine an active period of 5~s with a inactive period of variable length,
-between 5~and~55~s, for an overall duty cycle between 0.5 and 0.06. Our
+combine an active period of 5s with a inactive period of variable length,
+between 5~and~55s, for an overall duty cycle between 0.5 and 0.06. Our
 simulator uses energy numbers used by the Android Fuel Guage application
 along with the acceloremeter duty cycles and number of GPS locations
 requested including false positives to estimate average power consumption.
 This graph measures the accuracy of detected events in terms of distance from
-the actual location of the event labelled by the participant
+the actual location of the event labeled by the participant.
 
 As we expect, longer duty cycles consume less energy but produce longer
 detection latencies which translate into higher distances from the event
 location. Note also that the departure events have higher location error than
-the parking events, simply because after departing users are driving and
-therefore traveling more rapidly. Overall power usage by PocketParker is low,
-under 10~mW at all duty cycles. Because PocketParker's ability to map parking
+the parking events, because departing users are driving and therefore
+traveling more rapidly. Overall power usage by PocketParker is low, under
+10~mW at all duty cycles. Because PocketParker's ability to map parking
 events into lots is affected by the detection distance accuracy, we chose a
-low total period of 15~s for a $\frac{1}{3}$ duty cycle. This allows
-PocketParker to determine location to within 25~m for parking events and 80~m
-for departures. Power consumption at this duty cycle is 8~mW, representing
-4.2\% of a the capacity of a 1500~mAh battery discharged over 24~hours if
-used continuously.
+low total period of 15~s for a 0.25 duty cycle. This allows PocketParker to
+determine location to within 25~m for parking events and 80~m for departures.
+Power consumption at this duty cycle is 8~mW, representing 4.2\% of the
+capacity of a 1500~mAh battery over 24~hours of usage.
 
 \begin{figure}
 \centering
@@ -93,13 +92,12 @@ duty cycle.}}
 Using the same data we also examine the false positive and negative rates for
 arrivals and departures. This is important since, without explicit user
 input, it would be impossible to determine this information while
-PocketParker is in use. Figure~\ref{fig-falsepositives} show PocketParker can
-detect 80\% of arrival and departure events correctly at the lowest duty
-cycle, which is the one that we use. False positive rates are already quite
-low, and this is before we apply our GPS availability filter. False positives
-decline as the duty cycle decreases because PocketParker has fewer
+PocketParker is in use. Figure~\ref{fig-falsepositives} shows PocketParker
+can detect 80\% of arrival and departure events correctly at the 0.25 duty
+cycle we use. False positive rates are already quite low, and this is before
+we apply our GPS availability filter and lot location filters. False
+positives decline as the duty cycle decreases because PocketParker has fewer
 opportunities to detect user activity.
-
 
 \subsection{Simulation Results}
 \label{subsec-simulator}
@@ -109,9 +107,9 @@ a parking lot simulator in Python. Our simulator allows us to simulate any
 number of parking lots associated with any number of points of interest with
 varying desirability levels. For simplicity during our evaluation, we
 simulate two lots 1~and~2 with lot~1 filling before lot~2, although lot
-choice by simulated drivers is probabilisticly weighted. Particularly for
-evaluating our monitored fraction estimation we are interested in lots that
-fill and empty in various ways. We use five types of lots:
+choice by simulated drivers is randomly weighted. Particularly for evaluating
+our monitored fraction estimation we are interested in lots that fill and
+empty in various ways. We use five types of lots:
 
 \begin{itemize}
 
@@ -125,12 +123,12 @@ high arrival and departures rates, like an airport parking lot.
 fill, with lot~2 almost completely unused.
 
 \item \textbf{Multiple Fill} represents a lot that rapidly fills and empties
-repeatedly during each day, perhaps like a campus lot or movie theater.
+repeatedly during each day, like a campus lot or movie theater.
 
 \end{itemize}
 
-Figure~\ref{fig-lotsdescription} shows the arrival and departure rates for each
-of the types of lot as well as the resulting overall capacity.
+Figure~\ref{fig-lotsdescription} shows the arrival and departure rates for
+each of the types of lot as well as the resulting per-lot capacity.
 
 \begin{figure*}
 \centering
@@ -151,8 +149,7 @@ PocketParker availability estimator. Figure~\ref{fig-capacityerrors} shows
 the results of 10 random simulations for each lot type. In each case, the
 monitored fraction estimator uses a weeks worth of data and proceeds as
 described previously. The error in the monitored fraction estimate is shown
-as a function of the actual monitored fraction for the simulation used,
-although that is unknown.
+as a function of the actual monitored fraction for the simulation used.
 
 For the five types of lots, we would expect PocketParker to do better
 monitored fraction estimation when lots fill regularly---Fast Fill, Slow
@@ -164,12 +161,11 @@ natural, as the Low Churn lot never fills. Fast Fill results improve with
 increasing monitored driver fraction. We are investigating, however, the
 problems with estimating lot~1 capacity, and persistent errors with the Slow
 Fill lots. Improving the accuracy of monitored fraction estimation may
-require additional smoothing techniques or incorporating information from
-other lots. However, as we demonstrate later, our availability estimator is
-quite robust to errors in the monitored fraction up to 100\% of the true
-value.
+require additional smoothing techniques or merging information from multiple
+related lots. However, as we demonstrate later, our availability estimator is
+robust to monitored fraction estimation errors up to 50\%.
 
-\begin{figure}
+\begin{figure}[t]
 \centering
 \includegraphics[width=3.325in]{./simulator/figures/tracking_fastfill.pdf}
 
@@ -189,8 +185,8 @@ availability probability for each lot may not meaningful. Instead,
 PocketParker uses the probabilites to order available lots in response to
 queries. We examine its accuracy at performing this essential task next.
 However, it is illustrative to examine the probabilities PocketParker
-maintains and compare them against ground truth: the actual number of spots
-in the lot.
+maintains and observe how they vary as the number of available spots in the
+lot changes.
 
 Figure~\ref{fig-trackingexample} shows a 24~hour simulation of a Fast Fill
 parking lot with a monitored fraction of 0.1 and a 10\% error in the
@@ -198,10 +194,11 @@ estimation of the monitored fraction. The ground truth capacity of the lot as
 simulated is plotted next to the PocketParker probability that the lot has an
 available spot. At the beginning of the simulation, both lots are marked as
 free. When lot~1 fills and lot~2 begins to fill, generating implicit searches
-in lot~1, the availability probability of lot~1 drops. It bumps upward
-repeatedly due to departures from lot~1, but does not equal the probability
-for lot~2 again until the point when the departure rate for lot~1 climbs and
-both lots begin to empty.
+in lot~1, the availability probability of lot~1 drops. It spikes upward
+repeatedly due to departures from lot~1---which reset the short-term
+probability of an available spot back to 1---but does not equal the
+probability for lot~2 again until the point when the departure rate for lot~1
+climbs and both lots begin to empty.
 
 \subsubsection{Prediction accuracy}
 
@@ -286,7 +283,7 @@ fraction of \XXXnote{GWA: FIXME} for the results shown. Given the location of
 other campus buildings to the south of our building, lot~A is considered more
 desirable than lot~B.
 
-\begin{figure}
+\begin{figure}[t]
 \centering
 \includegraphics[width=3.0in]{./figures/Camera_setting.pdf}
 
