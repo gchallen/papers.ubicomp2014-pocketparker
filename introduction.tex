@@ -8,29 +8,33 @@ published an online article~\cite{wsj-park} with tips on spot stalking for
 shoppers during the holidays. Searching not only generates frustration but
 also wastes energy and produces harmful carbon emissions.
 
-In order to assist drivers searching for a parking space, numerous smartphone
-applications are developed and available in the online application stores
-such as Google Play Store and App Store. Although drivers may find these
-smartphone applications useful, they either do not provide real-time parking
-lot availability or simply display publicly-available information. Several
-research projects have attempted to address these limitations~\cite{4212497,
-Chen:2012:COS, Delot:2009:CRP, 5062057, Mathur:2010:PDS}, but include
-requirements rendering them impractical, such as additional
-infrastructure~\cite{5062057}, on-vehicle equipment~\cite{Mathur:2010:PDS} or
-vehicular networking~\cite{Delot:2009:CRP, Mathur:2010:PDS}, or onerous
-manual user input~\cite{Chen:2012:COS}.
+Online smartphone application stores such as Google Play and the App Store
+are teeming with apps claiming to help you find a parking spot. Although some
+drivers may find these applications useful, they either do not provide
+real-time parking lot availability or simply display publicly-available
+information. Several research projects have attempted to address these
+limitations~\cite{4212497, Chen:2012:COS, Delot:2009:CRP, 5062057,
+Mathur:2010:PDS}, but include requirements rendering them impractical, such
+as additional infrastructure~\cite{5062057}, on-vehicle
+equipment~\cite{Mathur:2010:PDS} or vehicular
+networking~\cite{Delot:2009:CRP, Mathur:2010:PDS}, or onerous manual user
+input~\cite{Chen:2012:COS}. In contrast to these efforts, we believe the
+solution to finding a parking spot is already in your pocket.
 
-We present {\it PocketParker}, a system that predicts parking lot availability
-using smartphones. Unlike previous approaches, our goal is to not require any
-additional input or infrastructure other than the smartphones used by the users
-of PocketParker. More specifically, we only require our users to download a
-smartphone application that runs in the background and detects parking related
-events. Using this information, we construct a prediction model that estimates
-the availability of a parking lot in our backend server. This simple operational
-requirement gives PocketParker the advantage of being easily deployable. In
-general, we consider our approach to be an example of a special type of
-crowdsourcing that does not require any manual user input. We term {\it
-pocketsourcing} to refer to this type of crowdsourcing.
+We present \textit{PocketParker}, a system that predicts parking lot
+availability using smartphones and pocketsourcing. Unlike previous
+approaches, PocketParker requires no additional infrastructure, no vehicle
+modifications, and even no user input, only some small percentage of the
+100~million smartphones already in use in the US~\cite{smartphone-numbers}.
+
+specifically, we only require our users to download a smartphone application
+that runs in the background and detects parking related events. Using this
+information, we construct a prediction model that estimates the availability
+of a parking lot in our backend server. This simple operational requirement
+gives PocketParker the advantage of being easily deployable. In general, we
+consider our approach to be an example of a special type of crowdsourcing
+that does not require any manual user input. We term {\it pocketsourcing} to
+refer to this type of crowdsourcing.
 
 Our goal of pocketsourcing accompanies two technical challenges. The first
 challenge is detecting parking related events accurately while minimizing energy
