@@ -42,10 +42,12 @@ The application needs to determine the state of the user---whether walking,
 driving or idle---with a test that is simple, quick and reasonably effective
 for our goals.  We rely solely on accelerometer data for an initial
 determination of state, as continuously cycled GPS sensing would consume too
-much power. An accelerometer $\frac{1}{4}$ duty cycle, with 5~s sensing and
-15~s idle periods, proved optimal. Five seconds was the minimum time
-necessary to detect sensing activity accurately. We also wanted to obtain two
-sensing periods within a short period of time for confirmation.
+much power. As we show in Section~\ref{sec-evaluation}, an accelerometer
+$\frac{1}{4}$ duty cycle with 5~s sensing and 15~s idle periods proved optimal
+and five seconds was the minimum time necessary to detect sensing activity
+accurately. Since we also wanted to obtain data from two consecutive sensing
+periods for confirmation, we have determined that these short time periods
+fit our purpose better.
 
 The initial test for user state relies on the standard deviation of sampled
 accelerometer data within a sensing period. Our application first feeds
