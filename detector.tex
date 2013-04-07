@@ -43,33 +43,34 @@ driving or idle---with a test that is simple, quick and reasonably effective
 for our goals.  We rely solely on accelerometer data for an initial
 determination of state, as continuously cycled GPS sensing would consume too
 much power. As we show in Section~\ref{sec-evaluation}, an accelerometer
-$\frac{1}{4}$ duty cycle with 5~s sensing and 15~s idle periods proved optimal
-and five seconds was the minimum time necessary to detect sensing activity
-accurately. Since we also wanted to obtain data from two consecutive sensing
-periods for confirmation, we have determined that these short time periods
-fit our purpose well.
+$\frac{1}{4}$ duty cycle with 5~s sensing and 15~s idle periods proved
+optimal and five seconds was the minimum time necessary to detect sensing
+activity accurately. Since we also wanted to obtain data from two consecutive
+sensing periods for confirmation, we have determined that these short time
+periods work well.
 
 In order to set the initial state of a user, we use the standard deviation of
-sampled accelerometer data within a sensing period. Our application first feeds
-readings through a smoothing filter to suppress ambient sensor noise and
-other low amplitude signals. A standard deviation of the processed signal of
-less than $0.15\;\frac{m}{s^2}$ implies a user state of idle, a measurement
-above $0.50\;\frac{m}{s^2}$ to that of walking, and values in between to
-driving. The application stores a history of user states for future
-reference. From this history, we define the user steady state to be a
-state, if any, that constitutes a majority of the individual states observed
-within the last nine periods, an empirically-determined parameter proven to be
-effective.
+sampled accelerometer data within a sensing period. Our application first
+feeds readings through a smoothing filter to suppress ambient sensor noise
+and other low amplitude signals. A standard deviation of the processed signal
+of less than $0.15\;\frac{m}{s^2}$ implies a user state of idle, a
+measurement above $0.50\;\frac{m}{s^2}$ to that of walking, and values in
+between to driving. The application stores a history of user states. From
+this history, we define the user steady state to be a state, if any, that
+constitutes a majority of the individual states observed within the last nine
+periods, an empirically-determined parameter proven to be effective.
 
-We use user state, in turn, to deduce parking arrival events. We determine that
-a parking event has occurred based on several conditions. The user steady state
-must be driving and the last two individual states observed must be walking.
-Alternatively, if the steady state is driving but only the last one state
-observed is walking, we impose an additional constraint: the number of waveform
-peaks $2\;\frac{m}{s^2}$ above the mean observed accelerometer value must exceed
-a minimum threshhold corresponding to that produced by a slow human gait.  This
-test catches the large majority of parking events, where people park their cars
-and immediately begin walking.
+We use user state, in turn, to deduce parking arrival events. We determine
+that a parking event has occurred based on several conditions. The user
+steady state must be driving and the last two individual states observed must
+be walking. Alternatively, if the steady state is driving but only the last
+one state observed is walking, we impose an additional constraint: the number
+of waveform peaks $2\;\frac{m}{s^2}$ above the mean observed accelerometer
+value must exceed a minimum threshhold corresponding to that produced by a
+slow human gait.  This test catches a large majority of parking events, where
+people park and immediately begin walking.
+
+\vfill\eject
 
 However, drivers occasionally sit in their cars for a period before leaving.
 To detect this type of parking event, we employ a second test. The difficulty is
