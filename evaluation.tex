@@ -1,3 +1,13 @@
+\begin{figure*}
+\centering
+\includegraphics[width=\textwidth]{./simulator/figures/lots.pdf}
+
+\caption{\textbf{Description of each type of lot simulated.} Five different
+lots with different behaviors were used during simulations.}
+
+\label{fig-lotsdescription}
+\end{figure*}
+
 \section{Evaluation}
 \label{sec-evaluation}
 
@@ -90,15 +100,6 @@ low, and this is before we apply our GPS availability filter. False positives
 decline as the duty cycle decreases because PocketParker has fewer
 opportunities to detect user activity.
 
-\begin{figure*}
-\centering
-\includegraphics[width=\textwidth]{./simulator/figures/lots.pdf}
-
-\caption{\textbf{Description of each type of lot simulated.} Five different
-lots with different behaviors were used during simulations.}
-
-\label{fig-lotsdescription}
-\end{figure*}
 
 \subsection{Simulation Results}
 \label{subsec-simulator}
@@ -156,11 +157,17 @@ although that is unknown.
 For the five types of lots, we would expect PocketParker to do better
 monitored fraction estimation when lots fill regularly---Fast Fill, Slow
 Fill, and Multiple Fill---and poorly when they do fill erratically or not at
-all---High and Low Churn. \XXXnote{GWA: Finish when results look better.}
-
-In addition, because lot~1 in our simulations fills
-first and lot~2 sometimes does not fill at all, we would expect to do a
-better job with lot~1. \XXXnote{GWA: Finish when results look better.}
+all---High and Low Churn. The results in Figure~\ref{fig-capacityerrors}
+generally follow this pattern. Errors for High Churn are quite high, and Low
+Churn errors persist even at high monitored driver fractions. This is
+natural, as the Low Churn lot never fills. Fast Fill results improve with
+increasing monitored driver fraction. We are investigating, however, the
+problems with estimating lot~1 capacity, and persistent errors with the Slow
+Fill lots. Improving the accuracy of monitored fraction estimation may
+require additional smoothing techniques or incorporating information from
+other lots. However, as we demonstrate later, our availability estimator is
+quite robust to errors in the monitored fraction up to 100\% of the true
+value.
 
 \begin{figure}
 \centering
