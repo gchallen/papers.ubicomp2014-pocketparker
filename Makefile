@@ -1,13 +1,16 @@
 START = xxxnote
 END = missing
-CLASS = $(PYTEX)/cls/sensys.cls
+CLASS = $(PYTEX)/cls/sig-alternate.cls
 
 export TEXINPUTS:=.:$(PYTEX)/cls:
 
 all: paper ABSTRACT
 
-ABSTRACT: abstract.tex
-	@$(PYTEX)/bin/clean $< $@
+figures:
+	@cd figures ; make
+
+ABSTRACT: $(PYTEX)/bin/clean $(PYTEX)/bin/lib.py abstract.tex
+	@$(PYTEX)/bin/clean abstract.tex ABSTRACT
 
 # 16 Nov 2010 : GWA : Add other cleaning rules here.
 

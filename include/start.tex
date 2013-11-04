@@ -1,11 +1,5 @@
-\documentclass[10pt]{sensys}
-\usepackage{url,graphicx,multirow,hyperref,color,calc,ulem,threeparttable,tabularx,booktabs}
-\usepackage{caption}
-\DeclareCaptionType{copyrightbox}
-\usepackage{balance,subcaption,amsfonts}
-
-\usepackage{leading}
-\leading{12pt}
+\documentclass{sig-alternate-10pt}
+\usepackage{url,graphicx,multirow,hyperref,color,calc,ulem,threeparttable,tabularx,booktabs,enumitem,subcaption,balance,amsfonts}
 
 \hypersetup{
   bookmarks=true,
@@ -19,7 +13,11 @@
   pdfnewwindow=true,
   colorlinks=false,
   pdfdisplaydoctitle=true,
-  pdfborder={0 0 0}
+  pdfborder={0 0 0},
+  pdfinfo={
+    Title={PocketParker: Pocketsourcing Parking Lot Availability},
+    Author={Anandatirtha Nandugudi, Taeyeon Ki, Carl Nuessle, and Geoffrey Challen}
+  },
 }
 
 \usepackage[all]{hypcap}
@@ -28,9 +26,6 @@
    /Author ()
    /Title  ()
 }
-
-\usepackage{bibspacing}
-\setlength{\bibspacing}{\baselineskip}
 
 \input{.xxxnote}
 \input{common.tex}
