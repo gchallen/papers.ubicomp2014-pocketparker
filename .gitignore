@@ -1,9 +1,12 @@
-paper.pdf
-.xxxnote
+/ABSTRACT
+/paper.pdf
+/.xxxnote
+/.deps
+*.bbl
+*.blg
 *.swp
+*.pyc
 *.aux
 *.log
 *.out
-*.bbl
-*.blg
-.deps
+.~lock*
