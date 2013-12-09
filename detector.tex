@@ -16,8 +16,8 @@ smartphone itself.
 PocketParker assumes that transitions between walking and driving that occur
 in and adjacent to locations known to be parking lots constitute either
 arrival (driving to walking) or departure (walking to driving) events.  We thus
-must be able to discern between walking and driving states of the user, and to
-to do so fast enough to fix the the location of the parking lot in which the
+must be able to discern between walking and driving states of the user, and to 
+do so fast enough to fix the the location of the parking lot in which the
 event took place.  Detecting these states could be achieved using
 continuously-sampled GPS data would consume too much energy for an effective
 pocketsourcing solution.  Rather, we rely on duty-cycled accelerometer data to
@@ -25,7 +25,7 @@ classify the user behavior into one of three states: walking, driving, or idle.
 
 The initial inference of user states yielded by accelerometer sensing is
 subsequently refined with GPS and WiFi sense data to yield the desired goal:
-detection of parking and departure events.  The mobile device reports these
+detection of arrival and departure events.  The mobile device reports these
 events, along with their locations, to the server.  Before recording the event,
 the server verifies its location against a pre-compiled list of known parking
 lot locations.  This final step eliminates events that are either
@@ -34,8 +34,8 @@ parking but in a loading area rather than in a parking lot).
 
 Subsequent to the conclusion of our research, Google released an update to its
 closed Android binaries that contained user activity detection functionality.
-As this was similar to to that developed for PocketParker, substituting this
-code would not have materially affected the detection of parking and arrival
+As this was similar to that developed for PocketParker, substituting this
+code would not have materially affected the detection of arrival and departure 
 events.  Both algorithms treat user state detection in terms of statistical
 liklihoods.~\cite{website}  False detection could be further minimized with
 additional sensing, particularly GPS data, or with more computationally intense
