@@ -1,7 +1,32 @@
 \section{Related Work}
 \label{sec-related}
 
+Many previous projects have addressed components of our problem, including
+activity detection, parking lot monitoring using various types of
+infrastructure and additional sensors, and transportation-related tracking.
+Below we discuss related efforts and their relevance to PocketParker.
+
 \subsection{Activity Detection}
+
+Activity detection is a basic primitive that enables other higher-level
+functionalities. Several previous systems~\cite{Constandache:2010:DYS,
+Keally:2011:PTP, Reddy:2010:UMP, Yang:2011:DDP, Wang:2009:FEE} have proposed
+techniques for activity detection, solving the main challenges of energy
+efficiency and accuracy. Yang et al.~\cite{Yang:2011:DDP} develop an algorithm
+that detects if a driver is using a phone by sending high-frequency beeps via
+in-car speakers. EEMSS~\cite{Wang:2009:FEE} is a system that provides continuous
+identification of general human states such as walking, driving, and being in an
+office. Reddy et al.~\cite{Reddy:2010:UMP} propose a classification approach
+that determines human movement states such as walking, running, biking, or
+vehicle-traveling. Constandache et al.~\cite{Constandache:2010:DYS} use
+smartphone accelerometers to determine users' walking trails. Yan et
+al.~\cite{6246136} propose an adaptive approach that dynamically adjusts the
+accelerometer sampling frequency for conserving energy. Keally et
+al.~\cite{Keally:2011:PTP} use a combination of on-body wireless sensors and
+smartphones to classify human states. Our system can benefit from these
+techniques for detecting parking-related events; however, we find it sufficient
+to use a simple detector since it avoids the complexity of detecting events
+unrelated to parking.
 
 \subsection{Parking Lot Monitoring}
 
