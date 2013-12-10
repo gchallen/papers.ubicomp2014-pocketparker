@@ -103,6 +103,8 @@ print r"""\begin{table}[t!]
 """
 
 for run_name in sorted(table_lines.keys()):
+  if not run_name == 'Campus':
+      continue
   print r"""\textbf{%s} & & & & & \\
 \midrule""" % (run_name,)
   for monitored in sorted(table_lines[run_name]):
