@@ -87,15 +87,13 @@ events are received.
 PocketParker requires an estimate of lot capacity $C$ in several places.
 First, we use this estimate to bound $P(t)$ such that $P(t, n > C) =
 0\;\forall\;t$. Second, we use the capacity to determine the number of hidden
-drivers, detailed in Section~\ref{subsec-hidden}. Recall from
-Section~\ref{subsec-false} that our false-positive filter uses knowledge of
-the location of lots obtained from the OpenStreetMap
-database~\cite{openstreetmap}. We estimate the capacity of each lot by
-converting the location of the lot into a size and dividing by the size of an
-average parking spot, using a parking spot size typical to standard parking
-lot designs~\cite{parkingdesign}. Comparing this estimate with
-manually-counted capacities for the five lots monitored by our deployment,
-capacity estimates were within 6\% of the true capacity in all cases.
+drivers, as detailed in Section~\ref{subsec-hidden}.  To calculate a lot
+capacity, we use the location of the parking lot obtained from the
+OpenStreetMap database~\cite{openstreetmap}.  We derive the lot size from
+its location and then divide the total size by that of a typical standard
+parking spot lot design~\cite{parkingdesign}.  In comparing this estimate with
+manually counted capacities for the five lots monitored by our deployment,
+capacity estimates were in all cases within 6\% of their true capacities.
 
 Errors in the capacity can result if the size of parking spots in the lot
 differ from our estimate, or if the parking lot is not efficiently packed
