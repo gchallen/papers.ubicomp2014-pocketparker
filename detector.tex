@@ -34,10 +34,11 @@ parking but in a loading area rather than in a parking lot).
 
 Subsequent to the conclusion of our research, Google released an update to its
 closed Android binaries that contained user activity detection functionality.
-As this was similar to that developed for PocketParker, substituting this
-code would not have materially affected the detection of arrival and departure 
-events.  Both algorithms treat user state detection in terms of statistical
-liklihoods.~\cite{website}  False detection could be further minimized with
+As this was similar to to that developed for PocketParker, substituting this
+code would not have materially affected the detection of parking and arrival
+events.  Both algorithms treat user state detection in terms of relative
+liklihoods.~\cite{recognition-confidence}  False detection could be further minimized with
+
 additional sensing, particularly GPS data, or with more computationally intense
 detection algorithms.  We have deliberately shied away from such an approach
 however, as the inherent nature of our application dictates that the bulk of

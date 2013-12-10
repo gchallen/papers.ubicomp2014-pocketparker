@@ -7,3 +7,18 @@
 # of events near UB Campus including false positives- 127
 
 # of events of UB campus parking lots - 56
+------------------------------------------------------
+
+Deployment of PocketParker
+Start Date: 10/22/2013
+End Date: 12/05 (45 days)
+
+monitored 31 parking lots in UB, but no event in 10 parking lots, all arrival and departure events occured in 21 parking lot.
+
+Total 105 participants who installed PocketParker, 102 PhoneLab participants and 3 non PhoneLab participants
+
+total events we collect for 45 days: 10827, park events: 5916 and leave events: 4911.
+average events on one day: 241
+In the north campus: 3645
+In the south campus: 846
+Outside of the campus: 6336
