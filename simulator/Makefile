@@ -15,8 +15,8 @@ figures/capacity.pdf: simulator.py capacity.py lib.py lots/fastfill.xml
 figures/lots.pdf: lots.py lib.py lots/fastfill.xml lots/slowfill.xml lots/highchurn.xml lots/lowchurn.xml lots/multifill.xml
 	./$< $@ lots/fastfill.xml lots/slowfill.xml lots/highchurn.xml lots/lowchurn.xml lots/multifill.xml
 
-figures/capacity_experiment.pdf: capacity_experiment.py simulator.py capacity.py lib.py lots/fastfill.xml lots/slowfill.xml lots/highchurn.xml lots/lowchurn.xml lots/multifill.xml
-	./$< $@ lots/fastfill.xml lots/slowfill.xml lots/highchurn.xml lots/lowchurn.xml lots/multifill.xml
+figures/capacity_experiment.pdf: capacity_experiment.py simulator.py capacity.py lib.py lots/fastfill.xml lots/slowfill.xml lots/multifill.xml lots/highchurn.xml lots/lowchurn.xml
+	./$< $@ lots/fastfill.xml lots/slowfill.xml lots/multifill.xml lots/highchurn.xml lots/lowchurn.xml
 
 figures/tracking_fastfill.pdf: tracking.py runs/fastfill_10_10.data
 	./$< $@ runs/fastfill_10_10.data

@@ -96,7 +96,6 @@ print r"""\begin{table}[t!]
 \begin{tabularx}{\columnwidth}{Xrrrrr}
 \multicolumn{1}{c}{\textbf{Type}} & 
 \multicolumn{1}{c}{\textbf{$f_m$}} & 
-\multicolumn{1}{c}{\textbf{$f_m$ Error}} & 
 \multicolumn{1}{c}{\textbf{Correct}} & 
 \multicolumn{1}{c}{\textbf{Missed}} & 
 \multicolumn{1}{c}{\textbf{Waste}}\\ \toprule
@@ -105,20 +104,26 @@ print r"""\begin{table}[t!]
 for run_name in sorted(table_lines.keys()):
   if not run_name == 'Campus':
       continue
-  print r"""\textbf{%s} & & & & & \\
-\midrule""" % (run_name,)
+#  print r"""\textbf{%s} & & & & & \\""" % (run_name,)
+  first = True
   for monitored in sorted(table_lines[run_name]):
     for error in sorted(table_lines[run_name][monitored]):
       total, correct, missed, wasted = table_lines[run_name][monitored][error]
-      print r"""& %.2f & %.2f & %.1f \%% & %.1f \%% & %.1f \%% \\""" % (monitored,
-                                                       error,
-                                                       (float(correct) / total) * 100.,
-                                                       (float(missed) / total) * 100.,
-                                                       (float(wasted) / total) * 100.)
+      if first:
+        print r"""\textbf{%s} & %.2f & %.1f \%% & %.1f \%% & %.1f \%% \\""" % (run_name, monitored,
+                                                           (float(correct) / total) * 100.,
+                                                           (float(missed) / total) * 100.,
+                                                           (float(wasted) / total) * 100.)
+        first = False
+      else:
+        print r"""& %.2f & %.1f \%% & %.1f \%% & %.1f \%% \\""" % (monitored,
+                                                           (float(correct) / total) * 100.,
+                                                           (float(missed) / total) * 100.,
+                                                           (float(wasted) / total) * 100.)
 
 print r"""\end{tabularx}
 }
-\caption{\textbf{Accuracy of PocketParker predictions for various kinds of lots and parameters.}}
+\caption{\textbf{Accuracy of PocketParker predictions for various monitored fractions.}}
 \label{table-accuracy}
 \end{threeparttable}
 \end{table}"""
