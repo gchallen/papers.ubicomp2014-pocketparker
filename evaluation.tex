@@ -156,13 +156,9 @@ Fill, and Multiple Fill---and poorly when they do fill erratically or not at
 all---High and Low Churn. The results in Figure~\ref{fig-capacityerrors}
 generally follow this pattern. Errors for High Churn are quite high, and Low
 Churn errors persist even at high monitored driver fractions. This is
-natural, as the Low Churn lot never fills. Fast Fill results improve with
-increasing monitored driver fraction. We are investigating, however, the
-problems with estimating lot~1 capacity, and persistent errors with the Slow
-Fill lots. Improving the accuracy of monitored fraction estimation may
-require additional smoothing techniques or merging information from multiple
-related lots. However, as we demonstrate later, our availability estimator is
-robust to monitored fraction estimation errors up to 50\%.
+natural, as the Low Churn lot never fills.  By contrast, the accuracy rate for
+the Fast, Slow and Multiple Fill models improve with an increasing fraction of
+monitored drivers.
 
 \begin{figure}[t]
 \centering
