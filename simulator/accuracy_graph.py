@@ -110,5 +110,5 @@ for run_name in sorted(table_lines.keys()):
       lines[run_name].append((monitored, (float(correct) / total) * 100.))
 for run_name in lines.keys():
     ax.plot(*zip(*lines[run_name]), label="%s" % (run_name,))
-    ax.legend(loc=4, fontsize=10)
+    ax.legend(loc=4, fontsize=12)
 plt.savefig("figures/accuracy_graph.pdf", bbox_inches='tight')

@@ -11,31 +11,6 @@ destinations are shown.}
 \section{Availability Estimation}
 \label{sec-model}
 
-\begin{figure*}
-  \begin{subfigure}[b]{0.33\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{./figures/arrival.pdf}
-    \caption{Effect of arrival.}
-    \label{fig-examples-arrival}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.33\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{./figures/departure.pdf}
-    \caption{Effect of departure.}
-    \label{fig-examples-departure}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.33\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{./figures/search.pdf}
-    \caption{Effect of search.}
-    \label{fig-examples-search}
-  \end{subfigure}
-  \caption{\textbf{Effect of different types of events on the lot availability
-  distribution.} Arrivals, departures, and implicit searches each have a
-  different instantaneous effect on PocketParker's availability distribution.}
-  \label{fig-examples}
-\end{figure*}
-
 In order for parking events to be useful, they must be incorporated into a
 model allowing us to predict parking lot availability. Our goal is to respond
 to queries with the probability that a given parking has a space available,
@@ -421,6 +396,31 @@ of the state of the lot.
 
 \subsection{Online Updates}
 \label{subsec-online}
+
+\begin{figure*}
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/arrival.pdf}
+    \caption{Effect of arrival.}
+    \label{fig-examples-arrival}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/departure.pdf}
+    \caption{Effect of departure.}
+    \label{fig-examples-departure}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{./figures/search.pdf}
+    \caption{Effect of search.}
+    \label{fig-examples-search}
+  \end{subfigure}
+  \caption{\textbf{Effect of different types of events on the lot availability
+  distribution.} Arrivals, departures, and implicit searches each have a
+  different instantaneous effect on PocketParker's availability distribution.}
+  \label{fig-examples}
+\end{figure*}
 
 Finally, we conclude by describing how PocketParker uses arrival to adjust
 its availability model instantaneously at runtime. Each arrival and departure
