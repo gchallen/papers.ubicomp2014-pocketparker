@@ -93,7 +93,7 @@ for run in args.runs:
 fig = plt.figure()
 ax = fig.add_subplot(111)
 #plt.title("\\textbf{}")
-ax.set_xlabel("\\textbf{Monitored Fraction}")
+ax.set_xlabel("\\textbf{Monitored Fraction ($f_m$)}")
 ax.set_ylabel("\\textbf{Correct Prediction (\%)}")
 
 lines = {}
