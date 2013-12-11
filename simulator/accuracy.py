@@ -123,7 +123,7 @@ for run_name in sorted(table_lines.keys()):
 
 print r"""\end{tabularx}
 }
-\caption{\textbf{Accuracy of PocketParker predictions for various monitored fractions.}}
+\caption{\textbf{Accuracy of PocketParker predictions for various fraction of monitored drivers.}}
 \label{table-accuracy}
 \end{threeparttable}
 \end{table}"""
