@@ -11,14 +11,14 @@ lots with different behaviors were used during simulations.}
 \section{Evaluation}
 \label{sec-evaluation}
 
-We evaluate PocketParker in three ways. First, we conducted a controlled
+We evaluated PocketParker in three ways. First, we conducted a controlled
 experiment to determine the best parameter settings for our event detector.
 Second, we implemented a parking lot simulator to experiment with various
-kinds of lots and vary the monitored fraction and other parameters. Finally,
-we performed a small-scale deployment of PocketParker on our campus and use
-it to monitor two lots. Camera monitoring was used to ground truth the
-predictions from our deployment dataset. Our evaluations confirm that
-PocketParker is efficient and accurate.
+kinds of lots under differing monitored fractions. Finally, we performed a
+large-scale deployment of PocketParker on our campus and used it to monitor
+two lots. Camera monitoring was used to ground truth the predictions from
+our deployment dataset. Our evaluations confirm that PocketParker is
+efficient and accurate.
 
 \subsection{Detector Experiment}
 
@@ -53,18 +53,16 @@ was taken to generate a good mix of carry and car location styles.
 Table~\ref{table-experiment} shows the breakdown. The experiment permitted us
 to obtain sensing data from a cross section of individuals possessing
 different body morphologies, habits of driving cars, and ways of handling
-mobile devices. Participation in the experiment took roughly one hour and
-pizza was provided.
+mobile devices.
 
 Figure~\ref{fig-energy} displays the tradeoff between energy usage and
 detection accuracy as a function of the PocketParker duty cycle. Here we
 combine an active period of 5s with a inactive period of variable length,
 between 5~and~55s, for an overall duty cycle between 0.5 and 0.06. Our
-simulator uses energy numbers used by the Android Fuel Gauge application
-along with the accelerometer duty cycles and number of GPS locations
-requested including false positives to estimate average power consumption.
-This graph measures the accuracy of detected events in terms of distance from
-the actual location of the event labeled by the participant.
+simulator uses energy numbers from the Android Fuel Gauge application
+o estimate average power consumption.  This graph measures the accuracy of
+detected events in terms of distance from the actual location of the event
+labeled by the participant.
 
 As we expect, longer duty cycles consume less energy but produce longer
 detection latencies which translate into higher distances from the event
@@ -74,7 +72,7 @@ traveling more rapidly. Overall power usage by PocketParker is low, under
 10~mW at all duty cycles. Because PocketParker's ability to map parking
 events into lots is affected by the detection distance accuracy, we chose a
 low total period of 15~s for a 0.25 duty cycle. This allows PocketParker to
-determine location to within 25~m for parking events and 80~m for departures.
+determine location to within 25~m for arrival events and 80~m for departures.
 Power consumption at this duty cycle is 8~mW, representing 4.2\% of the
 capacity of a 1500~mAh battery over 24~hours of usage.
 
@@ -98,6 +96,21 @@ we apply our GPS availability filter and lot location filters. False
 positives decline as the duty cycle decreases because PocketParker has fewer
 opportunities to detect user activity.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=3.325in]{./figures/MissedEvents_CDF.pdf}
+
+\caption{\textbf{The percentage of missed parking Events.}}
+
+\label{fig-missedevents}
+\end{figure}
+
+Figure~\ref{fig-missedevents} shows that PocketParker detects parking events 
+faithfully: 80\% of users missed less than 25\% parking events. The main reason 
+is because PocketParker has transition time threshold of 5 minutes. Therefore, 
+PocketParker requires a minimum of 5 minutes to detect an user transition event
+(from walking to driving or driving to walking). 
+
 \subsection{Simulation Results}
 \label{subsec-simulator}
 
@@ -115,14 +128,14 @@ empty differently:
 \item \textbf{Fast Fill} and \textbf{Slow Fill} fill once per day quickly or
 slowly, like a lot associated with a place of work.
 
+\item \textbf{Multiple Fill} represents a lot that rapidly fills and empties
+repeatedly during each day, like a campus lot or movie theater.
+
 \item \textbf{High Churn} starts with lot~1 full and experiences continuously
 high arrival and departures rates, like an airport parking lot.
 
 \item \textbf{Low Churn} represents underutilized lots that never completely
 fill, with lot~2 almost completely unused.
-
-\item \textbf{Multiple Fill} represents a lot that rapidly fills and empties
-repeatedly during each day, like a campus lot or movie theater.
 
 \end{itemize}
 
@@ -156,13 +169,9 @@ Fill, and Multiple Fill---and poorly when they do fill erratically or not at
 all---High and Low Churn. The results in Figure~\ref{fig-capacityerrors}
 generally follow this pattern. Errors for High Churn are quite high, and Low
 Churn errors persist even at high monitored driver fractions. This is
-natural, as the Low Churn lot never fills. Fast Fill results improve with
-increasing monitored driver fraction. We are investigating, however, the
-problems with estimating lot~1 capacity, and persistent errors with the Slow
-Fill lots. Improving the accuracy of monitored fraction estimation may
-require additional smoothing techniques or merging information from multiple
-related lots. However, as we demonstrate later, our availability estimator is
-robust to monitored fraction estimation errors up to 50\%.
+natural, as the Low Churn lot never fills.  By contrast, the accuracy rate for
+the Fast, Slow and Multiple Fill models improve with an increasing fraction of
+monitored drivers.
 
 \begin{figure}[t]
 \centering
@@ -203,121 +212,105 @@ climbs.
 
 \input{./simulator/figures/accuracy_table.tex}
 
-PocketParker exists to help drivers choose parking lots. Here, we examine our
-simulation results and determine whether we accomplish this goal. In our
-simulations, we inject regular queries to PocketParker asking it to order the
-two available lots. We categorize its response as either a correct
-prediction, a missed opportunity, or a waste of time. A missed opportunity
-represents a case where a more desirable lot was available than the one that
-PocketParker recommended. A waste of time indicates that PocketParker sent
-the user to a lot that did not actually have an available spot.
 
-Table~\ref{table-accuracy} shows data from simulations run on several
-different lot types and while varying simulation parameters including the
-monitored fraction $f_m$ and estimation error in the monitored fraction. At
-regular timesteps we query PocketParker and ask it to order the two lots
-lot~1 and lot~2. We then compare its ordering with the ground truth available
-through the simulator. In the case that two lots have probabilities within
-$0.01$ of each other, PocketParker considers this a tie and suggests the more
-preferable lot first.
+PocketParker exists to help drivers choose parking lots efficiently. Here,
+we examine the accuracy of the predicitions generated by our system. To do
+so, we have PocketParker rank two model lots in order of preference at
+regular timesteps.  We compare these results with the ground truth available
+through a simulator and then categorize them as be in a correct prediction,
+a missed opportunity, or a waste of time. A missed opportunity represents a
+case where a more desirable lot was available than the one that PocketParker
+recommended. A waste of time indicates that PocketParker sent the user to a
+lot that did not actually have an available spot. Table~\ref{table-accuracy}
+shows data results from simulations run using varying monitored
+fractions$f_m$ of drivers.
 
-Several trends can be observed in the results. First, overall PocketParker
-does well on most lot types. The High Churn lot presents the greatest
-difficulty, which we would expect since its large number of incoming and
-outgoing drivers make prediction difficult. We are also concerned that the
-High Churn errors are exclusively waste, indicating that PocketParker is
-consistently sending drivers to the wrong lot, probably because it is
-predicting that spots are available longer than they actually are. Clearly
-more work is needed to determine the right approach for High Churn lots.
+\begin{figure}[t]
+\centering
+\includegraphics[width=3.325in]{./simulator/figures/accuracy_graph.pdf}
 
-Excluding the High Churn lot, the lowest correct percentage with a $f_m >
-0.1$ is 75\% for the Slow Fill lot, and accuracy is good throughout. The Low
-Churn lot has a small number of errors but this is because both lots are
-usually empty. Its error breakdown is similar to the High Churn lot, which
-suggests it is something about regular departures and arrivals that is
-causing PocketParker to be too optimistic about availability in the more
-desirable lot.
+\caption{\textbf{Accuracy predictions for various kind of lots and parameters.}}
+\label{fig-accuracy}
+\end{figure}
 
-Note, however, that this uniform query pattern is the most challenging for
-PocketParker and so these results may be seen as a lower bound. This is
-because PocketParker has the most information about lot availability during
-active periods of arrival and departure events. Once it stops receiving
-information, uncertainty grows. So to the degree that PocketParker queries
-follow at least to some degree the pattern of arrivals and departures, we
-will have fresh data and do well.
+Also, Figure~\ref{fig-accuracy} shows that several trends can be observed 
+in the results. First, overall PocketParker does well on most lot types. 
+The High Churn lot presents the greatest difficulty, which we would expect 
+since its large number of incoming and outgoing drivers make prediction 
+difficult. We are also concerned that the High Churn errors are largely 
+waste of time errors, indicating that PocketParker is frequently sending 
+drivers to the wrong lot.  This is likely because it is predicting that 
+spots are available longer than they actually are. Clearly more work is 
+needed to determine the right approach for High Churn lots.
+
+Excluding the High Churn lot, the lot with the lowest correct percentage with
+a $f_m > 0.1$ is 80\% for the Slow Fill lot.  Accuracy for all lots above
+this $f_m$ is consistently good for all lots save the High Churn model.  The
+Low Churn lot does have a small number of errors but this is because both lots
+are usually empty.
+
+One unavoidable lower bound to the accuracy of PocketParker is imposed by the
+frequency of parking events.  This is because PocketParker has the most
+information about lot availability during active periods of arrival and
+departure events. Once it stops receiving event information, prediction
+uncertainty grows.  Thus, to the degree that PocketParker queries follow at
+least pattern of arrivals and departures, we will have fresh data and do well.
 
 \subsection{Deployment}
 
 \begin{figure*}
 \centering
-\includegraphics[width=\textwidth]{./figures/detectedEventsOnMap.pdf}
+\includegraphics[width=\textwidth]{./figures/EventsOnThreeParkingLot.pdf}
 
-\caption{\textbf{Map showing all events detected by PocketParker during our
-ten-day deployment.} 56~events are shown in three monitored lots. Red markers
-indicate arrivals, blue departures. Lots~A~and~B were monitored by cameras to
-establish ground truth, and Lot~A is considered the most desirable of the
-three lots.}
+\caption{\textbf{Map showing 217~parking events detected by PocketParker
+during our forty-five-day deployment in three key lots.}  These were
+generated by 26 participants.  Lot~A is considered the most desirable of the
+three lots, a fact reflected in the higher event density of this lot.  
+Lots~A~and~B were monitored by cameras to establish ground truth}
 
 \label{fig-events}
 \end{figure*}
 
-Finally, to establish the accuracy of PocketParker we performed a small-scale
-deployment on our university campus. We implemented a PocketParker client as
-an Android application for Android version 4.1 ``JellyBean''. We tested our
-app on Samsung Nexus~S~4G smartphones, but PocketParker should be able to run
-on any smartphone with GPS and an accelerometer, and on previous versions of
-Android. Other than the PocketParker server which receives events and updates
-the availability estimate, no infrastructure is required.
+Finally, to establish the accuracy of PocketParker we performed a pair of
+deployments on our university campus.  The system structure was the same in
+both cases:  The only infrastructure required was the PocketParker server for
+receiving events and generating availability estimates.  For the first
+rollout, we installed the PocketParker client on the Android version 4.1
+system and the Samsung Nexus~S~4G smartphone.  In this experiment, we
+configured PocketParker to operate in the background and to require no user
+interaction.   We recruited five participants who generated 372 events over
+ten days---202 arrivals and 170 departures.
 
-We recruited five participants that installed our PocketParker application
-and generated 372 events over ten days---202 arrivals and 170 departures. Of
-those events, 127 occurred near campus including false positives, and 56 were
-mapped into the three campus lots monitored by PocketParker\footnote{One
-participant lives quite close to campus, and many of the parking transitions
-that occurred at their house were included in the 71~events near campus that
-did not map into known parking lots.}. The deployment period included several
-days when participants did not come to campus, and most parking events were
-generated by three participants who came to campus daily. No participants
-complained of excessive energy usage or battery life degradation, and no
-interaction with the application was required.
+In our second rollout, we deployed PocketParker on the Android version 4.2
+system and Galaxy Nexus smartphone.  PocketParker, rather than running in the
+background, displayed to users a campus map showing recent parking events.
+The userbase involved 105 total participants, 102 of whom were members of
+PhoneLab, an existing campus mobile phone network.  Over 45 days of 
+monitoring, they generated 10,827 events -- 5916 arrivals and 4911 
+departures -- for an average of 241 per day.  Our main and medical 
+campuses produced 3645 and 846 total events respectively, with non-campus 
+locales contributing the remaining 6336 events.
 
-Figure~\ref{fig-events} shows all of the events that occurred in the three
-lots we monitored. Our computer science department is labeled as the point of
-interest. To determine the ground truth availability of the monitored lots we
-positioned four cameras at locations within the building to monitor lots
-A~and~B in Figure~\ref{fig-events}. Despite the fact that many parking events
-took place in lot~C, we were unable to locate a suitable unobstructed vantage
-point to gather camera data. We used Nexus~S~4G smartphones equipped with
-fish-eye lenses as cameras. Each took time lapse images at 1~Hz, time-stamped
-them using NTP and uploaded them to a central server. Figure~\ref{fig-camera}
-shows two of our cameras and a view of one of the monitored parking lots. A
-total of 36,000 images were collected for the two monitored lots over two
-weeks.
+Figure~\ref{fig-events} shows all of the events that occurred in three key
+lots that we monitored in the second experiment. Our computer science
+building is labeled as the point of interest (POI). To determine ground
+truth availability, we positioned four cameras at locations within the
+building to monitor lots A~and~B in Figure~\ref{fig-events}.  Despite the fact
+that many parking events took place in lot~C, we were unable to locate a
+suitable unobstructed vantage point to gather camera data for that lot.
+Nexus~S~4G smartphones equipped with fish-eye lenses served as our cameras.
+Each took time lapse images at 1~Hz, time-stamped them using NTP and uploaded
+them to a central server. A total of 34,138 images were collected for the two 
+monitored lots over two weeks.
 
-To measure capacity, one day's worth of images for two lots was hand-coded on
-a ten-point scale at ten-minute intervals. Because we are particularly
-interested in the transition between empty and full states, we were careful
-to ensure that the lot was never marked completely full if there was a single
-available spot visible. Because we collected a relatively-small number of
-parking events into camera-monitored lots A~and~B during our deployment, we
-merge all events into a single day before feeding the events into the
-PocketParker estimation engine. Given the location of other campus buildings
-to the south of our building, lot~A is considered more desirable than lot~B.
+To measure capacity, we hand-coded four days' worth of images for two lots on
+a ten-point scale at ten-minute intervals. We were particularly interested
+in the transition between empty and full states, so we were careful to ensure
+that the lot was never marked completely full if there was a single available
+spot visible. We generate 4 different dataset using parking events in 
+camera-monitored lots A~and~B and then feed the events into the PocketParker
+estimation engine.
 
 Table~\ref{table-accuracy} also includes numbers for our campus deployment
-labeled as ``Campus''. Because we do not know the monitored fraction, we
-experiment with several different values. Overall the accuracy of
-PocketParker is excellent, even achieving 100\% accuracy at a monitored
-driver fraction of 0.2. We believe this is because the more preferable
-monitored lot has a very predictable availability pattern, filling rapidly
-and staying full during business hours.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=3.0in]{./figures/Camera_setting.pdf}
-
-\caption{\textbf{Monitoring cameras.} A view of one of the monitored parking
-lots is shown.}
-
-\label{fig-camera}
-\end{figure}
+labeled as ``Campus''. Overall the accuracy of PocketParker is excellent, 
+achieving 94.2\% accuracy at a monitored driver fraction of 0.2. 

@@ -6,9 +6,9 @@
   <lot name="L1" capacity="200" count="0" weight="0.9" poi="A" order="1" />
   <lot name="L2" capacity="200" count="0" weight="0.1" poi="A" order="2" />
 
-  <rate length="6H" arrival="10H" departure="10H" />
-  <rate length="6H" arrival="60H" departure="10H" />
-  <rate length="6H" arrival="10H" departure="60H" />
-  <rate length="6H" arrival="10H" departure="10H" />
+  <rate length="4H" arrival="10H" departure="10H" />
+  <rate length="8H" arrival="60H" departure="10H" />
+  <rate length="8H" arrival="10H" departure="60H" />
+  <rate length="4H" arrival="10H" departure="10H" />
 
 </root>

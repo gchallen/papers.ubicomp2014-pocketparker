@@ -9,7 +9,7 @@ from scipy import interpolate
 
 from matplotlib import rc
 
-rc('font',**{'family':'serif','serif':['Times'], 'size': 8})
+rc('font',**{'family':'serif','serif':['Times'], 'size': 14})
 rc('text', usetex=True)
 
 import matplotlib.pyplot as plt
@@ -90,40 +90,25 @@ for run in args.runs:
 
   table_lines[run_name][monitored][error] = (total, correct, missed, wasted)
 
-print r"""\begin{table}[t!]
-\begin{threeparttable}
-{\small
-\begin{tabularx}{\columnwidth}{Xrrrrr}
-\multicolumn{1}{c}{\textbf{Type}} & 
-\multicolumn{1}{c}{\textbf{$f_m$}} & 
-\multicolumn{1}{c}{\textbf{Correct}} & 
-\multicolumn{1}{c}{\textbf{Missed}} & 
-\multicolumn{1}{c}{\textbf{Waste}}\\ \toprule
-"""
+fig = plt.figure()
+ax = fig.add_subplot(111)
+#plt.title("\\textbf{}")
+ax.set_xlabel("\\textbf{Monitored Fraction ($f_m$)}")
+ax.set_ylabel("\\textbf{Correct Prediction (\%)}")
 
+lines = {}
 for run_name in sorted(table_lines.keys()):
-  if not run_name == 'Campus':
+  if run_name == 'Campus':
       continue
-#  print r"""\textbf{%s} & & & & & \\""" % (run_name,)
-  first = True
+  if not lines.has_key(run_name):
+      lines[run_name] = []
   for monitored in sorted(table_lines[run_name]):
     for error in sorted(table_lines[run_name][monitored]):
-      total, correct, missed, wasted = table_lines[run_name][monitored][error]
-      if first:
-        print r"""\textbf{%s} & %.2f & %.1f \%% & %.1f \%% & %.1f \%% \\""" % (run_name, monitored,
-                                                           (float(correct) / total) * 100.,
-                                                           (float(missed) / total) * 100.,
-                                                           (float(wasted) / total) * 100.)
-        first = False
-      else:
-        print r"""& %.2f & %.1f \%% & %.1f \%% & %.1f \%% \\""" % (monitored,
-                                                           (float(correct) / total) * 100.,
-                                                           (float(missed) / total) * 100.,
-                                                           (float(wasted) / total) * 100.)
-
-print r"""\end{tabularx}
-}
-\caption{\textbf{Accuracy of PocketParker predictions for various fraction of monitored drivers.}}
-\label{table-accuracy}
-\end{threeparttable}
-\end{table}"""
+      total, correct, unused, unused = table_lines[run_name][monitored][error]
+      if error > 0.10:
+          continue
+      lines[run_name].append((monitored, (float(correct) / total) * 100.))
+for run_name in lines.keys():
+    ax.plot(*zip(*lines[run_name]), label="%s" % (run_name,))
+    ax.legend(loc=4, fontsize=12)
+plt.savefig("figures/accuracy_graph.pdf", bbox_inches='tight')

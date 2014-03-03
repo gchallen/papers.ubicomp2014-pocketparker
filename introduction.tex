@@ -27,16 +27,16 @@ requires no additional infrastructure, no vehicle modifications, and no user
 input, only installation on a small percentage of the 100~million smartphones
 already in use in the US~\cite{smartphone-numbers}. PocketParker runs
 unattended in the background and uses the accelerometer to detect parking lot
-arrivals and departures, which are forwarded to a central server. There they
-are incorporated into per-lot availability models allowing PocketParker to
-accurately order lots by the probability that they contain an available spot.
-In general, we consider our approach to be an example of a subset of
+arrivals and departures.  These are forwarded to a central server, which
+incorporates them into per-lot availability models.  This allows PocketParker
+to order lots accurately by the probability that they contain an available
+spot.  In general, we consider our approach to be an example of a subset of
 crowdsourcing that does not require any manual user input, which we call
 \textit{pocketsourcing}.
 
 Providing parking availability predictions requires efficiently and
 accurately detecting parking-related events, and incorporating the effect of
-\textit{hidden drivers}---those not using Pocket Parker---into our
+\textit{hidden drivers}---those not using PocketParker---into our
 availability model. We address the first challenge by designing a simple yet
 effective event detector which uses the smartphone accelerometer to
 efficiently detect arrival and departure events, triggering energy-hungry GPS
@@ -46,7 +46,7 @@ continuously incorporating data from PocketParker clients. We use detected
 events both to estimate arrival and departure rates and to make changes in
 real time. Part of the key to our approach is the observation that even with
 limited information, there are moments when PocketParker can be certain about
-the availability of a parking spot in a given lot, and this certainty allows
+the availability of a parking spot in a given lot, and this certainty allows 
 PocketParker to assist users.
 
 We perform a careful evaluation of PocketParker using a variety of methods
@@ -55,11 +55,11 @@ a controlled environment with eight volunteers participating in ten parking
 scenarios. We design a simulator to evaluate our parking availability
 estimator, which gives us the flexibility to experiment with a variety of
 parameters and parking lot types. Finally, we evaluate the overall
-effectiveness of PocketParker by deploying it with five smartphones used by
-our participants over ten days. To obtain ground truth, we deploy four
+effectiveness of PocketParker by deploying it with 105 smartphones used by
+our participants over forty five days. To obtain ground truth, we deploy four
 cameras that monitor two parking lots over two weeks. We inspect and
-hand-code one day's worth of images for two parking lots to measure their
-true availability. Altogether, our results show the efficiency and accuracy
+hand-code four days' worth of images of these lots to measure their true
+availability. Altogether, our results show the efficiency and accuracy
 of PocketParker.
 
 As depicted in Figure~\ref{fig-arch}, PocketParker has several components
@@ -67,12 +67,12 @@ distributed across participating smartphones and a backend server. The rest
 of our paper describes each component in detail. We start by presenting
 related work in Section~\ref{sec-related} in order to distinguish
 PocketParker from multiple previous efforts at parking monitoring. Next, in
-Sections~\ref{sec-detector}~and~\ref{sec-model} we describe the two major
+Sections~\ref{sec-detector}~and~\ref{sec-model} we describe two major 
 components of PocketParker: our parking event detector and availability
-model. Our evaluation in Section~\ref{sec-evaluation} uses several approaches
-to evaluate PocketParker, including controlled experiments, simulations, and
-a small deployment. Finally, we discuss limitations and future work in
-Section~\ref{sec-future} before concluding in Section~\ref{sec-conclusions}.
+model.  We base our evaluation in Section~\ref{sec-evaluation} on simulations
+and controlled exeriments stemming from two real-world deployments.  Finally,
+we discuss limitations and future work in Section~\ref{sec-future} before
+concluding in Section~\ref{sec-conclusions}.
 
 \begin{figure}
 \centering
