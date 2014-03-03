@@ -1,31 +1,37 @@
-\documentclass{sig-alternate-10pt}
-\usepackage{url,graphicx,multirow,hyperref,color,calc,ulem,threeparttable,tabularx,booktabs,enumitem,subcaption,balance,amsfonts}
+\documentclass{sigchi}
 
+\usepackage{url,graphicx,multirow,color,calc,ulem,threeparttable,tabularx,booktabs,enumitem,subcaption,balance,amsfonts}
+
+% llt: Define a global style for URLs, rather that the default one
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\bf\ttfamily}}}
+\makeatother
+\urlstyle{leo}
+
+
+% To make various LaTeX processors do the right thing with page size.
+\def\pprw{8.5in}
+\def\pprh{11in}
+\special{papersize=\pprw,\pprh}
+\setlength{\paperwidth}{\pprw}
+\setlength{\paperheight}{\pprh}
+\setlength{\pdfpagewidth}{\pprw}
+\setlength{\pdfpageheight}{\pprh}
+
+\usepackage[pdftex]{hyperref}
 \hypersetup{
-  bookmarks=true,
-  unicode=true,
-  pdftoolbar=true,
-  pdfmenubar=true,
-  pdffitwindow=true,
-  pdfstartview={FitV},
-  pdftitle={},
-  pdfauthor={},
-  pdfnewwindow=true,
-  colorlinks=false,
-  pdfdisplaydoctitle=true,
-  pdfborder={0 0 0},
-  pdfinfo={
-    Title={PocketParker: Pocketsourcing Parking Lot Availability},
-    Author={Anandatirtha Nandugudi, Taeyeon Ki, Carl Nuessle, and Geoffrey Challen}
-  },
+  bookmarksnumbered,
+  pdfstartview={FitH},
+  colorlinks,
+  citecolor=black,
+  filecolor=black,
+  linkcolor=black,
+  urlcolor=black,
+  breaklinks=true,
 }
 
 \usepackage[all]{hypcap}
-
-\pdfinfo{
-   /Author ()
-   /Title  ()
-}
 
 \input{.xxxnote}
 \input{common.tex}
