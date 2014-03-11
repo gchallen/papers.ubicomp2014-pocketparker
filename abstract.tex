@@ -1,34 +1,28 @@
 \begin{abstract}
-
-Searching for parking spots wastes time while generating frustration and
-pollution. To address these parking problems, we present
-\textit{PocketParker}, a crowdsourcing system that uses smartphones to
-predict parking lot availability. We consider PocketParker to be an example
-of a subset of crowdsourcing we call \textit{pocketsourcing}. Pocketsourcing
-applications require no explicit user input or additional infrastructure,
-running effectively without the phone leaving the user's pocket. Users
-interact with PocketParker only when looking for parking spots. PocketParker
-detects arrival and departure events by leveraging existing activity
-recognition algorithms. Detected events are used to maintain per-lot
-availability models allows the PocketParker server to respond to client
-availability queries. By estimating the number of \textit{hidden
-drivers}---those not using PocketParker---we can use a small fraction of
-monitored drivers to estimate arrival and departure rates and make accurate
-predictions. Our evaluation uses multiple data sets to determine the accuracy
-of each PocketParker component and the system as a whole. We show that
-PocketParker quickly and correctly detects parking events, and that our
-availability estimator is accurate and robust to the presence of hidden
-drivers. Finally, we deploy a prototype and use camera monitoring of several
-parking lots to demonstrate PocketParker's performance in the wild.
+% <wc:start description="Abstract" max=150>
+Searching for parking spots generates frustration and pollution. To address
+these parking problems, we present \textit{PocketParker}, a crowdsourcing
+system using smartphones to predict parking lot availability. PocketParker is
+an example of a subset of crowdsourcing we call \textit{pocketsourcing}.
+Pocketsourcing applications require no explicit user input or additional
+infrastructure, running effectively without the phone leaving the user's
+pocket. PocketParker detects arrivals and departures by leveraging existing
+activity recognition algorithms. Detected events are used to maintain per-lot
+availability models and respond to queries. By estimating the number of
+drivers not using PocketParker, a small fraction of drivers can generate
+accurate predictions. Our evaluation shows that PocketParker quickly and
+correctly detects parking events and is robust to the presence of hidden
+drivers. Camera monitoring of several parking lots as 105~PocketParker users
+generated \num{10827}~events over 45~days shows that PocketParker was able to
+correctly predict lot availability 95.2\% of the time.
+% <wc:end>
 
 \end{abstract}
 
 \XXXnote{GWA: TODO.}
 
 \keywords{
-	Guides; instructions; author's kit; conference publications;
-	keywords should be separated by a semi-colon.
-	\textcolor{red}{Mandatory section to be included in your final version.}
+  Smartphone sensing; Crowdsourcing; Parking Spot Detection.
 }
 
-\category{H.5.m.}{Information Interfaces and Presentation (e.g. HCI)}{Miscellaneous}
+\category{C.2.4}{Computer-Communication Networks}{Distributed Systems}
