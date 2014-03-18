@@ -1,25 +1,26 @@
 \section{Introduction}
 
+
 Parking lots present a difficult search problem. Drivers lack the visibility
 to determine where spots are available, and may spend a non-trivial amount of
 time searching for a spot. The problem is difficult enough that WikiHow
-includes directions~\cite{wikihow-park}, and the Wall Street Journal has
+includes directions~\cite{wikihow-park} and the Wall Street Journal has
 published an online article~\cite{wsj-park} with tips on spot stalking for
 shoppers during the holidays. Searching not only generates frustration but
-also wastes energy and produces harmful carbon emissions.
+also wastes energy and produces harmful environmental emissions.
 
 Online smartphone application stores such as Google Play and the App Store
-are teeming with apps claiming to help you find a parking spot. Although some
+are teeming with apps claiming to help find parking spots. Although some
 drivers may find these applications useful, they either do not provide
 real-time parking lot availability or simply display publicly-available
 information. Several research projects have attempted to address these
 limitations~\cite{4212497, Chen:2012:COS, Delot:2009:CRP, 5062057,
-Mathur:2010:PDS}, but include requirements rendering them impractical, such
-as additional infrastructure~\cite{5062057}, on-vehicle
+Mathur:2010:PDS} but include requirements rendering them impractical.  They
+either require additional infrastructure~\cite{5062057}, on-vehicle
 equipment~\cite{Mathur:2010:PDS} or vehicular
 networking~\cite{Delot:2009:CRP, Mathur:2010:PDS}, or onerous manual user
 input~\cite{Chen:2012:COS}. In contrast, we believe the solution is already
-in your pocket.
+in peoples' pockets.
 
 We present \textit{PocketParker}, a system that predicts parking lot
 availability using smartphones. Unlike previous approaches, PocketParker
@@ -34,8 +35,8 @@ spot.  In general, we consider our approach to be an example of a subset of
 crowdsourcing that does not require any manual user input, which we call
 \textit{pocketsourcing}.
 
-Providing parking availability predictions requires efficiently and
-accurately detecting parking-related events, and incorporating the effect of
+Predicting parking availability requires the efficient and accurate detection
+of parking-related events and the incorporation of the effect of
 \textit{hidden drivers}---those not using PocketParker---into our
 availability model. We address the first challenge by designing a simple yet
 effective event detector which uses the smartphone accelerometer to
