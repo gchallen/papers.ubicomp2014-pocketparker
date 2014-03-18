@@ -12,14 +12,15 @@ destinations are shown.}
 \label{sec-model}
 
 In order for parking events to be useful, they must be incorporated into a
-model allowing us to predict parking lot availability. Our goal is to respond
-to queries with the probability that a given parking has a space available,
-information that can be used in several ways to determine what lots to search
-and in what order. PocketParker's estimator uses the events produced by our
-parking event detector both to estimate the rates at which drivers are
-searching and departing from the lot and to adjust the availability
-probability directly. In this section, we present both the design of the
-PocketParker client parking lot availability estimator and portions of
+model that allows us to predict where parking is available.  In campus
+environments such as ours, virtually all spots are located in lots rather than
+on streets.  We thus structure our prediciton engine to answer the probability
+that a given parking lot has space available.  This information is used to
+determine what lots to search and in what order. PocketParker's estimator uses
+the events produced by our parking event detector both to estimate the rates
+at which drivers are searching and departing from the lot and to adjust the
+availability probability directly. In this section, we present both the design
+of the PocketParker client parking lot availability estimator and portions of
 the backend server for our system.
 
 \subsection{Overview}
@@ -90,32 +91,33 @@ arriving and the lot still has many spaces available.
 
 In order to estimate search behavior, we need to understand the relationships
 between parking lots. This requires two additional pieces of data about each
-lot: one or multiple destinations, and a desirability index. The destination
-represents the place the user is going when they park in a given lot, and
-note that some lots may be associated with multiple destinations. In
-Figure~\ref{fig-lots}, lot~1 may be associated with destinations A, B and C;
-while lot~2 is only linked to B.
+lot: one or more destinations and a desirability index. The destination
+represents the place or places where the user is ultimately going after
+parking.  In Figure~\ref{fig-lots}, lot~1 may be associated with destinations
+A, B and C; while lot~2 is only linked to B.
 
-The desirability index produces an ordering of lots associated with a given
-point-of-interest based on how preferable they are compared with other lots.
-We assume that most users will park in desirable lots if they are available,
-and may have searched in more desirable lots before parking in a lot
-desirable lot. In Figure~\ref{fig-lots}, if Lot~2 is associated with
+The desirability index reflects a lot's relative preference to drivers.
+We infer a lot's desirability from the locations of actual previously observed
+parking events.  We assume that most users will park in desirable lots if they
+are available, and may have searched in more desirable lots before parking in
+a lot desirable lot. In Figure~\ref{fig-lots}, if Lot~2 is associated with
 destination~A it will probably receive a lower desirability score than Lot~1
 because it is further away.
 
-While this information is not currently part of open mapping databases, we
-believe that it is straightforward to collect. Parking lot operators and
+\XXXnote{CN -- GPS issue -- ignore (doesn't help)}
+
+While desirability information is not currently part of open mapping databases,
+we believe that it is straightforward to collect. Parking lot operators and
 business owners can annotate the mapping database with destinations for each
-lot. In addition, data from navigation tools may be able to automatically
-link destinations with lots by noting where users park after requesting
-directions to a particular place. The desirability index may also be
-determined by navigation tools observing what lots are searched by users on
-their way to a particular destination. Lacking these traces, simple proximity
-to the destination may determine the desirability index directly. As example
-of this automatic annotation, in Figure~\ref{fig-lots} if both lot~1~and~2
-are associated A, we consider lot~2 less desirable because lot~1 lies between
-it and the destination.
+lot. In addition, data from navigation tools may be able to link destinations
+automatically with lots by noting where users park after requesting directions
+to a particular place. The desirability index may also be determined by
+navigation tools observing what lots are searched by users on their way to a
+particular destination. Lacking these traces, simple proximity to the
+destination may determine the desirability index directly. As example of this
+automatic annotation, in Figure~\ref{fig-lots} if both lot~1~and~2 are
+associated with destination A, we consider lot~2 less desirable because lot~1
+lies between it and the destination.
 
 \subsection{Implicit Searches}
 \label{subsec-implicit}
@@ -123,35 +125,48 @@ it and the destination.
 With an understanding of lot relationships we can use observed arrivals to
 model implicit---or unobserved---searches. When a user parks in a given lot,
 we use the desirability index of the lot to add unsuccessful searches in more
-desirable lots associated with the some destination. There are two challenges
+desirable lots associated with the same destination. There are two challenges
 to this approach. First, as described above, lots may be associated with
 multiple destinations. Second, the user may not have actually performed the
-search. After discussing both of these issues below,
-Section~\ref{subsec-online} describe below how PocketParker incorporates the
-information from implicit searches in a way sensitive to these uncertainties.
+search. After discussing both of these issues, we describe in
+Section~\ref{subsec-online} how PocketParker incorporates information from
+implicit searches in a way sensitive to these uncertainties.
 
 \subsubsection{Determining the destination}
 
-If a lot is associated with multiple destinations, we cannot uniquely
-determine the destination of the user. However, this only becomes important
-if the two destinations would produce different desirability rankings for
-affected lots. For example, in Figure~\ref{fig-lots}, if lots 1~and~2 are
-both associated with destinations A~and~C, but not with B, then an arrival
-with an unknown destination into lot~2 can always be used to generate an
-implicit search in lot~1, since the desirability ranking for the two lots are
-unchanged if the destination is either A~or~C. However, if both lots~1~and~2
-are associated with all three destinations, then an arrival detected in lot~2
-becomes more ambiguous. If the user was trying to go to destination~A, it may
-mean that lot~1 was searched and is full; however, if they were trying to go
-to destination~B, it may not indicate anything about lot~1. 
+If a lot is associated with multiple destinations, we cannot initially
+determine the destination of the user uniquely. However, this only becomes
+important if the two destinations would produce different desirability
+rankings for affected lots. For example, in Figure~\ref{fig-lots}, if lots
+1~and~2 are both associated with destinations A~and~C, but not with B, then
+an arrival with an unknown destination into lot~2 can always be used to
+generate an implicit search in lot~1, since the desirability ranking for the
+two lots is unchanged if the destination is either A~or~C. However, if both
+lots~1~and~2 are associated with all three destinations, then an arrival
+detected in lot~2 becomes more ambiguous. If the user was trying to go to
+destination~A, it may mean that lot~1 was searched and is full; however, if
+they were trying to go to destination~B, it may not indicate anything about
+lot~1.
 
 If lot destination annotations are generated by mapping software, we can use
 this data to estimate the probability that a user is going to each of the
 destinations associated with a particular lot. Instead of generating a single
 implicit search in one lot, we generate multiple implicit searches in each of
-the lots weighted by the destination probabilities. Lacking these
+the lots weighted by the destination probabilities.  Lacking these
 probabilities, we simply generate implicit searches in each destination
 associated with a given lot.
+\XXXnote{Zap this cII (esp the last sentence)?}
+
+Settings such as our suburban campus or shopping malls, where lots
+are largely located surrounding buildings rather than between them,
+intrinsically minimize such ambiguous instances.  Ultimately, however, it is
+a simple matter to track a user's actual destination via sensing and
+assign implicit searches based upon that information plus the acual lot in
+which the user parked.  The information garnered by this last approach
+is not timely enough to suggest desirable lots to that user while parking.
+However, it helps refine implicit search and lot desirability data which
+helps PocketParker assist future users find spots.
+
 
 \subsubsection{Speculative searches}
 
@@ -345,10 +360,11 @@ I, t_0)$ scaled to the length of the interval $t_0$ to $t_1$:
 \[s_{est}(t_0, t_1) = s_{obs}(t_0 - I, t_0) \cdot \frac{(t_1 - t_0)}{I} \]
 %
 The value of $s_{est}(t_0, t_1)$ is then scaled as described above to
-determine the distribution of $s_{true}$. PocketParker assumes the rates
-experienced over the last $I$ time interval will continue. It may be possible
-to perform better rate estimation by using historical information, but this
-is left as future work.
+determine the distribution of $s_{true}$.  Given the predictable traffic flows
+of our campus environment over the course of a term, PocketParker assumes the
+rates experienced over the last $I$ time interval will continue. It may be
+possible to perform better rate estimation by using historical information,
+but this is left as future work.
 
 The distribution of search rates $s_{true}(t_0, t_1)$ represents the
 probabilities that the number of available spots in the lot will decline,
