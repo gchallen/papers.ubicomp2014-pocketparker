@@ -1,27 +1,20 @@
+\newcolumntype{b}{>{\hsize=1.4\hsize}X}
+\newcolumntype{s}{>{\hsize=.6\hsize}X}
 \begin{table}[t]
 {\small
 \begin{threeparttable}
-\begin{tabularx}{\columnwidth}{Xr@{\hspace{0.5in}}Xr}
-\multicolumn{2}{c}{\normalsize{\textbf{Carry Location}}} & 
-\multicolumn{2}{r}{\normalsize{\textbf{Count}}} \\
-\midrule
-In hand &&& 18 \\
-Side bag &&& 10 \\
-Back pack &&& 10 \\
-In hand talking &&& 7 \\
-Front pocket &&& 14 \\
-Jacket pocket &&& 14 \\
-Back pocket &&& 7 \\
-\multicolumn{2}{c}{\normalsize{\textbf{Car Location}}} & 
-\multicolumn{2}{r}{\normalsize{\textbf{Count}}} \\
-\midrule
-Cup holder &&& 16 \\
-Car seat &&& 9 \\
-Side bag &&& 10 \\
-Back pack &&& 9 \\
-Front pocket &&& 14 \\
-Jacket pocket &&& 14 \\
-Back pocket &&& 8 \\
+\begin{tabularx}{\columnwidth}{b s b s}
+  {{\textbf{Carry Location}}} & {{\textbf{Count}}} &
+  {{\textbf{Car Location}}} &
+  {{\textbf{Count}}} \\
+ \hline
+In hand & 18 & Cup holder & 16 \\
+Side bag & 10 & Car seat  & 9 \\
+Back pack & 10 & Side bag & 10 \\
+In hand talking & 7 & Back pack & 9 \\
+Front pocket & 14 & Front pocket & 14 \\
+Jacket pocket & 14 & Jacket pocket & 14 \\
+Back pocket & 7 & Back pocket & 14 \\
 \end{tabularx}
 \end{threeparttable}
 \caption{\textbf{Carry and Car Location for Controlled Detector Experiment.}
