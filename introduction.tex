@@ -27,12 +27,12 @@ of an installed vehicle detector including wireless transponder is about
 \$4,600.\cite{mstp-park}  Apart from instrumentation, the data collected
 needs to be relayed to drivers.  One programmable sign to advertise lot
 availability can cost \$49,000.\cite{mstp-park}.  Scaling these figures
-compounds the problem:  our own campus setting involves over 40 major lots
+compounds the cost:  our own campus setting involves over 40 major lots
 with over 80 separate entrances.
 
 The advent of mobile smartphones has invited manifold new approaches to the
 problem of communicating parking availability.  Online sites such as the
-Google App Store teem with proposed solutions.  Presently, however, these
+Google App Play Store teem with proposed solutions.  Presently, however, these
 apps either do not provide real-time parking lot availability or they simply
 display publicly-available information. Several research projects have
 attempted to address these limitations~\cite{4212497, Chen:2012:COS,
@@ -40,14 +40,14 @@ Delot:2009:CRP, 5062057, Mathur:2010:PDS} but include requirements rendering
 them impractical to mass rollout.  They either require additional
 infrastructure~\cite{5062057}, on-vehicle equipment~\cite{Mathur:2010:PDS}
 or networking~\cite{Delot:2009:CRP, Mathur:2010:PDS}, or onerous manual user
-input~\cite{Chen:2012:COS}. In contrast, we suggest the solution is already
+input~\cite{Chen:2012:COS}. In contrast, we suggest, the solution is already
 in peoples' pockets.
 
 \textit{PocketParker} is a system that predicts parking lot availability using
 smartphones. Unlike previous approaches, our approach requires no additional
 infrastructure, no vehicle modifications, and no user input, only installation
 of an app on a smartphone.  PocketParker runs unattended in the background and
-uses sensing to detect parking lot arrivals and departures.  These are
+uses sense data to detect parking lot arrivals and departures.  These are
 forwarded to a central server, which incorporates them into per-lot
 availability models.  This allows PocketParker to order lots accurately by the
 probability that they contain an available spot.  In general, we consider our
@@ -58,32 +58,32 @@ Predicting parking availability requires the efficient and accurate detection
 of parking-related events and the incorporation of the effect of
 \textit{hidden drivers}---drivers not using PocketParker---into our
 availability model. We address the first challenge with a simple yet effective
-and energy conserving event detector which uses sense data to record vehicle
-arrivals and departures.  The second goal we achieve with an availability
-estimator that maintains a probability model for each lot by incorporating
-data from PocketParker clients. We use detected events both to estimate
-arrival and departure rates.  Even with limited information, there are moments
-when PocketParker can be certain about the availability of a parking spot in a
-given lot and can use this certainty to assist users find spots.
+and energy conserving event detector which uses accelerometer data to record
+vehicle arrivals and departures.  The second goal we achieve with an
+availability estimator that maintains a probability model for each lot by
+incorporating data from PocketParker clients. We use detected events both to
+estimate arrival and departure rates.  Even with limited information, there
+are moments when PocketParker can be certain about the availability of a
+parking spot in a given lot and can use this certainty to assist users find
+spots.
 
-We perform an evaluation of PocketParker using a variety of methods
-tailored to each system component. We evaluate our parking event detector in
-a controlled environment with eight volunteers participating in ten parking
-scenarios. We design a simulator to evaluate our parking availability
-estimator, giving us the flexibility to experiment with a variety of
-parameters and parking lot types. We evaluate the overall effectiveness of
-PocketParker in a field test involving 105 smartphones users over forty five
-days. To obtain ground truth, we deploy four cameras that monitor two parking
-lots over two weeks. We inspect and hand-code four days' worth of images of
-these lots to measure their true availability. Our results demonstrate the
-overall efficiency and accuracy of PocketParker.
+PocketParker consists of several components distributed across users'
+smartphones and a backend server.  We evaluate the system using a number of
+methods.  We test our parking event detector in a controlled environment
+with eight volunteers participating in ten parking scenarios. We test our
+parking availability estimator with a simulator that gives us the flexibility
+to experiment with a variety of parameters and parking lot types.  We test the
+overall effectiveness of PocketParker in a field trial involving 105
+smartphones users over forty five days. To obtain ground truth, we deploy four
+cameras that monitor two parking lots over two weeks. We inspect and hand-code
+four days' worth of images of these lots to measure their true availability.
+Our results demonstrate the overall efficiency and accuracy of PocketParker.
 
-PocketParker has several components distributed across users' smartphones and
-a backend server. Our paper describes each component in detail. We start by
-presenting related work in order to distinguish PocketParker from previous
-parking monitoring approaches. The next two sections describe two major
+Structurally, our paper describes each system component in detail. We start
+our discussion by presenting related works in parking monitoring and their
+disinctions from PocketParker.  The next two sections describe two major
 components of PocketParker: our parking event detector and availability model.
-The evaluation that follows is based both on simulations, controlled
+The third part, our evaluation, is based both on simulations, controlled
 experiments, and a prototype deployment involving 105 users.  Finally, we
 discuss limitations and future work.
 
