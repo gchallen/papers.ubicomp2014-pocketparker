@@ -3,11 +3,12 @@
 \includegraphics[width=\textwidth]{./simulator/figures/lots.pdf}
 
 \caption{\textbf{Description of each type of lot simulated.} Five different
-lots with different behaviors were used during simulations.}
+lots with different behaviors were used.}
 
 \label{fig-lotsdescription}
 \end{figure*}
 
+\newpage
 \section{Evaluation}
 \label{sec-evaluation}
 
@@ -16,19 +17,18 @@ experiment to determine the best parameter settings for our event detector.
 Second, we implemented a parking lot simulator to experiment with various
 kinds of lots under differing monitored fractions. Finally, we performed a
 large-scale deployment of PocketParker on our campus and used it to monitor
-two lots. Camera monitoring was used to ground truth the predictions from
-our deployment dataset. Our evaluations confirm that PocketParker is
-efficient and accurate.
+two lots, with camera monitoring used to ground truth our predictions. Our
+evaluations confirm that PocketParker is efficient and accurate.
 
 \subsection{Detector Experiment}
 
 \begin{figure}[t]
 \centering
-\includegraphics[height=2in,width=\columnwidth]{./figures/Energy_accuracy.pdf}
+\includegraphics[width=\columnwidth]{./figures/Energy_accuracy.pdf}
 
 \caption{\textbf{Power usage vs. detector accuracy.} Energy usage by
-PocketParker is low at all duty cycles, so we chose a high duty cycle in
-order to improve detection accuracy.}
+PocketParker is low at all duty cycles, so we chose a high duty cycle to
+improve accuracy.}
 
 \label{fig-energy}
 \end{figure}
@@ -64,21 +64,21 @@ to estimate average power consumption.  This graph measures the accuracy of
 detected events in terms of distance from the actual location of the event
 labeled by the participant.
 
-As we expect, longer duty cycles consume less energy but produce longer
+As expected, longer duty cycles consume less energy but produce longer
 detection latencies which translate into higher distances from the event
-location. Note also that the departure events have higher location error than
-the parking events, because departing users are driving and therefore
-traveling more rapidly. Overall power usage by PocketParker is low, under
-10~mW at all duty cycles. Because PocketParker's ability to map parking
-events into lots is affected by the detection distance accuracy, we chose a
-low total period of 15~s for a 0.25 duty cycle. This allows PocketParker to
-determine location to within 25~m for arrival events and 80~m for departures.
-Power consumption at this duty cycle is 8~mW, representing 4.2\% of the
-capacity of a 1500~mAh battery over 24~hours of usage.
+location. Note also that departures have higher location error than arrivals
+because departing users are driving and therefore traveling more rapidly.
+Overall power usage by PocketParker is low, under 10~mW at all duty cycles.
+Because PocketParker's ability to map parking events into lots is affected by
+the detection distance accuracy, we chose a low total period of 15~s for a
+0.25 duty cycle. This allows PocketParker to determine location to within
+25~m for arrivals and 80~m for departures. Power consumption at this duty
+cycle is 8~mW, representing 4.2\% of the capacity of a 1500~mAh battery over
+24~hours.
 
 \begin{figure}
 \centering
-\includegraphics[height=2in,width=\columnwidth]{./figures/Rate_FP_and_ND.pdf}
+\includegraphics[width=\columnwidth]{./figures/Rate_FP_and_ND.pdf}
 
 \caption{\textbf{False positive and negative rates as a function of detector
 duty cycle.}} 

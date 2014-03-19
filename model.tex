@@ -1,6 +1,6 @@
 \begin{figure}
 \centering
-\includegraphics[height=1.in]{./figures/CartoonLot.pdf}
+\includegraphics[width=0.6\columnwidth]{./figures/CartoonLot.pdf}
 
 \caption{\textbf{Example parking lot setup.} Two lots and three
 destinations are shown.}
@@ -9,24 +9,20 @@ destinations are shown.}
 \end{figure}
 
 \section{Availability Estimation}
-\label{sec-model}
 
 In order for parking events to be useful, they must be incorporated into a
-model that allows us to predict where parking is available.  In campus
-environments such as ours, virtually all spots are located in lots rather than
-on streets.  We thus structure our prediction engine to answer the probability
-that a given parking lot has space available.  This information is used to
-determine what lots to search and in what order. PocketParker's estimator uses
-the events produced by our parking event detector both to estimate the rates
-at which drivers are searching and departing from the lot and to adjust the
-availability probability directly. In this section, we present both the design
-of the PocketParker client parking lot availability estimator and portions of
-the backend server for our system.
+model that allows us to predict where parking is available. Because
+PocketParker focuses on monitoring surface lots, not on-street parking, we
+structure our prediction engine to return the probability that a given
+parking lot has space available. This information is used by drivers to
+determine what lots to search and in what order. PocketParker's estimator
+uses the events produced by our parking event detector both to estimate the
+rates at which drivers are searching and departing from the lot and to adjust
+the availability probability directly. In this section, we present both the
+design of the PocketParker client parking lot availability estimator and
+portions of the backend server for our system.
 
 \subsection{Overview}
-
-\XXXnote{GWA: May need to rewrite the following after removing the Section
-markings.}
 
 Figure~\ref{fig-lots} shows an example setup with two parking lots and two
 destinations that are used throughout this section. For each lot PocketParker
@@ -57,69 +53,64 @@ update our availability estimate as arrival and departure events are
 received.
 
 \subsection{Estimating Lot Capacity}
-\label{subsec-capacity}
 
 PocketParker requires an estimate of lot capacity $C$ in several places.
 First, we use this estimate to bound $P(t)$ such that $P(t, n > C) =
 0\;\forall\;t$. Second, we use the capacity to determine the number of hidden
 drivers. To calculate a lot capacity, we use the location of the parking lot
-obtained from the OpenStreetMap database~\cite{openstreetmap}.  We derive the
+obtained from the OpenStreetMap database~\cite{openstreetmap}. We derive the
 lot size from its location and then divide the total size by that of a
-typical standard parking spot lot design~\cite{parkingdesign}.  In comparing
-this estimate with manually counted capacities for the five lots monitored by
-our deployment, capacity estimates were in all cases within 6\% of their true
-capacities.
-
-Errors in the capacity can result if the size of parking spots in the lot
-differ from our estimate, or if the parking lot is not efficiently packed
-with spots. Given the incentive of parking lot designers to maximize
-capacity, we believe that the second case will be unlikely. 
-\begin{comment}
-Parking spot
-sizes, however, may vary significantly from lot to lot or based on the lot's
-location. To improve our estimate, we may need to incorporate
-location-specific parking spot size estimates. Alternatively, mapping
-databases may be directly annotated with the number of spots per lot.
-\end{comment}
+typical standard parking spot lot design~\cite{parkingdesign}. For the five
+lots monitored by our deployment, capacity estimates were all within 6\% of
+manually-counted ground truth. Errors in the capacity can result if the size
+of parking spots in the lot differ from our estimate, or if the parking lot
+is not efficiently packed with spots. Given the incentive of parking lot
+designers to maximize capacity, we consider the second case unlikely.
 
 \subsection{Lot Relationships}
-\label{subsec-lots}
-PocketParker's detector identifies only arrivals and departures. However,
-understanding and incorporating search behavior is critical to our model. For
-example, if we observe the arrival rate fall at a given lot, it may be
-because the lot is full, or it may be simply because fewer drivers are
-arriving and the lot still has many spaces available.
 
-In order to estimate search behavior, we need to understand the relationships
-between parking lots. This requires two additional pieces of data about each
-lot: one or more destinations and a desirability index. The destination
-represents the place or places where the user is ultimately going after
-parking.  In Figure~\ref{fig-lots}, lot~1 may be associated with destinations
-A, B and C; while lot~2 is only linked to B.
+While PocketParker's parking event detector identifies only arrivals and
+departures, identifying unsuccessful searches is crucial in order to
+determine the reason for a drop in arrival rates. If we observe the arrival
+rate fall at a given lot, it may be because the lot is full, or it may be
+simply because fewer drivers are arriving and the lot still has many spaces
+available. Observing unsuccessful searches in the first case allows
+PocketParker to infer that the lot is full and suggest drivers park
+elsewhere. In order to estimate search behavior, we need to understand the
+relationships between parking lots. This requires two additional pieces of
+data about each lot: what destinations it serves and how desirable it is.
 
-The desirability index reflects a lot's relative preference to drivers.
-We infer a lot's desirability from the locations of actual previously observed
-parking events.  We assume that most users will park in desirable lots if they
-are available, and may have searched in more desirable lots before parking in
-a lot desirable lot. In Figure~\ref{fig-lots}, if Lot~2 is associated with
-destination~A it will probably receive a lower desirability score than Lot~1
-because it is further away.
+\subsubsection{Lot destinations}
 
-While desirability information is not currently part of open mapping databases,
-we believe that it is straightforward to collect. Parking lot operators and
-business owners can annotate the mapping database with destinations for each
-lot. In addition, data from navigation tools may be able to link destinations
-automatically with lots by noting where users park after requesting directions
-to a particular place. The desirability index may also be determined by
-navigation tools observing what lots are searched by users on their way to a
-particular destination. Lacking these traces, simple proximity to the
-destination may determine the desirability index directly. As example of this
-automatic annotation, in Figure~\ref{fig-lots} if both lot~1~and~2 are
-associated with destination A, we consider lot~2 less desirable because lot~1
-lies between it and the destination.
+The lot destination represents the place or places where the user is
+ultimately going after parking. In Figure~\ref{fig-lots}, lot~1 may be
+associated with destinations A, B and C; while lot~2 is only linked to B.
+While mapping software can be used to assign lots to the nearest labeled
+building, this approach fails when lots serve multiple destinations. To
+handle this case, PocketParker uses Wifi localization of the first access
+point seen by the smartphone after the user parks to determine what indoor
+location the user entered after parking. The probability distribution that
+emerges from a history of these events can be used to predict where a user is
+going at the moment that a parking event is detected. In the future, data
+from navigation tools may be able to link destinations automatically with
+lots by noting where users park after requesting directions to a particular
+location.
+
+\subsubsection{Desirability index}
+
+The desirability index reflects a lot's relative preference to drivers. We
+infer a lot's desirability from the destinations associated with each lot and
+the lot's distance to each, assuming that PocketParker users prefer the
+closest available lot to their final destination. In Figure~\ref{fig-lots},
+if lot~2 is associated with destination~A it will be ranked less desirable
+than lot~1 because it is further from the destination. Integration with
+navigation tools can also help refine the desirability index by observing
+what lots are searched by users on their way to a particular destination.
+Currently PocketParker saves energy by enabling GPS only after detecting
+parking events and so does not have a trace of the users locations before
+parking that could be used to identify more desirable lots.
 
 \subsection{Implicit Searches}
-\label{subsec-implicit}
 
 With an understanding of lot relationships we can use observed arrivals to
 model implicit---or unobserved---searches. When a user parks in a given lot,
@@ -133,41 +124,19 @@ searches in a way sensitive to these uncertainties.
 
 \subsubsection{Determining the destination}
 
-If a lot is associated with multiple destinations, we cannot initially
-determine the destination of the user uniquely. However, this only becomes
-important if the two destinations would produce different desirability
-rankings for affected lots. For example, in Figure~\ref{fig-lots}, if lots
-1~and~2 are both associated with destinations A~and~C, but not with B, then
-an arrival with an unknown destination into lot~2 can always be used to
-generate an implicit search in lot~1, since the desirability ranking for the
-two lots is unchanged if the destination is either A~or~C. However, if both
-lots~1~and~2 are associated with all three destinations, then an arrival
-detected in lot~2 becomes more ambiguous. If the user was trying to go to
-destination~A, it may mean that lot~1 was searched and is full; however, if
-they were trying to go to destination~B, it may not indicate anything about
-lot~1.
-
-\begin{comment}
-If lot destination annotations are generated by mapping software, we can use
-this data to estimate the probability that a user is going to each of the
-destinations associated with a particular lot. Instead of generating a single
-implicit search in one lot, we generate multiple implicit searches in each of
-the lots weighted by the destination probabilities.  Lacking these
-probabilities, we simply generate implicit searches in each destination
-associated with a given lot.
-\XXXnote{Zap this cII (esp the last sentence)?}
-\end{comment}
-
-Settings such as our suburban campus or shopping malls, where lots
-are largely located surrounding buildings rather than between them,
-intrinsically minimize such ambiguous instances.  Ultimately, however, it is
-a simple matter to track a user's actual destination via sensing and
-assign implicit searches based upon that information plus the actual lot in
-which the user parked.  The information garnered by this last approach
-is not timely enough to suggest desirable lots to that user while parking.
-However, it helps refine implicit search and lot desirability data which
-helps PocketParker assist future users find spots.
-
+If a lot is associated with multiple destinations, we cannot immediately
+determine the user's destination. However, this only becomes important if the
+two destinations would produce different desirability rankings for affected
+lots. For example, in Figure~\ref{fig-lots}, if lots 1~and~2 are both
+associated with destinations A~and~C, but not with B, then an arrival with an
+unknown destination into lot~2 can always be used to generate an implicit
+search in lot~1, since the destination does not alter the desirability
+ranking for the two lots. However, if both lots~1~and~2 are associated with
+all destinations, then an arrival in lot~2 becomes ambiguous. If the user's
+destination was A, it may mean that lot~1 was searched and is full; but if
+their destination was B, the parking event may not indicate anything about
+lot~1. In this case, PocketParker uses information about the users final
+destination gathered as described above to resolve the ambiguity.
 
 \subsubsection{Speculative searches}
 
@@ -180,24 +149,23 @@ their passengers. However, these are not the type of users we believe
 would benefit from or use our PocketParker application, since finding a
 non-optimal parking spot is fairly simple in most cases.
 
-A more interesting case is where a user has not performed a search before
-parking in a less-desirable lot because they \textit{believe} the more
-desirable lot to be full. Users that park regularly at the same destination
-usually have their own mental models for the availability of spots in certain
-lots, causing them to discard those lots without searching them if they
-believe the probability of finding a spot in the desirable lot is low. While
-this behavior can cause users to miss available spots, these speculative
-searches are useful inputs since they reflect lots users think are full.
+A more interesting case is where a user has not performed a search in a
+desirable lot because it \textit{looks} full. Users that park regularly at
+the same destination may maintain temporal models for the availability of
+spots in certain lots (``I can never park there after 9AM'') causing them to
+discard those lots without searching them if they believe the probability of
+finding a spot in the desirable lot is low. While this behavior can cause
+users to miss available spots, these speculative searches are useful inputs
+since they reflect lots users think are full.
 
-A final corner case that PocketParker does not handle is if all of the lots
-for a given destination are full, and many undetected unsuccessful searches
-are taking place. On one hand, if all lots are full then the availability of
-spots is determined by departures, not arrivals, and so search data is
-useless anyway. On the other hand, we would still like to identify this
-situation for users that would prefer to avoid destinations where it is
-difficult to park. While discussing future work in we point out how
+A final corner case that PocketParker does not handle is if all lots for a
+destination are full and many undetected unsuccessful searches are taking
+place. On one hand, if all lots are full then spot availability is entirely
+determined by departures and so search data is useless. On the other hand, we
+would like to identify this situation for users that would prefer to avoid
+destinations where it is impossible to park. Later we point out how
 integrating PocketParker into existing navigation applications could address
-this problem by making searches explicit, rather than implicit.
+this problem by making searches explicit.
 
 \begin{figure}
 \centering
@@ -211,7 +179,6 @@ are shown.}
 \end{figure}
 
 \subsection{Hidden Driver Estimation}
-\label{subsec-hidden}
 
 Monitored PocketParker users compete for parking spaces with unmonitored
 users, which we call \textit{hidden drivers}. While we assume that
@@ -254,7 +221,6 @@ shows the effect of the monitored fraction on rate certainty.}
 \end{figure}
 
 \subsubsection{Estimating the monitored fraction}
-\label{subsubsec-monitored}
 \end{comment}
 
 PocketParker estimates the monitored fraction by first determining the
@@ -265,8 +231,8 @@ $f_m = \frac{C_m}{C}$. Our task then becomes estimating the monitored
 capacity $C_m$. To estimate the monitored capacity we maintain a running
 count $a$ for each lot, decremented when drivers arrive and incremented when
 they leave. We can consider $a$ as a estimate of the number of spots
-available in the lot scaled by $f_m$, although we do not bound $a$ to be
-below the lot capacity or greater than zero.
+available in the lot scaled by $f_m$, although we do not bound $a$, either to
+be below the lot capacity or to be greater than zero.
 
 Figure~\ref{fig-capacityexample} shows an example of the running count for
 two related lots over seven days using data generated by our lot simulator
@@ -302,7 +268,6 @@ to incorporate changes in the monitored fraction caused by increasing use of
 PocketParker.
 
 \subsection{Rate Estimation}
-\label{subsec-rates}
 
 When PocketParker receives arrival and departure event information, it knows
 something concrete about the state of the lot. However, to predict
@@ -310,8 +275,8 @@ availability at other times we need to adjust our estimation based on
 recently-observed events, which we call rate estimation. To estimate the rate
 of events in the entire population including hidden drivers, PocketParker
 must scale its rate of parking events by monitored drivers appropriately.
-Next, we use these scaled estimates to adjust the probability that a given
-lot has a certain number of spots and has spots available.
+Next, we use these scaled estimates to adjust the probability that a lot has
+a certain number of spots and spots available.
 
 During a time interval $t_0$ to $t_1$, PocketParker will observe some number
 of searches $s_{obs}(t_0, t_1)$ or departures $d_{obs}(t_0, t_1)$ in any
@@ -388,9 +353,9 @@ state.
 
 If the departure rate exceeds the arrival rate, the probability mass of
 $\Delta$ will lie primarily to the positive side and it will shift $P$ in the
-positive direction, producing higher probabilities that more spots are
-available in the lot and lowering the probability that the lot is full. The
-opposite is true when the search rate exceeds the arrival rate.
+positive direction, producing higher probabilities that spots are available
+in the lot and lowering the probability that the lot is full. The opposite is
+true when the search rate exceeds the arrival rate.
 
 An important case is intervals during which PocketParker has observed neither
 arrivals nor departures in a given lot. In this case, $\Delta$ will be
@@ -406,7 +371,6 @@ fraction. The fewer drivers we monitor, the more quickly we lose all memory
 of the state of the lot.
 
 \subsection{Online Updates}
-\label{subsec-online}
 
 \begin{comment} removing the figure to save space
 \begin{figure*}
