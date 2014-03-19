@@ -73,15 +73,17 @@ capacities.
 Errors in the capacity can result if the size of parking spots in the lot
 differ from our estimate, or if the parking lot is not efficiently packed
 with spots. Given the incentive of parking lot designers to maximize
-capacity, we believe that the second case will be unlikely. Parking spot
+capacity, we believe that the second case will be unlikely. 
+\begin{comment}
+Parking spot
 sizes, however, may vary significantly from lot to lot or based on the lot's
 location. To improve our estimate, we may need to incorporate
 location-specific parking spot size estimates. Alternatively, mapping
 databases may be directly annotated with the number of spots per lot.
+\end{comment}
 
 \subsection{Lot Relationships}
 \label{subsec-lots}
-
 PocketParker's detector identifies only arrivals and departures. However,
 understanding and incorporating search behavior is critical to our model. For
 example, if we observe the arrival rate fall at a given lot, it may be
