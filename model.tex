@@ -336,13 +336,14 @@ Specifically:
 f_m^{(s_{obs})} \cdot (1 - f_m)^{(s_{true} - s_{obs})} \end{equation}
 %
 where $C$ is a renormalization constant equal to $\sum_{s_{true}} P$.
+\begin{comment}
 Figure~\ref{fig-rateexample} shows the resulting distribution for three
 different values of $f_m$ with $s_{true} = 200$. While for all four values of
 $f_m$, 200 is the most likely true count, as we desired the spread of the
 distribution increases with decreasing $f_m$.
+\end{comment}
 
 \subsubsection{Updating the count probabilities}
-
 Given the probability that a lot has $n$ free spots at time $t_0$, $P(t_0,
 n)$, we want to estimate the probabilities $P(t_1, n)$ at a later time $t_1$.
 PocketParker uses recently-observed arrivals, implicit searches and
@@ -481,9 +482,10 @@ search, we set $P(t, n) = P(t, n - s)$, with $P(t, 0) = \sum_0^s P(t, n)$.
 \begin{comment}
 Figure~\ref{fig-examples-search} shows how the distribution shifts towards
 zero and probability accumulates in the full state after an unsuccessful
-search. The search shift parameter determines how aggressively PocketParker
-will use information provided by implicit searches.
+search. 
 \end{comment}
+The search shift parameter determines how aggressively PocketParker
+will use information provided by implicit searches.
 
 \subsubsection{Weighted arrivals and departures}
 
