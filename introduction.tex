@@ -20,8 +20,8 @@ remains unoccupied.  Likely because of this, the installation of a monitoring
 infrastructure is presently not justified.
 
 Installation costs for parking systems in existing high demand areas can be
-significant:  \$18M for monitoring and collection equipment for 7000 street
-spots in the SFPark system.\cite{sf-park}  For lot parking, inexpensive
+significant:  \$18 million for monitoring and collection equipment for 7,000
+street spots in the SFPark system.\cite{sf-park}  For lot parking, inexpensive
 systems have been proposed that simply track lot counts.\cite{lot-count}  In
 practice, a permanant infrastructure for such an approach would involve
 permanant mounting and communication for each sensor.  For comparison, the
@@ -33,32 +33,29 @@ availability can cost \$50,000.\cite{mstp-park}.  Scaling these figures
 compounds the problem:  our own campus setting involves over 40 major lots
 with over 80 separate entrances.
 
-***ADD IN CITATIONS...
--new cites:  sf-park, lot-count, car-detect, mstp-park
-
-Online smartphone application stores such as Google Play and the App Store
-teem with apps to locate parking spots. Although some drivers may find these
-applications useful, the apps either do not provide real-time parking lot
-availability or simply display publicly-available information. Several
-research projects have attempted to address these limitations~\cite{4212497,
-Chen:2012:COS, Delot:2009:CRP, 5062057, Mathur:2010:PDS} but include
-requirements rendering them impractical.  They either require additional
+The advent of mobile smartphones has invited manifold new approaches to the
+problem of communicating parking availability.  Online sites such as the
+Google App Store teem with proposed solutions.  Presently, however, these
+apps either do not provide real-time parking lot availability or they simply
+display publicly-available information. Several research projects have
+attempted to address these limitations~\cite{4212497, Chen:2012:COS,
+Delot:2009:CRP, 5062057, Mathur:2010:PDS} but include requirements rendering
+them impractical to mass rollout.  They either require additional
 infrastructure~\cite{5062057}, on-vehicle equipment~\cite{Mathur:2010:PDS}
 or networking~\cite{Delot:2009:CRP, Mathur:2010:PDS}, or onerous manual user
-input~\cite{Chen:2012:COS}. In contrast, we believe the solution is already
+input~\cite{Chen:2012:COS}. In contrast, we suggest the solution is already
 in peoples' pockets.
 
-We present \textit{PocketParker}, a system that predicts parking lot
-availability using smartphones. Unlike previous approaches, PocketParker
-requires no additional infrastructure, no vehicle modifications, and no user
-input, only installation on a smartphone.  PocketParker runs unattended in
-the background and uses the accelerometer to detect parking lot
-arrivals and departures.  These are forwarded to a central server, which
-incorporates them into per-lot availability models.  This allows PocketParker
-to order lots accurately by the probability that they contain an available
-spot.  In general, we consider our approach to be an example of a subset of
-crowdsourcing that does not require any manual user input, which we call
-\textit{pocketsourcing}.
+\textit{PocketParker} is a system that predicts parking lot availability using
+smartphones. Unlike previous approaches, our approach requires no additional
+infrastructure, no vehicle modifications, and no user input, only installation
+of an app on a smartphone.  PocketParker runs unattended in the background and
+uses sensing to detect parking lot arrivals and departures.  These are
+forwarded to a central server, which incorporates them into per-lot
+availability models.  This allows PocketParker to order lots accurately by the
+probability that they contain an available spot.  In general, we consider our
+approach to be an example of a subset of crowdsourcing that does not require
+any manual user input, a method we term \textit{pocketsourcing}.
 
 Predicting parking availability requires the efficient and accurate detection
 of parking-related events and the incorporation of the effect of
