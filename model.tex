@@ -309,13 +309,14 @@ distribution increases with decreasing $f_m$.
 \end{comment}
 
 \subsubsection{Updating the count probabilities}
+
 Given the probability that a lot has $n$ free spots at time $t_0$, $P(t_0,
 n)$, we want to estimate the probabilities $P(t_1, n)$ at a later time $t_1$.
 PocketParker uses recently-observed arrivals, implicit searches and
 departures to estimate the search $s_{est}$ and departure $d_{est}$ rates the
 lot experienced between $t_0$ and $t_1$. Currently, we use arrival and
-departures over a fixed-size window of time $I$ before $t_0$, $s_{obs}(t_0 -
-I, t_0)$ scaled to the length of the interval $t_0$ to $t_1$:
+departures over a fixed-size window $I$ before $t_0$, $s_{obs}(t_0 -
+I, t_0)$ scaled to the length of $t_0$ to $t_1$:
 %
 \[s_{est}(t_0, t_1) = s_{obs}(t_0 - I, t_0) \cdot \frac{(t_1 - t_0)}{I} \]
 %
@@ -333,7 +334,7 @@ the number of spots will increase due to departures. The convolution of $-1
 \cdot s_{true}$ and $d_{true}$, $\Delta(t_0, t_1)$, represents the change in
 the number of spots produced by the specific combination of arrival and
 departure rates. A further convolution of $\Delta(t_0, t_1)$ with $P(t_0,
-n)$ produces $P(t_1, n)$, the desired probability at $t_1$:
+n)$ produces $P(t_1, n)$, the probability at $t_1$:
 %
 \[ P(t_1, n) = P(t_0, n) * (-1 \cdot s_{true}(t_0, t_1) * d_{true}(t_0,
 t_1)) \]
