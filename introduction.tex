@@ -9,34 +9,32 @@ published an online article~\cite{wsj-park} with tips on spot stalking for
 shoppers during the holidays. Searching not only generates frustration but
 also wastes energy and produces harmful environmental emissions.
 
--instrumented approach (embedded sensors, programmable signs, personnel):  not
-    at all novel -- used for years in high demand, high churn areas (airports).
-    OK.  But this is typically not used in situations where parking saturation
-    occurs only intermittently, if predictably (universities during terms during
-    peak class hours, suburban malls during holiday shopping seasons).  In these
-    cases, the bulk of the time parking goes fallow.  Infrastructure costs are
-    not justified.
+Using technology to address parking availability is not novel.  Key high
+demand areas such as downtown parking areas and airport lots frequently sport
+instrumentation such as lot access sensors, spot sensors, availability
+signage, and payment booths.  Such approaches appear less frequently  in
+situations where parking saturation occurs intermittently, if predictably.
+In many university campuses, aside from peak class hours, and in suburban
+shopping malls, aside from holiday shopping seasons, significant parking
+remains unoccupied.  Likely because of this, the installation of a monitoring
+infrastructure is presently not justified.
 
--installation and maintenance:  hassle and expense
-
--keep a running total:  nice theory...
-   -cost in academic study -- cheap, but with cheap infrastructure.  Cite
-    Real World costs of ticket dispensers (1k) or booths (5k) for permanant structures
-    and communication (5k / line hardwired -- M/STP) to get info back to server
-    for broadcast
-   -campus lots typically have several entrancess -- i.e., need several sensors
-   -still need a means to communicate findings back to end users:  either
-    programmable signs (50k each -- M/STP) or some form of mobile sourcing (i.e., ours)
-   -if it is so simple, why don't more lots take this approach?
-
-Alternatively, need some other way of keeping track of whether a lot (or spot)
-    is free.  Specifically, payment forms.
-
--related approaches to ensuring parking:  ensuring spot availability via payment
-   -Pay stations:  ca. 90k / station in A**2
-   -Pay booths:  ca. 5k / booth (cite)
+Installation costs for parking systems in existing high demand areas can be
+significant:  \$18M for monitoring and collection equipment for 7000 street
+spots in the SFPark system.\cite{sf-park}  For lot parking, inexpensive
+systems have been proposed that simply track lot counts.\cite{lot-count}  In
+practice, a permanant infrastructure for such an approach would involve
+permanant mounting and communication for each sensor.  For comparison, the
+real cost of an installed vehicle detector including wireless transponder is
+about \$9,700.\cite{car-detect}  Communication link costs alone can run
+\$4,600.\cite{mstp-park}  Apart from instrumentation, the data collected
+needs to be relayed to drivers.  One programmable sign to advertise lot
+availability can cost \$50,000.\cite{mstp-park}.  Scaling these figures
+compounds the problem:  our own campus setting involves over 40 major lots
+with over 80 separate entrances.
 
 ***ADD IN CITATIONS...
+-new cites:  sf-park, lot-count, car-detect, mstp-park
 
 Online smartphone application stores such as Google Play and the App Store
 teem with apps to locate parking spots. Although some drivers may find these
