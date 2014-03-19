@@ -245,20 +245,19 @@ prediction uncertainty grows. Thus, to the degree that PocketParker queries
 follow a pattern of arrivals and departures, it will do well.
 
 \newpage
-
 \subsection{Deployment}
 
 \begin{figure}
 \centering
-\includegraphics[trim=0 0 0 1mm,clip, width=\columnwidth]{./figures/smallEventsOnThreeParkingLot-anon.pdf}
+\includegraphics[width=\columnwidth]{./figures/smallEventsOnThreeParkingLot-anon.pdf}
 
 \caption{\textbf{Map showing 217~parking events detected by PocketParker
 during our forty-five-day deployment in three key lots.} Lot~A is considered
-the most desirable of the three lots, a fact reflected in the higher event
-density of this lot.  Lots~A~and~B were monitored by cameras to establish
+the most desirable, and Lots~A~and~B were monitored by cameras to establish
 ground truth.}
 
 \label{fig-events}
+\vspace*{-0.15in}
 \end{figure}
 
 Finally, to establish the accuracy of PocketParker we invited participants
@@ -274,13 +273,15 @@ events.
 
 Figure~\ref{fig-events} shows all of the events that occurred in three key
 lots that we monitored during our experiment. Our computer science building
-is labeled as the point of interest (POI). To determine ground truth
-availability, we positioned four cameras at locations within the building to
-monitor lots A~and~B in Figure~\ref{fig-events}. Despite the fact that many
-parking events took place in lot~C, we were unable to locate a suitable
-vantage point to gather camera data for that lot. Nexus~S~4G smartphones
-equipped with fish-eye lenses served took \num{34138} time lapse images each
-minute, time-stamped them using NTP, and uploaded them to a central server.
+is labeled as the point of interest (POI). The three labeled lots were
+assigned our building as a destination and desirability indices based on
+their proximity. To determine ground truth availability, we positioned four
+cameras at locations within the building to monitor lots A~and~B in
+Figure~\ref{fig-events}. Despite the fact that many parking events took place
+in lot~C, we were unable to locate a suitable vantage point to gather camera
+data for that lot. Nexus~S~4G smartphones equipped with fish-eye lenses
+served took \num{34138} time lapse images each minute, time-stamped them
+using NTP, and uploaded them to a central server.
 
 To measure capacity, we hand-coded four days' worth of images for two lots on
 a ten-point scale at ten-minute intervals. We were particularly interested
@@ -290,8 +291,7 @@ spot visible. We generate 4 different dataset using parking events in
 camera-monitored lots A~and~B and then feed the events into the PocketParker
 estimation engine.
 
-Table~\ref{table-accuracy} also includes numbers for our campus deployment
-labeled as ``Campus''. Overall the accuracy of PocketParker is excellent,
-achieving 94.2\% accuracy at a monitored driver fraction of 0.2, which we
-believe is an accurate estimate of the percentage of PocketParker users using
-these lots.
+Table~\ref{table-accuracy} shows results for our campus deployment. Overall
+the accuracy of PocketParker is excellent, achieving 94.2\% accuracy at a
+monitored driver fraction of 0.2, which we believe is an accurate estimate of
+the percentage of PocketParker users using these lots.
