@@ -30,7 +30,7 @@ smartphone itself.
 \subsection{Parking Events}
 \label{subsec-goals}
 
-PocketParker assumes that transitions between walking and driving that occur
+PocketParker assumes that transitions between walking and driving and that occur
 in and adjacent to locations known to be parking lots constitute either
 arrival (driving to walking) or departure (walking to driving) events.  We thus
 must be able to discern between walking and driving states of the user, and to 
@@ -40,14 +40,15 @@ continuously-sampled GPS data would consume too much energy for an effective
 pocketsourcing solution.  Rather, we rely on duty-cycled accelerometer data to
 classify the user behavior into one of three states: walking, driving, or idle.
 
-The initial inference of user states yielded by accelerometer sensing is
-subsequently refined with GPS and WiFi sense data to yield the desired goal:
-detection of arrival and departure events.  The mobile device reports these
-events, along with their locations, to the server.  Before recording the event,
-the server verifies its location against a pre-compiled list of known parking
-lot locations.  This final step eliminates events that are either
-incorrect (e.g., a user parking in a field) or unwanted (e.g., a user genuinely
-parking but in a loading area rather than in a parking lot).
+Figure~\ref{fig-detection} depicts two changes in user state, from walking to
+driving and back again.  The initial inference of state yielded by the
+accelerometer is subsequently refined with GPS and WiFi sense data to
+yield the desired goal:  detection of arrival and departure events.  The mobile
+device reports these events, along with their locations, to the server.  Before
+recording the event, the server verifies its location against a pre-determined
+list of known parking lot locations.  This final step eliminates events that
+are either incorrect (e.g., a user parking in a field) or unwanted (e.g., a
+user genuinely parking but in a loading area rather than in a parking lot).
 
 Subsequent to the conclusion of our research, Google released an update to its
 closed Android binaries that contained user activity detection functionality.
