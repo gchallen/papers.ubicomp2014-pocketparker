@@ -1,25 +1,14 @@
 \section{Limitations and Future Work}
 \label{sec-future}
-\begin{comment}
+
 The pocketsourcing approach taken by PocketParker makes it easy to integrate
-into existing mapping applications, such as Google Maps. Doing so would
-benefit PocketParker in two ways. First, Google Maps and other navigation
-tools are in extremely wide deployment, with the Play Store estimating
-more than 500 millions of installs for Google Maps. If we can increase the monitored
-fraction significantly, much of the work PocketParker does to perform
-estimation and work around low monitored fractions will be unnecessary.
-  Removed this paragraph to save space
-PocketParker will also benefit from the increased amount of location context
-available through integration into mapping software. We imagine a ``Help Me
-Park'' button which engages PocketParker. This small piece of natural user
-input allows PocketParker to identify \textit{explicit} searches and use them
-to build up a lot desirability model with requiring annotations. However,
-once PocketParker begins guiding users to available parking spaces we will
-have to incorporate the effects of our guidance on natural user behavior.
-However, we believe that many users will only query PocketParker when parking
-in unfamiliar locations, while still providing data about lots they use
-regularly and know well.
-\end{comment}
+into existing mapping applications, which would provide access to the
+estimated half-billion smartphone users that have installed Google Maps. The
+increase in the monitored fraction this would represent would significantly
+improve PocketParkers accuracy and usability. Integrating PocketParker with a
+mapping application provides PocketParker the access to frequent GPS updates
+it triggers, allowing PocketParker to provide information about exact spot
+location and not only per-lot availabilities.
 
 PocketParker presently bases its parking predictions on a fifteen-minute
 limited rolling window of recent parking events. We do not presently tap the
@@ -28,37 +17,15 @@ accuracy, but hope to do so in the future. Maintaining a database of
 previously collected historical data from our own application will increase
 the sample size and hence statistical accuracy of our parking predictions.
 This is another area where integration with a mapping application would help,
-providing PocketParker with access to much more data. Having historical data on
-hand will aid PocketParker to provide parking advisories to lots that fills 
-abruptly, a scenario often encountered on campus between class changes.
-
-PocketParker currently estimates the number of available spots in a lot rather
-than the location of the spots. Integrating PocketParker with a mapping
-application provides PocketParker the access to frequent GPS updates needed by
-the mapping application.With this
-data, PocketParker can be extended to provide information about the exact
-location of the spot when it becomes available.
-
-\begin{comment}
-Access to historical data will also address a present fundamental limitation:
-the situation of a lot that fills abruptly, a typical occurrence at
-universities during class changes. Basing a negative recommendation about a
-particular lot's availability solely upon recently acquired unsuccessful
-searches implies that a time lag necessarily exists between when users start
-discovering on their own that a lot is full and when we have collected enough
-data to conclude---somewhat belatedly---that a lot is an unwise option.
-Having historical data on hand will dissolve this limitation immediately:
-using previous trends, we will be able to time parking advisories for
-particular lots before they hit capacity.
-\end{comment}
+providing PocketParker with access to much more data.
 
 Finally, we believe that once users begin interacting with PocketParker we
-will see different preferences emerge. Some user will want PocketParker to
-help them aggressively hunt for spots, and be willing to wait for drivers to
-leave. Others may be more interested in simply finding a spot quickly even if
-it is farther away. PocketParker has several parameters that can control its
-predictions, and we will need to determine which are the most intuitive to
-users.
+will see different parking preferences emerge. Some user will want
+PocketParker to help them aggressively hunt for spots, and be willing to wait
+for drivers to leave. Others may be more interested in simply finding a spot
+quickly even if it is farther away. PocketParker has several parameters that
+can control its predictions, and we will need to determine how to expose
+these to users.
 
 %
 %An anticipated future enhancement of our application, adding capacity to
