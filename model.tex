@@ -407,6 +407,7 @@ of the state of the lot.
 \subsection{Online Updates}
 \label{subsec-online}
 
+\begin{comment} removing the figure to save space
 \begin{figure*}
   \begin{subfigure}[b]{0.33\textwidth}
     \centering
@@ -431,15 +432,19 @@ of the state of the lot.
   different instantaneous effect on PocketParker's availability distribution.}
   \label{fig-examples}
 \end{figure*}
+\end{comment}
 
 Finally, we conclude by describing how PocketParker uses arrival to adjust
 its availability model instantaneously at runtime. Each arrival and departure
 received at time $t$ represent strong positive information---moments when
 PocketParker knows either that a spot just existed (arrival) or now exists
 (departure). PocketParker uses these events to adjust the probability
-distribution and incorporate this new information. Figure~\ref{fig-examples}
+distribution and incorporate this new information. 
+\begin{comment}
+  Figure~\ref{fig-examples}
 displays an example of the effects of departures, arrivals, and searches
 discussed below.
+\end{comment}
 
 Arrivals provide two somewhat conflicting pieces of information. First,
 PocketParker knows that at the time of the arrival there was a spot free, so
@@ -449,16 +454,21 @@ spots. So we incorporate arrivals in two steps. First, we set $P(t, 0) = 0$
 indicating the availability of a spot and renormalize the distribution.
 Second, we shift the entire distribution downward by one spot, $P(t, n) =
 P(t, n - 1)$, reflecting the loss of a parking space due to the arrival.
+\begin{comment}
 Figure~\ref{fig-examples-arrival} shows an example of the effect of an
 arrival, including an increase in the probability that the lot has no spots.
+\end{comment}
 
 Departures produce a straightforward change to the probability distribution.
 When a user departs, we know at that moment that there is a free spot in the
 lot, so we can set $P(t, 0) = 0$ and renormalize the distribution. Note that,
 since the probability that the lot is free is $P_{free} = \sum_{n > 0} P(t,
 n)$, at the exact time of each departure the probability that a spot is free
-is equal to 1. Figure~\ref{fig-examples-departure} shows the hole in the
+is equal to 1. 
+\begin{comment}
+Figure~\ref{fig-examples-departure} shows the hole in the
 distribution at zero created by a departure event.
+\end{comment}
 
 Unsuccessful implicit searches, in contrast, represent weaker negative
 information, both because they were not observed by PocketParker and so may
@@ -468,10 +478,12 @@ reflecting our current estimate of the lot. We do this by shifting the
 availability distribution towards full by some amount $s$, which we refer to
 as the \textit{search shift parameter}. So, after an implicit unsuccessful
 search, we set $P(t, n) = P(t, n - s)$, with $P(t, 0) = \sum_0^s P(t, n)$.
+\begin{comment}
 Figure~\ref{fig-examples-search} shows how the distribution shifts towards
 zero and probability accumulates in the full state after an unsuccessful
 search. The search shift parameter determines how aggressively PocketParker
 will use information provided by implicit searches.
+\end{comment}
 
 \subsubsection{Weighted arrivals and departures}
 
