@@ -1,91 +1,52 @@
 \section{Motivation and Related Work}
 \label{sec-related}
-Many previous projects have addressed components of our problem, including
-activity detection, parking lot monitoring using various types of
-infrastructure and additional sensors, and transportation-related tracking.
-Below we discuss related efforts and their relevance to PocketParker.
 
-\subsection{Activity Detection}
-Activity detection is a basic primitive that enables other higher-level
-functionalities. Several previous systems~\cite{Constandache:2010:DYS,
-Keally:2011:PTP, Reddy:2010:UMP, Yang:2011:DDP, Wang:2009:FEE} have proposed
-techniques for activity detection, solving the main challenges of energy
-efficiency and accuracy. Yang et al.~\cite{Yang:2011:DDP} develop an algorithm
-that detects if a driver is using a phone by sending high-frequency beeps via
-in-car speakers. EEMSS~\cite{Wang:2009:FEE} is a system that provides continuous
-identification of general human states such as walking, driving, and being in an
-office. Reddy et al.~\cite{Reddy:2010:UMP} propose a classification approach
-that determines human movement states such as walking, running, biking, or
-vehicle-traveling. Constandache et al.~\cite{Constandache:2010:DYS} use
-smartphone accelerometers to determine users' walking trails. Yan et
-al.~\cite{6246136} propose an adaptive approach that dynamically adjusts the
-accelerometer sampling frequency for conserving energy. Keally et
-al.~\cite{Keally:2011:PTP} use a combination of on-body wireless sensors and
-smartphones to classify human states. Our system can benefit from these
-techniques for detecting parking-related events; however, we find it sufficient
-to use a simple detector since it avoids the complexity of detecting events
-unrelated to parking.
-\subsection{Parking Lot Monitoring}
-There are a large number of parking lot applications available in the online
-smartphone application stores. A typical parking lot application provides
-location as well as pricing information and allow reservation of a parking spot.
-Some applications also report parking lot availability based on publicly
-available information. To the best of our knowledge, there is no application
-that automatically infers parking lot availability by monitoring drivers.
+While infrastructure solutions for monitoring lot availability exist, they
+are extremely expensive. The SFPark system spent \$18 million to instrument
+\num{7000} street spots, or roughly \$\num{2500} per spot~\cite{sfpark}.
+Surface lots are cheaper to monitor since equipment can be deployed only at
+ingress-egress points, but the technology required to do so remains
+expensive. The vehicle detector and transponder required at each entrance
+costs \$\num{9700} and programmable sign to communicate lot availability to
+drivers running \$\num{49000}~\cite{mstp-park}, not including the continuing
+cost of telemetry. Our campus with 40~lots and over 80~lot entrances would
+cost \$\num{776000} for entrance monitors alone, and over \$2~million dollars
+with lot availablity signs. Even using a \$\num{350}-per-entrance research
+prototype based on wireless sensor network nodes would cost \$\num{28000},
+again not including the cost of communication. These prohibitive costs are
+why, despite being commercially available for many years, most parking lots
+are still left unmonitored and drivers left to search them unaided.
+
+As smartphones have become ubiquitous, multiple apps and research projects
+have attempted to harness their capabilities to aid the parking process. But
+while app marketplaces such as the Google Play Store teem with
+parking-related apps, these apps either do not provide real-time parking lot
+availability or simply display publicly-available information. Several
+research projects have attempted to address these limitations but suffer from
+limitations that prevent them from scaling, requriing additional
+infrastructure~\cite{5062057}, on-vehicle equipment~\cite{Mathur:2010:PDS}
+vehicle-to-vehicle networking~\cite{Delot:2009:CRP, Mathur:2010:PDS}, or
+onerous manual user input~\cite{Chen:2012:COS}. To the best of our knowledge,
+PocketParker is the first app that can monitor parking lot availability
+without interacting with users.
 
 Most close to our work is Parksense~\cite{Nawaz:2013:PSB}, a system that
-leverages the ubiquity of WiFi
-beacons to monitor on-street parking availability.  Our study, borne out of
-suburban campus locale, must cope with alternative sensing mechanisms in the
-wake of no proximate WiFi
-signals.  We have also tuned our tracking and reporting methodology to address
-the needs of lot rather than street parking.
-ParkNet~\cite{Mathur:2010:PDS} is another system that
-estimates street parking availability. ParkNet uses vehicles equipped with GPS
-and a ultrasonic range finder that scan the surrounding areas and detect
-empty street parking spots. Compared to ParkNet, our approach relies only on
-smartphones and do not require any additional hardware.
+leverages the ubiquity of WiFi beacons to monitor on-street parking
+availability. Our study, borne out of suburban campus locale, must cope with
+alternative sensing mechanisms in the wake of no proximate WiFi signals. We
+have also tuned our tracking and reporting methodology to address the
+different challenges produced by lot, rather than street, parking.
+Parksense's reliance on Wifi signals can only produce significant delay in
+detecting departure events, making the data less useful to other drivers.
+ParkNet~\cite{Mathur:2010:PDS} is another system that estimates street
+parking availability. ParkNet uses vehicles equipped with GPS and a
+ultrasonic range finder that scan the surrounding areas and detect empty
+street parking spots. Compared to ParkNet, our approach relies do not require
+additional hardware or vehicle capabilities.
 
-A few systems have been proposed to assist parking via vehicular ad-hoc
-networks or crowdsourcing. Delot et al.~\cite{Delot:2009:CRP} propose a parking
-lot reservation system in a vehicular network. Chen et al.~\cite{Chen:2012:COS}
-proposes a crowdsourcing approach that asks participants to report their
-surrounding's parking availability. Caliskan et al.~\cite{4212497} propose an
-availability prediction model based on information exchanged by vehicles in a
-vehicular ad-hoc network. Their approach assumes that, for each parking lot,
-vehicles that drive by the parking lot receive the parking lot information such
-as the capacity, the occupancy, the arrival rate, and the departure rate. Since
-the propagation delay in a vehicular network makes this information stale, a
-prediction model is used to estimate current availability. In contrast to
-our work, this approach assumes that the necessary information is initially
-accurately measured at each parking lot.
-\begin{comment}
-\subsection{Tracking-Related Projects}
-A few previous systems have investigated techniques for automatic transit
-tracking~\cite{Biagioni:2011:EAT, Thiagarajan:2010:CTT, Zhou:2012:LWP}. From the
-high-level point of view, some of the techniques such as activity detection and
-location tracking that transit tracking requires bear similarities to
-our techniques; however, these techniques need to be optimized and tailored
-towards different scenarios, hence the specifics vary widely.
-
-Thiagarajan et al.~\cite{Thiagarajan:2010:CTT} propose an automatic, real-time
-transit tracking approach that uses smartphones of public transit riders as data
-sources. They propose an algorithm to detect when a user is traveling in a
-vehicle and an algorithm to detect if a vehicle is a public transit vehicle.
-EasyTracker~\cite{Biagioni:2011:EAT} uses smartphones deployed in buses to
-enable automatic transit tracking. The goal of EasyTracker is to require no
-other input than what is from the deployed smartphones. The system combines a
-few mechanisms to realize this goal such as route extraction, stop extraction,
-and arrival time prediction. Zhou et al.~\cite{Zhou:2012:LWP} propose a bus
-arrival time estimation system based on smartphones used by public transit
-riders. They combine multiple sources such as accelerometer data, audio, and
-cell tower signals to detect if a rider is in a public transit vehicle and if
-so, which bus it is.
-
-Other systems have used smartphone sensors to enable a variety of tracking
-tasks. VTrack~\cite{Thiagarajan:2009:VAE} is a traffic monitoring system that
-combines readings from multiple sensors for travel time estimation.
-StarTrack~\cite{Ananthanarayanan:2009:SFE} provides general abstractions for
-appliations that need tracking functionalities such as recording, comparing, and
-querying tracks.
-\end{comment}
+PocketParker's parking detector buildis on existing approaches to accurate
+and energy-efficient activity recognition~\cite{Constandache:2010:DYS,
+Keally:2011:PTP, Reddy:2010:UMP, Yang:2011:DDP, Wang:2009:FEE}. While our
+current detector is both simple and parking-focused, continued progress in
+reducing the energy overhead and increasing the accuracy of smartphone
+activity recognition algorithms will improve PocketParker's performance.
