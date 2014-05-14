@@ -60,7 +60,7 @@ First, we use this estimate to bound $P(t)$ such that $P(t, n > C) =
 drivers. To calculate a lot capacity, we use the location of the parking lot
 obtained from the OpenStreetMap database~\cite{openstreetmap}. We derive the
 lot size from its location and then divide the total size by that of a
-typical standard parking spot lot design~\cite{parkingdesign}. For the five
+typical standard parking spot lot design~\cite{parkingdesign}. For the three
 lots monitored by our deployment, capacity estimates were all within 6\% of
 manually-counted ground truth. Errors in the capacity can result if the size
 of parking spots in the lot differ from our estimate, or if the parking lot
@@ -141,12 +141,11 @@ destination gathered as described above to resolve the ambiguity.
 \subsubsection{Speculative searches}
 
 If we do not directly observe a user searching a lot before we detect an
-arrival, we cannot be certain that they performed the search. If the
-unsearched but preferable lot was available, they may not have searched it
-because they preferred to choose the first available spot, enjoyed the
-exercise of walking farther to their destination, or wanted to irritate
-their passengers. However, these are not the type of users we believe
-would benefit from or use our PocketParker application, since finding a
+arrival, we cannot be certain that they performed the search. If the unsearched
+but preferable lot was available, they may not have searched it because they
+preferred to choose the first available spot, enjoyed the exercise of walking
+farther to their destination. However, these are not the type of users we
+believe would benefit from or use our PocketParker application, since finding a
 non-optimal parking spot is fairly simple in most cases.
 
 A more interesting case is where a user has not performed a search in a
