@@ -260,15 +260,15 @@ ground truth.}
 \vspace*{-0.15in}
 \end{figure}
 
-Finally, to establish the accuracy of PocketParker we invited participants
-from our university to use PocketParker after obtaining IRB approval. The
-only infrastructure required was the PocketParker server for receiving events
-and generating availability estimates. The userbase involved 105 total
-participants from our university.  Over 45 days of monitoring, they generated
-\num{10827} events---5916 arrivals and 4911 departures---for an average of 241
-per day. Our main and medical campuses produced 3645 and 846 total events
-respectively, with non-campus locales contributing to the remaining 6336
-events.
+Finally, to establish the accuracy of PocketParker we invited participants from
+our university to use PocketParker after obtaining IRB approval. The only
+infrastructure required was the PocketParker server for receiving events and
+generating availability estimates. The userbase involved 105 total participants
+from our university.  Over 45 days of monitoring, the app run by these uses
+generated \num{10827} events---5916 arrivals and 4911 departures---for an
+average of 241 per day. Our main and medical campuses produced 3645 and 846
+total events respectively, with non-campus locales contributing to the
+remaining 6336 events.
 
 Figure~\ref{fig-events} shows all of the events that occurred in three key
 lots that we monitored during our experiment. Our computer science building
@@ -282,15 +282,17 @@ data for that lot. Nexus~S~4G smartphones equipped with fish-eye lenses took
 \num{34138} time lapse images each minute, time-stamped them using NTP, and
 uploaded them to a central server.
 
-To measure capacity, we hand-coded four days' worth of images for two lots on
-a ten-point scale at ten-minute intervals. We were particularly interested
-in the transition between empty and full states, so we were careful to ensure
-that the lot was never marked completely full if there was a single available
-spot visible. We generate 4 different dataset using parking events in 
-camera-monitored lots A~and~B and then feed the events into the PocketParker
-estimation engine.
+Using these images, we produced lot capacity charts containing the proportion
+of free spots in a given lot at a given time. Specifically, we hand coding four
+days' worth of images for two lots at ten minute intervals. We were
+particularly interested in the transition between empty and full states, so we
+were careful to ensure that a lot was never marked completely full even if
+there was a single available spot.
 
-Table~\ref{table-accuracy} shows results for our campus deployment. Overall
-the accuracy of PocketParker is excellent, achieving 94.2\% accuracy at a
-monitored driver fraction of 0.2, which is an accurate estimate of the
-percentage of PocketParker users using these lots.
+We fed these capacity charts, along with parking events in camera-monitored
+lots A~and~B, into the PocketParker estimation engine to produce accuracy
+results for a four day period.  Table~\ref{table-accuracy} shows results for
+our campus deployment. Overall the accuracy of PocketParker is excellent,
+achieving 94.2\% accuracy at a monitored driver fraction of 0.2, which we
+believe is an accurate estimate of the percentage of PocketParker users using
+these lots.
