@@ -125,18 +125,20 @@ searches in a way sensitive to these uncertainties.
 \subsubsection{Determining the destination}
 
 If a lot is associated with multiple destinations, we cannot immediately
-determine the user's destination. However, this only becomes important if the
-two destinations would produce different desirability rankings for affected
-lots. For example, in Figure~\ref{fig-lots}, if lots 1~and~2 are both
-associated with destinations A~and~C, but not with B, then an arrival with an
-unknown destination into lot~2 can always be used to generate an implicit
-search in lot~1, since the destination does not alter the desirability
-ranking for the two lots. However, if both lots~1~and~2 are associated with
-all destinations, then an arrival in lot~2 becomes ambiguous. If the user's
-destination was A, it may mean that lot~1 was searched and is full; but if
-their destination was B, the parking event may not indicate anything about
-lot~1. In this case, PocketParker uses information about the users final
-destination gathered as described above to resolve the ambiguity.
+determine the user's destination.  This is not a problem as long as all
+potential destinations are on the same side of the lots.  For example, in
+Figure~\ref{fig-lots}, if lots 1~and~2 are both associated with destinations
+A~and~C, but not with B, then an arrival with an unknown destination into lot~2
+can always be used to generate an implicit search in lot~1, since the
+destination does not alter the desirability ranking for the two lots.
+
+However, having two or more destinations that are located on different sides of
+lots produces an ambiguity.  If both lots~1~and~2 are associated with all
+destinations, then an arrival in lot~2 cannot be resolved directly. If the
+user's destination was A, it may mean that lot~1 was searched and is full.
+If the destination was B, the parking event may not indicate anything about
+lot~1. To resolve this ambiguity, PocketParker uses information about the users
+final destination gathered as described above.
 
 \subsubsection{Speculative searches}
 
