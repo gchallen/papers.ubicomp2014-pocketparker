@@ -14,22 +14,11 @@ We evaluated PocketParker in three ways. First, we conducted a controlled
 experiment to determine the best parameter settings for our event detector.
 Second, we implemented a parking lot simulator to experiment with various
 kinds of lots under differing monitored fractions. Finally, we performed a
-large-scale deployment of PocketParker on our campus and used it to monitor
-two lots, with camera monitoring used to ground truth our predictions. Our
+large-scale deployment of PocketParker on our campus. We monitored
+two lots with camera monitoring to ground truth our predictions. Our
 evaluations confirm that PocketParker is efficient and accurate.
 
 \subsection{Detector Experiment}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{./figures/Energy_accuracy.pdf}
-
-\caption{\textbf{Power usage vs. detector accuracy.} Energy usage by
-PocketParker is low at all duty cycles, so we chose a high duty cycle to
-improve accuracy.}
-
-\label{fig-energy}
-\end{figure}
 
 \input{./figures/experiment_table/table.tex}
 
@@ -38,7 +27,7 @@ conducted a controlled experiment. During this experiment, accelerometer and
 GPS data was collected and stored continuously on each device, and
 participants were asked to manually label each transition into and out of the
 car. Afterwards, data was processed by a Python simulator implementing the
-identical algorithm used by the PocketParker application, allowing us measure
+identical algorithm used by the PocketParker, allowing us measure
 accuracy and energy consumption as a function of the detector duty cycle.
 
 Eight volunteers participated, including seven men and one woman. Seven were
@@ -74,14 +63,16 @@ the detection distance accuracy, we chose a low total period of 15~s for a
 cycle is 8~mW, representing 4.2\% of the capacity of a 1500~mAh battery over
 24~hours.
 
-\begin{figure}
+
+\begin{figure}[t]
 \centering
-\includegraphics[width=\columnwidth]{./figures/Rate_FP_and_ND.pdf}
+\includegraphics[width=\columnwidth]{./figures/Energy_accuracy.pdf}
 
-\caption{\textbf{False positive and negative rates as a function of detector
-duty cycle.}} 
+\caption{\textbf{Power usage vs. detector accuracy.} Energy usage by
+PocketParker is low at all duty cycles, so we chose a high duty cycle to
+improve accuracy.}
 
-\label{fig-falsepositives}
+\label{fig-energy}
 \end{figure}
 
 Using the same data we also examine the false positive and negative rates for
@@ -93,6 +84,18 @@ cycle we use. False positive rates are already quite low, and this is before
 we apply our GPS availability filter and lot location filters. False
 positives decline as the duty cycle decreases because PocketParker has fewer
 opportunities to detect user activity.
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{./figures/Rate_FP_and_ND.pdf}
+
+\caption{\textbf{False positive and negative rates as a function of detector
+duty cycle.}} 
+
+\label{fig-falsepositives}
+\end{figure}
+
+
+
 \begin{comment}
 \begin{figure}[t]
 \centering
@@ -171,18 +174,6 @@ natural, as the Low Churn lot never fills.  By contrast, the accuracy rate for
 the Fast, Slow and Multiple Fill models improve with an increasing fraction of
 monitored drivers.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=3.325in]{./simulator/figures/tracking_fastfill_horizontal.pdf}
-
-\caption{\textbf{Availability probabilities tracking lot capacity.} Dips in
-the availability probability correspond to times when PocketParker believes
-the lot is full. Discontinuities are caused by departures, which set the
-instantaneous probability that the lot is available to 1.0.}
-
-\label{fig-trackingexample}
-\end{figure}
-
 \subsubsection{Probability and availability}
 
 We now consider how PocketParker adjusts lot availability probabilities.  It
@@ -201,9 +192,17 @@ climbs.
 
 \subsubsection{Prediction accuracy}
 
-\input{./simulator/figures/accuracy_table.tex}
+\begin{figure}[t]
+\centering
+\includegraphics[width=3.325in]{./simulator/figures/tracking_fastfill_horizontal.pdf}
 
+\caption{\textbf{Availability probabilities tracking lot capacity.} Dips in
+the availability probability correspond to times when PocketParker believes
+the lot is full. Discontinuities are caused by departures, which set the
+instantaneous probability that the lot is available to 1.0.}
 
+\label{fig-trackingexample}
+\end{figure}
 PocketParker exists to help drivers park efficiently.  To examine its
 prediction accuracy, we have PocketParker rank two model lots in order of
 preference at regular timesteps and then compare these results with the ground
@@ -213,14 +212,6 @@ available than the one that PocketParker recommended---or a waste of
 time---where PocketParker sent the user to a full lot.
 Table~\ref{table-accuracy} shows data results from simulations run using
 varying monitored fractions$f_m$ of drivers.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{./simulator/figures/accuracy_graph.pdf}
-
-\caption{\textbf{Accuracy predictions for various kind of lots and parameters.}}
-\label{fig-accuracy}
-\end{figure}
 
 Also, Figure~\ref{fig-accuracy} shows that several trends can be observed in
 the results. First, overall PocketParker does well on most lot types. The
@@ -232,9 +223,10 @@ wrong lot. This is likely because it is predicting that spots are available
 longer than they actually are. Clearly more work is needed to determine the
 right approach for High Churn lots, and this type of lot may be a better fit
 for infrastructure-based solutions.
+\input{./simulator/figures/accuracy_table.tex}
 
 Excluding the High Churn lot, the lot with the lowest correct percentage with
-a $f_m > 0.1$ is 80\% for the Slow Fill lot.  Accuracy for all lots above
+a $f_m > 0.1$ is 80\% for the Slow Fill lot.  Accuracy above
 this $f_m$ is consistently good for all lots save the High Churn model.  The
 Low Churn lot does have a small number of errors but this is because both
 lots are usually empty. An unavoidable lower bound to accuracy is imposed by
@@ -245,7 +237,15 @@ follow a pattern of arrivals and departures, it will do well.
 
 \subsection{Deployment}
 
-\begin{figure}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{./simulator/figures/accuracy_graph.pdf}
+
+\caption{\textbf{Accuracy predictions for various kind of lots and parameters.}}
+\label{fig-accuracy}
+\end{figure}
+
+\begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{./figures/smallEventsOnThreeParkingLot.pdf}
 
@@ -284,7 +284,7 @@ Using these images, we produced lot capacity charts containing the proportion
 of free spots in a given lot at a given time. Specifically, we
 hand coded the images for the two lots at ten minute intervals. We were
 particularly interested in the transition between empty and full states, so we
-were careful to ensure that a lot was never marked completely full even if
+were careful to ensure that a lot was never marked full even if
 there was a single available spot.
 
 We fed these capacity charts, along with parking events in camera-monitored
