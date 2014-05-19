@@ -1,4 +1,4 @@
-START = xxxnote
+START = noxxxnote
 END = missing
 CLASS = $(PYTEX)/cls/sigchi.cls
 
