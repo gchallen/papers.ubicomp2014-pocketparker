@@ -1,20 +1,19 @@
-\section{Motivation and Related Work}
-While infrastructure solutions for monitoring lot availability exist, they
-are extremely expensive. The SFPark system spent \$18 million to instrument
-\num{7000} street spots, or roughly \$\num{2500} per spot~\cite{sfpark}.
-Surface lots are cheaper to monitor since equipment can be deployed only at
-ingress-egress points, but the technology required to do so remains
-expensive. The vehicle detector and transponder required at each entrance
-costs \$\num{9700}~\cite{car-detect} and programmable sign to communicate lot
-availability to drivers running \$\num{49000}~\cite{mstp-park}, not including
-the continuing cost of telemetry. Our campus with 40~lots and over 80~lot
-entrances would cost \$\num{776000} for entrance monitors alone, and over
-\$2~million dollars with lot availability signs. Even using a
-\$\num{350}-per-entrance research prototype based on wireless sensor network
-nodes would cost \$\num{28000}, again not including the cost of
-communication. These prohibitive costs are why, despite being commercially
-available for years, most parking lots are still unmonitored and drivers left
-to search them unaided.
+\section{Motivation and Related Work} While infrastructure solutions for
+monitoring lot availability exist, they are extremely expensive. The SFPark
+system spent \$18 million to instrument \num{7000} street spots, or roughly
+\$\num{2500} per spot~\cite{sfpark}. Surface lots are cheaper to monitor
+since equipment can be deployed only at ingress-egress points, but the
+technology required to do so remains expensive. The vehicle detector and
+transponder required at each entrance costs \$\num{9700}~\cite{car-detect}
+and programmable sign to communicate lot availability to drivers running
+\$\num{49000}~\cite{mstp-park}, not including the continuing cost of
+telemetry. Our campus with 40~lots and over 80~lot entrances would cost
+\$\num{776000} for entrance monitors alone, and over \$2~million dollars with
+lot availability signs. Even using a \$\num{350}-per-entrance research
+prototype based on wireless sensor network nodes would cost \$\num{28000},
+again not including the cost of communication. The prohibitive cost of these
+solutions has prevented their widespread deployment, with the result that
+many parking lots are still not monitored.
 
 As smartphones have become ubiquitous, multiple apps and research projects
 have attempted to harness their capabilities to aid the parking process. But
@@ -36,10 +35,9 @@ alternative sensing mechanisms in the wake of no proximate Wifi signals. We
 have also tuned our tracking and reporting methodology to address the
 different challenges produced by lot, rather than street, parking.
 ParkNet~\cite{Mathur:2010:PDS} is another system that estimates street
-parking availability. ParkNet uses vehicles equipped with GPS and as
-ultrasonic range finder that scans surrounding areas to detect empty street
-parking spots. Compared to ParkNet, our approach does not require additional
-hardware or vehicle capabilities.
+parking availability by using vehicles equipped an ultrasonic range finder to
+detect empty street parking spots. Unlike ParkNet, PocketParker does not
+require new vehicle capabilities.
 
 PocketParker's parking detector builds on existing approaches to accurate
 and energy-efficient activity recognition~\cite{Constandache:2010:DYS,
