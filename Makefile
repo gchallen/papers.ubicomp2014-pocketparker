@@ -1,4 +1,4 @@
-START = noxxxnote nodraft blue
+START = noxxxnote nodraft noblue
 END = missing
 CLASS = $(PYTEX)/cls/sigchi.cls
 
