@@ -1,5 +1,6 @@
-START = noxxxnote nodraft noblue
+START = noxxxnote nodraft blue
 END = missing
+PYTEX = $(shell pwd)/pytex/
 CLASS = $(PYTEX)/cls/sigchi.cls
 
 export TEXINPUTS:=.:$(PYTEX)/cls:
